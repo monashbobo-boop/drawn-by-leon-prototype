@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Close menu">
+  <defs><path id="ring" d="M100,100 m-72,0 a72,72 0 1,1 144,0 a72,72 0 1,1 -144,0"/></defs>
+  <circle cx="100" cy="100" r="96" fill="#FFC72C"/>
+  <text font-family="Arial Black, Arial, Helvetica, sans-serif" font-weight="900" font-size="24" fill="#12418A">
+    <textPath href="#ring" textLength="446" lengthAdjust="spacing">GO BACK ✱ GO BACK ✱ </textPath>
+  </text>
+  <circle cx="100" cy="100" r="42" fill="#FFFFFF" stroke="#12418A" stroke-width="4.5"/>
+  <g fill="none" stroke="#12418A" stroke-width="4.5" stroke-linecap="round">
+    <path d="M80 92c4-6 10-6 14 0"/>
+    <circle cx="114" cy="92" r="3.5" fill="#12418A" stroke="none"/>
+    <path d="M82 108c10 12 26 12 36 0"/>
+  </g>
+  <path d="M102 114c0 8 10 8 10 0" fill="#CA1C1C"/>
+</svg>

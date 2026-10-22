@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 250">
+<path d="M8 10 L192 6 L195 242 L5 246 Z" fill="#FFFDF7"/>
+<path d="M8 10 L192 6 L195 242 L5 246 Z" fill="none" stroke="#12418A" stroke-opacity=".12" stroke-width="1.5"/>
+<rect x="72" y="-2" width="58" height="18" fill="#FFC72C" opacity=".9" transform="rotate(-4 100 7)"/>
+<path d="M145.5 92.0 L144.7 98.9 L144.8 106.1 L141.4 112.1 L139.9 119.1 L136.2 124.6 L131.7 129.2 L128.0 134.9 L122.4 137.5 L117.5 141.7 L111.6 142.8 L105.9 144.2 L100.0 145.8 L93.9 146.6 L88.4 143.0 L82.7 141.1 L76.8 139.1 L71.2 136.0 L67.3 130.4 L63.7 124.7 L59.0 119.8 L58.7 112.1 L54.6 106.3 L55.0 99.0 L55.0 92.0 L55.4 85.1 L56.1 78.2 L56.7 70.9 L60.9 65.5 L63.3 59.0 L67.2 53.5 L72.2 49.5 L76.9 45.1 L82.9 43.4 L88.4 41.2 L94.1 39.4 L100.0 37.4 L106.0 38.7 L111.8 40.4 L117.7 41.9 L122.9 45.4 L127.7 49.7 L133.1 53.1 L136.9 58.7 L139.2 65.4 L142.7 71.2 L144.5 78.0 L146.6 84.8 L146.6 92.0" fill="none" stroke="#12418A" stroke-width="3.5" stroke-dasharray="10 8" stroke-linecap="round"/>
+<path d="M40 214 C44 168 70 152 100 150 C130 152 156 168 160 214" fill="none" stroke="#12418A" stroke-width="3.5" stroke-dasharray="10 8" stroke-linecap="round"/>
+<g fill="none" stroke="#12418A" stroke-width="3.5" stroke-linecap="round">
+<path d="M78 84c3-6 10-6 13 0M109 84c3-6 10-6 13 0"/>
+<path d="M99 92c-3 8-4 12 2 14"/>
+<path d="M82 116c11 12 26 12 36 0"/>
+</g>
+<path d="M148 40c2-10 17-10 17 0 0 7-8 8-8 15" fill="none" stroke="#CA1C1C" stroke-width="4" stroke-linecap="round"/><circle cx="157" cy="64" r="3" fill="#CA1C1C"/>
+</svg>

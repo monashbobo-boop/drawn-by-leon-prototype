@@ -1,0 +1,3431 @@
+/*
+ * Artist Portfolio: styles theme.json can't express.
+ * Direction (Drawn by Leon): white page, giant condensed headings, logo-blue
+ * panels with rounded and wavy edges, yellow accents, a red heart now and then.
+ * Leon's full-colour caricatures are used as die-cut stickers and do the talking. Motion is CSS only and switches off
+ * for visitors who prefer reduced motion.
+ *
+ * Colours and fonts come from theme.json presets. Do not hard-code hex here.
+ */
+
+/* ====================================================================== Base */
+
+:root {
+	--ap-radius-panel: clamp(28px, 5vw, 64px);
+	--ap-stretch: 112%;
+}
+
+:where(body) {
+	font-stretch: var(--ap-stretch);
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+}
+
+img {
+	height: auto;
+}
+
+::selection {
+	background: var(--wp--preset--color--yellow);
+	color: var(--wp--preset--color--navy);
+}
+
+:where(a, button, input, select, textarea, summary, .wp-element-button):focus-visible {
+	outline: 3px solid var(--wp--preset--color--yellow);
+	outline-offset: 3px;
+	box-shadow: 0 0 0 6px var(--wp--preset--color--navy);
+}
+
+/* Anton is tall and narrow: let long words wrap instead of overflowing on phones. */
+:where(h1, h2, h3, .wp-block-heading) {
+	overflow-wrap: break-word;
+	text-wrap: balance;
+}
+
+/* ====================================================================== Buttons: white pill with a yellow "+" bubble */
+
+.wp-block-button__link.wp-element-button {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.9em;
+	font-stretch: var(--ap-stretch);
+	transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.wp-block-button__link.wp-element-button::after {
+	content: "+";
+	display: inline-grid;
+	place-items: center;
+	width: 1.9em;
+	height: 1.9em;
+	margin: -0.55em -1.05em -0.55em 0;
+	border-radius: 50%;
+	background: var(--wp--preset--color--yellow);
+	color: var(--wp--preset--color--navy);
+	font-size: 1.15em;
+	font-weight: 700;
+	line-height: 1;
+	transition: transform 0.25s ease;
+}
+
+.wp-block-button__link.wp-element-button:hover::after {
+	transform: rotate(90deg);
+}
+
+/* On navy backgrounds the pill gets a white outline. */
+.is-style-panel .wp-block-button__link.wp-element-button,
+.has-navy-background-color .wp-block-button__link.wp-element-button {
+	border-color: var(--wp--preset--color--white);
+}
+
+/* ====================================================================== Header and menu */
+
+.wp-site-blocks > header.wp-block-template-part {
+	position: sticky;
+	top: 0;
+	z-index: 50;
+}
+
+.admin-bar .wp-site-blocks > header.wp-block-template-part {
+	top: 32px;
+}
+
+@media (max-width: 782px) {
+	.admin-bar .wp-site-blocks > header.wp-block-template-part {
+		position: relative;
+		top: 0;
+	}
+}
+
+/* No backdrop-filter here: it would trap the full-screen menu inside the header. */
+.site-header {
+	background: color-mix(in srgb, var(--wp--preset--color--paper) 96%, transparent);
+}
+
+.site-header .wp-block-site-logo img {
+	max-height: 64px;
+	width: auto;
+}
+
+/* "Menu" pill that opens the overlay on every screen size. */
+.site-header .wp-block-navigation__responsive-container-open {
+	padding: 0.6em 1.4em;
+	border: 2px solid var(--wp--preset--color--navy);
+	border-radius: 999px;
+	background: var(--wp--preset--color--white);
+	color: var(--wp--preset--color--navy);
+	font-family: var(--wp--preset--font-family--body);
+	font-weight: 700;
+	font-size: var(--wp--preset--font-size--small);
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.site-header .wp-block-navigation__responsive-container-open:hover {
+	background: var(--wp--preset--color--navy);
+	color: var(--wp--preset--color--white);
+}
+
+/* Full-screen menu (fradesign style): navy, giant white links that turn yellow
+   and lean on hover, socials bottom right, a spinning "go back" sticker to close. */
+.wp-block-navigation__responsive-container.is-menu-open {
+	background-color: var(--wp--preset--color--navy) !important;
+	color: var(--wp--preset--color--white) !important;
+	padding: clamp(1.5rem, 6vh, 4rem) clamp(1.25rem, 9vw, 10rem) !important;
+}
+
+.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content {
+	align-items: flex-start !important;
+	justify-content: center;
+	min-height: 100%;
+	padding-top: 0 !important;
+}
+
+.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__container {
+	position: relative;
+	flex-direction: column;
+	align-self: stretch;
+	align-items: flex-start !important;
+	justify-content: center;
+	gap: 0 !important;
+	min-height: calc(100dvh - 2 * clamp(1.5rem, 6vh, 4rem));
+}
+
+.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__container > li {
+	animation: ap-nav-in 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__container > li:nth-child(2) { animation-delay: 0.05s; }
+.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__container > li:nth-child(3) { animation-delay: 0.1s; }
+.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__container > li:nth-child(4) { animation-delay: 0.15s; }
+.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__container > li:nth-child(5) { animation-delay: 0.2s; }
+.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__container > li:nth-child(n+6) { animation-delay: 0.25s; }
+
+@keyframes ap-nav-in {
+	from { opacity: 0; transform: translateY(24px); }
+	to   { opacity: 1; transform: none; }
+}
+
+.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation-item__content {
+	display: inline-block;
+	padding: 0 !important;
+	font-family: var(--wp--preset--font-family--display);
+	font-size: min(15vw, 13vh, 8.5rem);
+	font-weight: 400;
+	font-stretch: normal;
+	line-height: 0.98;
+	letter-spacing: 0;
+	text-transform: uppercase;
+	color: var(--wp--preset--color--white) !important;
+	transform-origin: left bottom;
+	transition: color 0.15s ease, transform 0.2s ease;
+}
+
+.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation-item__content:is(:hover, :focus-visible),
+.wp-block-navigation__responsive-container.is-menu-open .current-menu-item > .wp-block-navigation-item__content,
+.wp-block-navigation__responsive-container.is-menu-open [aria-current="page"] {
+	color: var(--wp--preset--color--yellow) !important;
+	transform: skewX(-10deg);
+}
+
+/* Socials as plain words, bottom right. */
+.wp-block-navigation__responsive-container.is-menu-open :is(.wp-block-navigation__responsive-close, .wp-block-navigation__responsive-dialog) {
+	height: 100%;
+}
+
+.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content {
+	position: relative;
+}
+
+.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__container > li:has(> .menu-social) {
+	position: static !important;
+	animation: none !important;
+	transform: none !important;
+}
+
+.wp-block-navigation__responsive-container.is-menu-open .menu-social {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	flex-direction: column;
+	align-items: flex-end !important;
+	gap: 0.2rem !important;
+	margin: 0;
+}
+
+.menu-social .wp-social-link {
+	background: none !important;
+	color: var(--wp--preset--color--white) !important;
+	padding: 0 !important;
+}
+
+.menu-social .wp-social-link svg {
+	display: none;
+}
+
+.menu-social .wp-social-link a {
+	padding: 0 !important;
+}
+
+.menu-social .wp-social-link,
+.menu-social .wp-block-social-link-label {
+	height: auto !important;
+	line-height: 1.3 !important;
+}
+
+.menu-social .wp-block-social-link-label {
+	padding: 0 !important;
+	font-family: var(--wp--preset--font-family--body);
+	font-size: clamp(1rem, 1.8vw, 1.6rem);
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.menu-social .wp-social-link:hover {
+	color: var(--wp--preset--color--yellow) !important;
+	transform: none;
+}
+
+/* The close button becomes a spinning sticker. */
+.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-close {
+	position: fixed;
+	top: clamp(1rem, 4vh, 2.5rem);
+	right: clamp(1rem, 4vw, 2.75rem);
+	width: clamp(84px, 11vw, 150px);
+	height: clamp(84px, 11vw, 150px);
+	background: url("../images/doodles/close-sticker.svg") no-repeat center / contain;
+	border-radius: 50%;
+	animation: ap-spin 16s linear infinite;
+	z-index: 5;
+}
+
+.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-close svg {
+	opacity: 0;
+}
+
+.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-close:hover {
+	animation-play-state: paused;
+}
+
+@media (max-width: 600px) {
+	.wp-block-navigation__responsive-container.is-menu-open {
+		padding-top: 7.5rem !important;
+	}
+
+	.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__container {
+		min-height: 0;
+		justify-content: flex-start;
+	}
+
+	.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation-item__content {
+		font-size: min(16vw, 11vh);
+	}
+
+	.wp-block-navigation__responsive-container.is-menu-open .menu-social {
+		position: static;
+		align-items: flex-start !important;
+		margin-top: 1.75rem;
+	}
+}
+
+@media (max-width: 600px) {
+	.site-header .header-cta {
+		display: none;
+	}
+}
+
+/* ====================================================================== Page rhythm: full-width sections sit flush */
+
+.wp-site-blocks > main {
+	margin-block-start: 0;
+}
+
+/* Leave room above the footer for its wavy edge. */
+.wp-site-blocks > footer {
+	margin-block-start: clamp(48px, 7vw, 96px);
+}
+
+.wp-site-blocks > main > .entry-content > .alignfull:first-child,
+.entry-content > .alignfull + .alignfull {
+	margin-block-start: 0;
+}
+
+.entry-content > .alignfull:last-child {
+	margin-block-end: 0;
+}
+
+/* ====================================================================== Group style: "Navy panel" */
+
+.wp-block-group.is-style-panel {
+	position: relative;
+	background: var(--wp--preset--color--navy);
+	color: var(--wp--preset--color--white);
+	border-radius: var(--ap-radius-panel);
+}
+
+.wp-block-group.is-style-panel.alignfull {
+	margin-inline: clamp(6px, 1vw, 14px) !important;
+	width: auto;
+}
+
+.wp-block-group.is-style-panel :where(h1, h2, h3, h4) {
+	color: var(--wp--preset--color--yellow);
+}
+
+.wp-block-group.is-style-panel a:where(:not(.wp-element-button)) {
+	color: var(--wp--preset--color--yellow);
+}
+
+/* ====================================================================== Group style: "Wavy top"
+   The wave is drawn over the bottom padding of the section above, so it
+   blends into whatever colour that section has. */
+
+.wp-block-group.is-style-wave-top {
+	position: relative;
+	z-index: 1;
+}
+
+.wp-block-group.is-style-wave-top::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: calc(100% - 1px);
+	height: clamp(40px, 6vw, 80px);
+	background: inherit;
+	-webkit-mask: url("../images/doodles/wave.svg") no-repeat center bottom / 100% 100%;
+	mask: url("../images/doodles/wave.svg") no-repeat center bottom / 100% 100%;
+}
+
+/* ====================================================================== Group style: "Sketch card" */
+
+.wp-block-group.is-style-card {
+	background: var(--wp--preset--color--white);
+	color: var(--wp--preset--color--ink);
+	border: 2px solid var(--wp--preset--color--navy);
+	border-radius: 28px;
+	box-shadow: 6px 6px 0 0 var(--wp--preset--color--navy);
+	padding: var(--wp--preset--spacing--40);
+}
+
+.wp-block-group.is-style-card :where(h2, h3) {
+	color: var(--wp--preset--color--navy);
+}
+
+/* ====================================================================== Marquee (group "marquee" > paragraph "marquee__track", text written twice) */
+
+.marquee {
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.marquee .marquee__track {
+	display: inline-block;
+	margin: 0;
+	padding-right: 0.6em;
+	animation: ap-marquee 28s linear infinite;
+	will-change: transform;
+}
+
+.marquee.is-slow .marquee__track {
+	animation-duration: 45s;
+}
+
+.marquee.is-reverse .marquee__track {
+	animation-direction: reverse;
+}
+
+.marquee:hover .marquee__track {
+	animation-play-state: paused;
+}
+
+@keyframes ap-marquee {
+	from { transform: translateX(0); }
+	to   { transform: translateX(-50%); }
+}
+
+/* ====================================================================== Image style: "Spinning sticker" */
+
+.wp-block-image.is-style-sticker img {
+	border-radius: 50%;
+	animation: ap-spin 16s linear infinite;
+}
+
+@keyframes ap-spin {
+	to { transform: rotate(360deg); }
+}
+
+
+/* ====================================================================== Header logo */
+
+.site-header .wp-block-site-logo img,
+.site-header .site-logo-img {
+	height: clamp(44px, 6vw, 64px);
+	width: auto;
+}
+
+/* ====================================================================== Hero (group "hero") */
+
+.hero {
+	overflow: clip;
+}
+
+.hero .wp-block-column:first-child {
+	container-type: inline-size;
+}
+
+/* Sized to its column so "CARICATURES" always fits on one line. */
+.hero .hero__title {
+	margin: 0;
+	line-height: 0.92;
+	font-size: clamp(2.75rem, 13cqi, 6rem) !important;
+	overflow-wrap: normal;
+}
+
+.hero .hero__title mark {
+	background: none;
+	color: var(--wp--preset--color--navy-soft);
+}
+
+/* ====================================================================== Sticker wall (group "sticker-wall" > image blocks)
+   Up to 6 images are laid out by position. Transparent PNG caricatures get a
+   white die-cut edge and a soft shadow. Swap images in the editor freely. */
+
+.sticker-wall {
+	position: relative;
+	aspect-ratio: 1 / 0.95;
+	width: 100%;
+	max-width: 620px;
+	margin-inline: auto;
+}
+
+.sticker-wall > .wp-block-image {
+	position: absolute;
+	margin: 0 !important;
+	transition: transform 0.25s ease;
+}
+
+.sticker-wall > .wp-block-image img {
+	width: 100%;
+	height: auto;
+	border-radius: 0;
+	filter:
+		drop-shadow(3px 0 0 #fff) drop-shadow(-3px 0 0 #fff)
+		drop-shadow(0 3px 0 #fff) drop-shadow(0 -3px 0 #fff)
+		drop-shadow(0 12px 18px rgba(14, 21, 38, 0.22));
+}
+
+.sticker-wall > .wp-block-image.is-style-sticker img {
+	filter: drop-shadow(0 10px 16px rgba(14, 21, 38, 0.2));
+}
+
+.sticker-wall > .wp-block-image:hover {
+	z-index: 9;
+	transform: rotate(0deg) scale(1.04) !important;
+}
+
+.sticker-wall > .wp-block-image:nth-child(1) { left: 2%;  top: 4%;  width: 58%; transform: rotate(-4deg); z-index: 3; }
+.sticker-wall > .wp-block-image:nth-child(2) { right: 0;  top: 0;   width: 36%; transform: rotate(5deg);  z-index: 2; }
+.sticker-wall > .wp-block-image:nth-child(3) { left: 8%;  bottom: 0; width: 30%; transform: rotate(-7deg); z-index: 4; }
+.sticker-wall > .wp-block-image:nth-child(4) { right: 6%; bottom: 4%; width: 26%; transform: rotate(6deg); z-index: 5; }
+.sticker-wall > .wp-block-image:nth-child(5) { left: 43%; bottom: 6%; width: 20%; transform: rotate(3deg); z-index: 6; }
+.sticker-wall > .wp-block-image:nth-child(6) { left: 44%; top: 0;   width: 20%; transform: rotate(-3deg); z-index: 1; }
+
+/* Paper drawings (not cut out) look like stickers too. */
+.sticker-wall > .wp-block-image.is-paper img {
+	filter: drop-shadow(0 12px 18px rgba(14, 21, 38, 0.22));
+	border: 6px solid #fff;
+	border-radius: 4px;
+}
+
+/* ====================================================================== Leon pops out of a panel (image "mascot-pop" inside an "is-style-panel" group) */
+
+.has-mascot {
+	overflow: visible;
+}
+
+.mascot-pop {
+	margin: calc(-1 * clamp(3rem, 9vw, 7rem)) 0 calc(-1 * var(--wp--preset--spacing--70)) !important;
+	align-self: end;
+}
+
+.mascot-pop img {
+	width: 100%;
+	max-width: 360px;
+	border-radius: 0;
+	filter: drop-shadow(0 14px 22px rgba(0, 0, 0, 0.25));
+}
+
+/* ====================================================================== Quick facts (list "fact-list") */
+
+.fact-list {
+	list-style: none;
+	padding: 0 !important;
+	display: grid;
+	gap: var(--wp--preset--spacing--30);
+}
+
+.fact-list li {
+	display: flex;
+	align-items: baseline;
+	gap: 0.75rem;
+	padding-bottom: var(--wp--preset--spacing--20);
+	border-bottom: 2px dashed color-mix(in srgb, var(--wp--preset--color--navy) 35%, transparent);
+}
+
+.fact-list li strong {
+	flex: 0 0 auto;
+	font-family: var(--wp--preset--font-family--display);
+	font-weight: 400;
+	font-size: var(--wp--preset--font-size--x-large);
+	line-height: 1;
+	color: var(--wp--preset--color--navy);
+	text-transform: uppercase;
+}
+
+/* ====================================================================== Small doodles (classes on any block) */
+
+.has-heart::after {
+	content: "";
+	display: inline-block;
+	width: 0.9em;
+	height: 0.8em;
+	margin-left: 0.25em;
+	background: url("../images/doodles/heart.svg") no-repeat center / contain;
+	vertical-align: 0.05em;
+}
+
+.has-star {
+	position: relative;
+}
+
+.has-star::before {
+	content: "";
+	position: absolute;
+	top: clamp(0.75rem, 3vw, 2.5rem);
+	right: clamp(1rem, 6vw, 5rem);
+	width: clamp(34px, 4.5vw, 58px);
+	aspect-ratio: 1;
+	background: url("../images/doodles/star.svg") no-repeat center / contain;
+	transform: rotate(12deg);
+	pointer-events: none;
+}
+
+/* ====================================================================== Handwritten note (paragraph "hand-note") */
+
+.hand-note {
+	font-family: var(--wp--preset--font-family--hand);
+	font-stretch: normal;
+	font-size: var(--wp--preset--font-size--x-large);
+	line-height: 1;
+	transform: rotate(-3deg);
+	transform-origin: left center;
+	margin-block-end: 0.6em !important;
+}
+
+.hand-note.has-text-align-center {
+	transform-origin: center;
+}
+
+.hand-note.has-text-align-right {
+	transform-origin: right center;
+}
+
+.hand-note.is-small {
+	font-size: var(--wp--preset--font-size--large);
+}
+
+/* ====================================================================== Services menu (group "service-menu" > groups "service-row") */
+
+.service-menu .service-row {
+	border-bottom: 2px solid var(--wp--preset--color--navy);
+	padding-block: clamp(0.5rem, 1.5vw, 1rem);
+	transition: padding 0.2s ease, background-color 0.2s ease;
+}
+
+.service-menu .service-row:first-child {
+	border-top: 2px solid var(--wp--preset--color--navy);
+}
+
+.service-menu .service-row .wp-block-image {
+	flex: 0 0 auto;
+	margin: 0;
+}
+
+.service-menu .service-row .wp-block-image img {
+	width: clamp(44px, 6vw, 80px);
+	border-radius: 0;
+	transition: transform 0.25s ease;
+}
+
+.service-menu .service-row .wp-block-heading {
+	margin: 0;
+	font-size: clamp(1.75rem, 4.5vw, 3.5rem);
+}
+
+.service-menu .service-row .wp-block-heading a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.service-menu .service-row:hover {
+	padding-left: clamp(0.5rem, 2vw, 1.5rem);
+	background: var(--wp--preset--color--yellow);
+}
+
+.service-menu .service-row:hover .wp-block-image img {
+	transform: rotate(-12deg) scale(1.1);
+}
+
+/* ====================================================================== Heading style: "Doodle underline" */
+
+.wp-block-heading.is-style-doodle-underline::after {
+	content: "";
+	display: block;
+	width: min(4.5em, 70%);
+	height: 0.22em;
+	margin-top: 0.08em;
+	background: url("../images/doodles/swoosh.svg") no-repeat center / 100% 100%;
+}
+
+.wp-block-heading.is-style-doodle-underline.has-text-align-center::after {
+	margin-inline: auto;
+}
+
+.wp-block-heading.is-style-doodle-underline.has-text-align-right::after {
+	margin-left: auto;
+}
+
+/* ====================================================================== Image styles: "Sketch frame" and "Taped photo" */
+
+.wp-block-image.is-style-sketch-frame img {
+	border: 3px solid var(--wp--preset--color--navy);
+	box-shadow: 8px 8px 0 0 var(--wp--preset--color--navy);
+	transform: rotate(-1.2deg);
+}
+
+.wp-block-image.is-style-taped {
+	position: relative;
+	padding: 10px 10px 28px;
+	background: var(--wp--preset--color--white);
+	border-radius: 4px;
+	box-shadow: 0 14px 30px -16px rgba(14, 21, 38, 0.5);
+	transform: rotate(1.5deg);
+}
+
+.wp-block-image.is-style-taped img {
+	border-radius: 2px;
+}
+
+.wp-block-image.is-style-taped::before {
+	content: "";
+	position: absolute;
+	top: -12px;
+	left: 50%;
+	width: 96px;
+	height: 26px;
+	background: var(--wp--preset--color--yellow);
+	opacity: 0.9;
+	transform: translateX(-50%) rotate(-3deg);
+	z-index: 1;
+}
+
+/* ====================================================================== Gallery style: "Scattered" */
+
+.wp-block-gallery.is-style-scatter .wp-block-image {
+	transition: transform 0.2s ease;
+}
+
+.wp-block-gallery.is-style-scatter .wp-block-image:nth-child(3n + 1) { transform: rotate(-1.5deg); }
+.wp-block-gallery.is-style-scatter .wp-block-image:nth-child(3n + 2) { transform: rotate(1deg); }
+.wp-block-gallery.is-style-scatter .wp-block-image:nth-child(3n)     { transform: rotate(-0.5deg); }
+
+.wp-block-gallery.is-style-scatter .wp-block-image:hover {
+	transform: rotate(0) scale(1.03);
+	z-index: 2;
+}
+
+.wp-block-gallery.is-style-scatter .wp-block-image img {
+	border: 3px solid var(--wp--preset--color--navy);
+	border-radius: 18px;
+}
+
+/* ====================================================================== Small pieces */
+
+.doodle-arrow {
+	display: inline-block;
+	width: 72px;
+	height: 36px;
+	background: url("../images/doodles/arrow.svg") no-repeat center / contain;
+	vertical-align: middle;
+}
+
+.step-number {
+	display: inline-grid;
+	place-items: center;
+	width: 3rem;
+	height: 3rem;
+	margin: 0;
+	border: 2px solid var(--wp--preset--color--navy);
+	border-radius: 50%;
+	background: var(--wp--preset--color--yellow);
+	color: var(--wp--preset--color--navy);
+	font-family: var(--wp--preset--font-family--display);
+	font-size: 1.4rem;
+}
+
+.wp-block-quote.is-testimonial {
+	position: relative;
+	margin: 0;
+	padding-top: 2.2rem;
+}
+
+.wp-block-quote.is-testimonial::before {
+	content: "\201C";
+	position: absolute;
+	top: -1.2rem;
+	left: -0.2rem;
+	font-family: var(--wp--preset--font-family--display);
+	font-size: 6rem;
+	line-height: 1;
+	color: var(--wp--preset--color--yellow);
+}
+
+.wp-block-quote.is-testimonial cite {
+	display: block;
+	margin-top: 0.9rem;
+	font-size: var(--wp--preset--font-size--small);
+	font-style: normal;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	opacity: 0.8;
+}
+
+.wp-block-details.faq-item {
+	border-bottom: 2px solid var(--wp--preset--color--navy);
+	padding-block: var(--wp--preset--spacing--30);
+}
+
+.wp-block-details.faq-item summary {
+	font-family: var(--wp--preset--font-family--display);
+	font-size: var(--wp--preset--font-size--large);
+	text-transform: uppercase;
+	color: var(--wp--preset--color--navy);
+	cursor: pointer;
+}
+
+.wp-block-details.faq-item[open] summary {
+	margin-bottom: var(--wp--preset--spacing--20);
+}
+
+.site-footer a:where(:not(.wp-element-button)) {
+	color: inherit;
+}
+
+/* Jetpack enquiry form */
+.wp-block-jetpack-contact-form input:not([type="checkbox"]):not([type="radio"]),
+.wp-block-jetpack-contact-form select,
+.wp-block-jetpack-contact-form textarea {
+	border: 2px solid var(--wp--preset--color--navy) !important;
+	border-radius: 14px !important;
+	background: var(--wp--preset--color--white) !important;
+	font-family: inherit;
+	font-size: 1rem;
+}
+
+/* ====================================================================== Small screens and reduced motion */
+
+@media (max-width: 781px) {
+	.doodle-arrow {
+		transform: rotate(90deg);
+	}
+
+	.sticker-wall {
+		max-width: 440px;
+	}
+
+	.mascot-pop {
+		margin: calc(-1 * clamp(3rem, 14vw, 5rem)) auto 0 !important;
+		max-width: 240px;
+	}
+}
+
+@media (max-width: 600px) {
+	.wp-block-image.is-style-sketch-frame img,
+	.wp-block-image.is-style-taped,
+	.wp-block-gallery.is-style-scatter .wp-block-image {
+		transform: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation: none !important;
+		transition: none !important;
+	}
+
+	/* A stopped marquee would cut text off, so let it scroll by hand instead. */
+	.marquee {
+		overflow-x: auto;
+	}
+}
+
+/* ====================================================================== Single sticker image (class "sticker-single") */
+
+.sticker-single img {
+	border-radius: 0;
+	filter: drop-shadow(0 14px 22px rgba(14, 21, 38, 0.22));
+}
+
+/* Jump targets land below the sticky header. */
+#event,
+#photo,
+#from-photos,
+#live {
+	scroll-margin-top: 110px;
+}
+
+/* Facts sit a little away from the heading above them. */
+.fact-list {
+	margin-top: var(--wp--preset--spacing--40) !important;
+}
+
+.hero .hero__title + p {
+	margin-top: var(--wp--preset--spacing--30);
+}
+
+
+
+/* ====================================================================== Clean editorial pieces for inner pages
+   (lots of white space, thin rules, one idea per row) */
+
+/* Small numbered label above a heading, e.g. "01 / Live events". Paragraph class "eyebrow". */
+.eyebrow {
+	font-size: var(--wp--preset--font-size--small);
+	font-weight: 700;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	color: var(--wp--preset--color--navy-soft);
+	margin-bottom: var(--wp--preset--spacing--20) !important;
+}
+
+/* Numbered rows: group "numbered-rows" > columns "numbered-row" (number | title | text). */
+.numbered-rows .numbered-row {
+	padding-block: var(--wp--preset--spacing--40);
+	border-top: 1px solid color-mix(in srgb, var(--wp--preset--color--navy) 30%, transparent);
+	margin: 0 !important;
+}
+
+.numbered-rows .numbered-row:last-child {
+	border-bottom: 1px solid color-mix(in srgb, var(--wp--preset--color--navy) 30%, transparent);
+}
+
+.numbered-row .row-number {
+	font-size: var(--wp--preset--font-size--small);
+	font-weight: 700;
+	letter-spacing: 0.14em;
+	color: var(--wp--preset--color--navy-soft);
+	margin: 0;
+}
+
+.numbered-row .wp-block-heading {
+	margin: 0;
+}
+
+/* Lists with thin rules between items. List class "line-list". */
+.line-list {
+	list-style: none;
+	padding: 0 !important;
+	margin-top: var(--wp--preset--spacing--30) !important;
+}
+
+.line-list li {
+	padding-block: 0.85rem;
+	border-bottom: 1px solid color-mix(in srgb, var(--wp--preset--color--navy) 25%, transparent);
+}
+
+.line-list li:first-child {
+	border-top: 1px solid color-mix(in srgb, var(--wp--preset--color--navy) 25%, transparent);
+}
+
+/* Show list: name left, place right. */
+.show-list li {
+	display: flex;
+	justify-content: space-between;
+	gap: 1rem;
+	flex-wrap: wrap;
+	font-family: var(--wp--preset--font-family--display);
+	font-size: var(--wp--preset--font-size--large);
+	text-transform: uppercase;
+	color: var(--wp--preset--color--navy);
+}
+
+.show-list li em {
+	font-family: var(--wp--preset--font-family--body);
+	font-size: var(--wp--preset--font-size--small);
+	font-style: normal;
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	color: var(--wp--preset--color--navy-soft);
+	align-self: center;
+}
+
+/* Featured work rows on the portfolio page. Columns "work-feature". */
+.work-feature {
+	padding-block: var(--wp--preset--spacing--60);
+}
+
+.work-feature + .work-feature {
+	border-top: 1px solid color-mix(in srgb, var(--wp--preset--color--navy) 20%, transparent);
+}
+
+.work-feature .wp-block-image img {
+	border-radius: 0;
+	max-height: 640px;
+	width: auto;
+	margin-inline: auto;
+	filter: drop-shadow(0 16px 24px rgba(14, 21, 38, 0.18));
+}
+
+/* Plain form section with a rule on top instead of a card. */
+.form-block {
+	padding-top: var(--wp--preset--spacing--40);
+	border-top: 2px solid var(--wp--preset--color--navy);
+}
+
+/* Page titles: big, but always narrow enough for the longest word on a phone. */
+.entry-content h1.has-giant-font-size {
+	font-size: clamp(2.75rem, 9vw, 6.5rem) !important;
+}
+
+/* ====================================================================== Image style: "Drawing reveal" ("Your face here")
+   assets/js/draw-reveal.js hides the artwork, shows a blank "Your face here?"
+   paper card, and on click opens the sketchpad (.dr-desk) where the visitor
+   colours the drawing in by hand. Without JS the artwork shows. */
+
+.wp-block-image.is-style-draw-reveal.dr-ready > img,
+.wp-block-image.is-style-draw-reveal.dr-ready > a > img {
+	display: none;
+}
+
+.dr-trigger {
+	position: relative;
+	display: block;
+	width: 100%;
+	aspect-ratio: 200 / 250;
+	padding: 0;
+	border: 0;
+	background: none;
+	color: var(--wp--preset--color--navy);
+	font: inherit;
+	cursor: pointer;
+}
+
+.dr-trigger__card {
+	position: absolute;
+	inset: 0;
+	background: url("../images/doodles/face-card.svg") no-repeat center / contain;
+	filter: drop-shadow(0 12px 16px rgba(14, 21, 38, 0.22));
+	transition: transform 0.3s ease;
+	animation: dr-nudge 5s ease-in-out infinite;
+}
+
+.dr-trigger:hover .dr-trigger__card,
+.dr-trigger:focus-visible .dr-trigger__card {
+	transform: rotate(-4deg) scale(1.04);
+	animation: none;
+}
+
+.dr-trigger__label {
+	position: absolute;
+	left: 50%;
+	bottom: 6%;
+	transform: translateX(-50%) rotate(-3deg);
+	font-family: var(--wp--preset--font-family--hand);
+	font-size: clamp(0.7rem, 1.1vw, 0.95rem);
+	white-space: nowrap;
+	pointer-events: none;
+}
+
+.dr-trigger__hint {
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	transform: translateX(-50%) rotate(-3deg);
+	margin-top: 0.35rem;
+	font-family: var(--wp--preset--font-family--hand);
+	font-size: 0.85rem;
+	color: var(--wp--preset--color--red);
+	white-space: nowrap;
+}
+
+@keyframes dr-nudge {
+	0%, 82%, 100% { transform: rotate(0); }
+	86% { transform: rotate(-5deg); }
+	90% { transform: rotate(4deg); }
+	94% { transform: rotate(-2deg); }
+}
+
+html.dr-open {
+	overflow: hidden;
+}
+
+.dr-desk {
+	position: fixed;
+	inset: 0;
+	z-index: 1000;
+	display: grid;
+	place-items: center;
+	padding: 16px;
+	background: color-mix(in srgb, var(--wp--preset--color--navy) 78%, transparent);
+	backdrop-filter: blur(3px);
+}
+
+.dr-desk[hidden] {
+	display: none;
+}
+
+.dr-desk__sheet {
+	position: relative;
+	width: min(520px, 100%);
+	max-height: calc(100vh - 32px);
+	overflow: auto;
+	padding: clamp(16px, 3vw, 28px);
+	background: var(--wp--preset--color--white);
+	border-radius: 24px;
+	box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.45);
+}
+
+.dr-desk__close {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	width: 40px;
+	height: 40px;
+	border: 2px solid var(--wp--preset--color--navy);
+	border-radius: 50%;
+	background: var(--wp--preset--color--white);
+	color: var(--wp--preset--color--navy);
+	font-size: 1.4rem;
+	line-height: 1;
+	cursor: pointer;
+	z-index: 3;
+}
+
+.dr-desk__note {
+	min-height: 1.5em;
+	margin: 0 48px 0.75rem 0;
+	font-family: var(--wp--preset--font-family--hand);
+	font-size: var(--wp--preset--font-size--large);
+	line-height: 1.15;
+	color: var(--wp--preset--color--navy);
+	transform: rotate(-1.5deg);
+	transform-origin: left center;
+}
+
+.dr-desk__paper {
+	position: relative;
+	border-radius: 4px;
+	background: #fffdf7 url("../images/doodles/paper-grain.svg") repeat;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06), 0 10px 22px -12px rgba(14, 21, 38, 0.4);
+	transform: rotate(-0.8deg);
+	overflow: hidden;
+}
+
+.dr-svg {
+	display: block;
+	width: 100%;
+	height: auto;
+	border-radius: 4px;
+	user-select: none;
+	-webkit-user-select: none;
+}
+
+.dr-desk[data-mode="draw"] .dr-svg {
+	cursor: none;
+	touch-action: none;
+}
+
+.dr-desk__pen {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 0;
+	height: 0;
+	pointer-events: none;
+	z-index: 2;
+	transition: opacity 0.2s ease;
+}
+
+.dr-desk__pen::before {
+	content: "";
+	position: absolute;
+	left: -15px;
+	bottom: 0;
+	width: 30px;
+	height: 150px;
+	background: url("../images/doodles/pen-colour.svg") no-repeat center bottom / contain;
+	transform: rotate(28deg);
+	transform-origin: 50% 100%;
+	filter: drop-shadow(6px 8px 5px rgba(0, 0, 0, 0.22));
+}
+
+/* Before the first stroke the pen wiggles to say "pick me up". */
+.dr-desk[data-mode="draw"]:not(.is-drawing) .dr-desk__pen::before {
+	animation: dr-wiggle 1.4s ease-in-out infinite;
+}
+
+@keyframes dr-wiggle {
+	0%, 100% { transform: rotate(28deg); }
+	50% { transform: rotate(16deg) translateY(-6px); }
+}
+
+.dr-desk[data-mode="done"] .dr-desk__pen {
+	opacity: 0;
+}
+
+.dr-desk__bar {
+	height: 8px;
+	margin-top: 1rem;
+	border-radius: 99px;
+	background: var(--wp--preset--color--yellow-soft);
+	overflow: hidden;
+}
+
+.dr-desk__bar span {
+	display: block;
+	width: 0;
+	height: 100%;
+	background: var(--wp--preset--color--yellow);
+	transition: width 0.25s ease;
+}
+
+/* The two buttons only show once the drawing is fully coloured. */
+.dr-desk__actions {
+	display: none;
+	flex-wrap: wrap;
+	gap: 0.6rem;
+	margin-top: 1rem;
+}
+
+.dr-desk[data-mode="done"] .dr-desk__actions {
+	display: flex;
+	animation: dr-pop 0.35s ease-out both;
+}
+
+.dr-desk[data-mode="done"] .dr-desk__bar {
+	display: none;
+}
+
+@keyframes dr-pop {
+	from { opacity: 0; transform: translateY(8px); }
+	to   { opacity: 1; transform: none; }
+}
+
+.dr-btn {
+	display: inline-flex;
+	align-items: center;
+	padding: 0.65em 1.3em;
+	border: 2px solid var(--wp--preset--color--navy);
+	border-radius: 999px;
+	background: var(--wp--preset--color--white);
+	color: var(--wp--preset--color--navy);
+	font-family: var(--wp--preset--font-family--body);
+	font-size: var(--wp--preset--font-size--small);
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.dr-btn--cta {
+	background: var(--wp--preset--color--yellow);
+}
+
+.dr-btn:hover {
+	background: var(--wp--preset--color--navy);
+	color: var(--wp--preset--color--white);
+}
+
+/* ====================================================================== Inner pages, fradesign-style pieces */
+
+/* Outlined ticker: white strip between two rules, small caps text (group "marquee is-outline"). */
+.marquee.is-outline {
+	border-top: 2px solid var(--wp--preset--color--navy);
+	border-bottom: 2px solid var(--wp--preset--color--navy);
+	color: var(--wp--preset--color--navy);
+}
+
+.marquee.is-outline .marquee__track {
+	font-family: var(--wp--preset--font-family--body);
+	font-size: var(--wp--preset--font-size--large);
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	animation-duration: 40s;
+}
+
+/* Title with an outlined word: wrap the word in a highlight (mark) in the editor. */
+.title-outline mark {
+	background: none;
+	color: inherit;
+}
+
+/* Big number with a small unit after it (paragraph "big-stat"). */
+.big-stat {
+	margin: 0;
+	font-family: var(--wp--preset--font-family--display);
+	font-size: var(--wp--preset--font-size--xx-large);
+	line-height: 1;
+	color: var(--wp--preset--color--navy);
+}
+
+.big-stat span {
+	font-family: var(--wp--preset--font-family--body);
+	font-size: var(--wp--preset--font-size--medium);
+	font-weight: 600;
+	letter-spacing: 0.02em;
+}
+
+/* Black and white versus colour. Images use classes "as-sketch" / "as-colour". */
+.style-compare .wp-block-image {
+	margin-bottom: var(--wp--preset--spacing--30);
+	padding: 8%;
+	background: #fffdf7 url("../images/doodles/paper-grain.svg") repeat;
+	border-radius: 6px;
+	box-shadow: 0 14px 26px -16px rgba(14, 21, 38, 0.4);
+}
+
+.style-compare .wp-block-image:first-child {
+	transform: rotate(-1.5deg);
+}
+
+.style-compare .wp-block-column:last-child .wp-block-image {
+	transform: rotate(1.5deg);
+}
+
+.style-compare .wp-block-image img {
+	display: block;
+	width: 100%;
+	max-height: 340px;
+	object-fit: contain;
+	border-radius: 0;
+}
+
+.style-compare .as-sketch img {
+	filter: grayscale(1) contrast(4) brightness(1.15);
+	mix-blend-mode: multiply;
+}
+
+/* Guest calculator (built by assets/js/site.js inside group "guest-calc"). */
+.guest-calc {
+	padding: var(--wp--preset--spacing--40);
+	background: var(--wp--preset--color--white);
+	color: var(--wp--preset--color--ink);
+	border-radius: 20px;
+}
+
+.guest-calc__label {
+	display: block;
+	font-family: var(--wp--preset--font-family--display);
+	font-size: var(--wp--preset--font-size--large);
+	text-transform: uppercase;
+	color: var(--wp--preset--color--navy);
+}
+
+.guest-calc__row {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	margin-top: 0.5rem;
+}
+
+.guest-calc__row input[type="range"] {
+	flex: 1;
+	min-width: 0;
+	accent-color: var(--wp--preset--color--navy);
+	height: 2rem;
+}
+
+.guest-calc__guests {
+	min-width: 3ch;
+	font-family: var(--wp--preset--font-family--display);
+	font-size: var(--wp--preset--font-size--x-large);
+	color: var(--wp--preset--color--navy);
+	text-align: right;
+}
+
+.guest-calc__switch {
+	display: inline-flex;
+	margin-top: 1rem;
+	padding: 4px;
+	border: 2px solid var(--wp--preset--color--navy);
+	border-radius: 999px;
+}
+
+.guest-calc__switch button {
+	padding: 0.5em 1.1em;
+	border: 0;
+	border-radius: 999px;
+	background: none;
+	color: var(--wp--preset--color--navy);
+	font: 700 var(--wp--preset--font-size--small) / 1 var(--wp--preset--font-family--body);
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	cursor: pointer;
+}
+
+.guest-calc__switch button[aria-checked="true"] {
+	background: var(--wp--preset--color--navy);
+	color: var(--wp--preset--color--white);
+}
+
+.guest-calc__result {
+	margin-top: 1.25rem !important;
+}
+
+.guest-calc__result strong {
+	display: block;
+	font-family: var(--wp--preset--font-family--display);
+	font-size: var(--wp--preset--font-size--xx-large);
+	font-weight: 400;
+	line-height: 1;
+	text-transform: uppercase;
+	color: var(--wp--preset--color--navy);
+}
+
+/* Gallery style "Small tiles" (slug masonry): small rounded thumbnails, caption on
+   hover, tap to enlarge. Inside a "works-grid" group, several galleries share one
+   grid and the "work-filter" buttons (assets/js/site.js) show one at a time. */
+.wp-block-gallery.is-style-masonry.has-nested-images,
+.works-grid {
+	display: grid !important;
+	grid-template-columns: repeat(auto-fill, minmax(min(150px, 40vw), 1fr));
+	gap: clamp(0.75rem, 1.5vw, 1.25rem) !important;
+}
+
+.works-grid > .wp-block-gallery.is-style-masonry.has-nested-images {
+	display: contents !important;
+}
+
+.works-grid > .wp-block-gallery.has-nested-images.is-filtered-out {
+	display: none !important;
+}
+
+.wp-block-gallery.is-style-masonry.has-nested-images figure.wp-block-image {
+	position: relative;
+	display: block !important;
+	width: auto !important;
+	margin: 0 !important;
+	aspect-ratio: 4 / 5;
+	background: #f6f3ec;
+	border-radius: 18px;
+	overflow: hidden;
+	transition: transform 0.2s ease;
+}
+
+.wp-block-gallery.is-style-masonry.has-nested-images figure.wp-block-image img {
+	box-sizing: border-box;
+	width: 100% !important;
+	height: 100% !important;
+	padding: 10%;
+	object-fit: contain !important;
+	border-radius: 0;
+}
+
+.wp-block-gallery.is-style-masonry.has-nested-images figure.wp-block-image:hover {
+	transform: rotate(-1.5deg) scale(1.03);
+}
+
+.wp-block-gallery.is-style-masonry.has-nested-images figure.wp-block-image figcaption {
+	position: absolute;
+	inset: 0;
+	display: grid;
+	place-items: center;
+	margin: 0;
+	padding: 1rem;
+	max-height: none;
+	background: color-mix(in srgb, var(--wp--preset--color--navy) 88%, transparent);
+	color: var(--wp--preset--color--white);
+	font-family: var(--wp--preset--font-family--body);
+	font-size: var(--wp--preset--font-size--small);
+	font-weight: 700;
+	text-align: center;
+	opacity: 0;
+	transition: opacity 0.2s ease;
+	pointer-events: none;
+}
+
+.wp-block-gallery.is-style-masonry.has-nested-images figure.wp-block-image:hover figcaption,
+.wp-block-gallery.is-style-masonry.has-nested-images figure.wp-block-image:focus-within figcaption {
+	opacity: 1;
+}
+
+/* Filter buttons above the portfolio grid. */
+.work-filter .wp-block-button__link::after {
+	display: none;
+}
+
+.work-filter .wp-block-button__link {
+	padding: 0.55em 1.2em;
+}
+
+.work-filter .wp-block-button__link.is-active {
+	background: var(--wp--preset--color--navy);
+	color: var(--wp--preset--color--white);
+}
+
+.eyebrow-heading {
+	font-family: var(--wp--preset--font-family--body) !important;
+	font-size: var(--wp--preset--font-size--small) !important;
+	font-weight: 700 !important;
+	letter-spacing: 0.14em !important;
+	color: var(--wp--preset--color--navy-soft) !important;
+}
+
+/* Big list on the About page. */
+.big-list li {
+	font-family: var(--wp--preset--font-family--display);
+	font-size: var(--wp--preset--font-size--x-large);
+	line-height: 1.05;
+	text-transform: uppercase;
+	color: var(--wp--preset--color--navy);
+}
+
+/* Shows panel: two per row, white names on blue. */
+.shows-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--wp--preset--spacing--50);
+}
+
+.shows-grid .show-item {
+	padding-top: var(--wp--preset--spacing--30);
+	border-top: 1px solid color-mix(in srgb, var(--wp--preset--color--white) 35%, transparent);
+}
+
+.is-style-panel .shows-grid h3 {
+	color: var(--wp--preset--color--white);
+}
+
+.is-style-panel .shows-grid .eyebrow {
+	color: var(--wp--preset--color--yellow);
+}
+
+@media (max-width: 600px) {
+	.shows-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+
+/* ====================================================================== Contact: postcard to Leon */
+
+/* Two picture cards that switch the form (assets/js/site.js). */
+.form-switch {
+	display: grid !important;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: clamp(0.75rem, 2vw, 1.25rem) !important;
+}
+
+.form-switch .wp-block-button {
+	width: auto;
+	margin: 0;
+}
+
+.form-switch .wp-block-button__link.wp-element-button {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: flex-end;
+	gap: 0.75rem;
+	box-sizing: border-box;
+	width: 100%;
+	min-height: 150px;
+	padding: 1.1rem 1.25rem;
+	border-radius: 22px;
+	background: var(--wp--preset--color--white);
+	color: var(--wp--preset--color--navy);
+	font-family: var(--wp--preset--font-family--display);
+	font-size: var(--wp--preset--font-size--large);
+	font-weight: 400;
+	font-stretch: normal;
+	letter-spacing: 0.01em;
+	line-height: 1;
+	text-align: left;
+	transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.form-switch .wp-block-button:nth-child(1) .wp-block-button__link { transform: rotate(-2deg); }
+.form-switch .wp-block-button:nth-child(2) .wp-block-button__link { transform: rotate(1.5deg); }
+
+.form-switch .wp-block-button__link::before {
+	content: "";
+	width: 52px;
+	height: 52px;
+	margin-bottom: auto;
+	background: url("../images/doodles/icons/leon-live-portrait.webp") no-repeat left center / contain;
+}
+
+.form-switch .wp-block-button:nth-child(2) .wp-block-button__link::before {
+	background-image: url("../images/doodles/icons/leon-photo.webp");
+}
+
+.form-switch .wp-block-button__link::after {
+	display: none;
+}
+
+.form-switch .wp-block-button__link:hover {
+	background: var(--wp--preset--color--yellow-soft);
+	color: var(--wp--preset--color--navy);
+}
+
+.form-switch .wp-block-button .wp-block-button__link.is-active {
+	background: var(--wp--preset--color--yellow);
+	color: var(--wp--preset--color--navy);
+	box-shadow: 6px 6px 0 0 var(--wp--preset--color--navy);
+	transform: translateY(-4px) rotate(0);
+}
+
+.pick-note::after {
+	content: "";
+	display: inline-block;
+	width: 52px;
+	height: 26px;
+	margin-left: 0.3em;
+	background: url("../images/doodles/arrow.svg") no-repeat center / contain;
+	transform: rotate(70deg) translate(10px, -4px);
+}
+
+/* The postcard: writing side on the left, address side on the right. */
+.postcard {
+	position: relative;
+	background: #fffdf7 url("../images/doodles/paper-grain.svg") repeat;
+	border: 2px solid var(--wp--preset--color--navy);
+	border-radius: 28px;
+	box-shadow: 10px 10px 0 0 var(--wp--preset--color--navy);
+}
+
+.postcard > .wp-block-column {
+	padding: clamp(1.25rem, 4vw, 3rem);
+	container-type: normal;
+}
+
+.postcard__address {
+	position: relative;
+	border-left: 2px dashed color-mix(in srgb, var(--wp--preset--color--navy) 40%, transparent);
+}
+
+.postcard__dear {
+	font-size: clamp(1.4rem, 2.6vw, 2rem);
+	line-height: 1.1;
+	transform: rotate(-1.5deg);
+}
+
+.postcard .form-block {
+	padding: 0;
+	border: 0;
+}
+
+.postcard .wp-block-jetpack-contact-form label,
+.postcard .wp-block-jetpack-contact-form .grunion-field-label {
+	font-family: var(--wp--preset--font-family--body);
+	font-size: 0.75rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--wp--preset--color--navy-soft);
+}
+
+.postcard .wp-block-jetpack-contact-form input:not([type="checkbox"]):not([type="radio"]),
+.postcard .wp-block-jetpack-contact-form select,
+.postcard .wp-block-jetpack-contact-form textarea {
+	border: 0 !important;
+	border-bottom: 2px solid color-mix(in srgb, var(--wp--preset--color--navy) 30%, transparent) !important;
+	border-radius: 0 !important;
+	background: transparent !important;
+	padding: 0.45rem 0 !important;
+	font-size: 1.05rem;
+	color: var(--wp--preset--color--ink);
+}
+
+.postcard .wp-block-jetpack-contact-form :is(input, select, textarea):focus {
+	border-bottom-color: var(--wp--preset--color--navy) !important;
+	outline: none;
+	box-shadow: none;
+}
+
+/* Lined paper inside the message box. */
+.postcard .wp-block-jetpack-contact-form textarea {
+	min-height: 7.5rem;
+	line-height: 1.9rem;
+	background: repeating-linear-gradient(transparent 0 calc(1.9rem - 1px), color-mix(in srgb, var(--wp--preset--color--navy) 18%, transparent) calc(1.9rem - 1px) 1.9rem) !important;
+}
+
+.postcard .wp-block-jetpack-contact-form :is(button, .wp-block-button__link) {
+	background: var(--wp--preset--color--yellow);
+	color: var(--wp--preset--color--navy);
+	box-shadow: 4px 4px 0 0 var(--wp--preset--color--navy);
+}
+
+.postcard .wp-block-jetpack-contact-form :is(button, .wp-block-button__link):hover {
+	background: var(--wp--preset--color--navy);
+	color: var(--wp--preset--color--white);
+}
+
+.postcard__top {
+	align-items: flex-start !important;
+	margin-bottom: var(--wp--preset--spacing--40);
+}
+
+.postmark {
+	position: relative;
+	margin: 1.5rem 0 0 !important;
+	padding: 0.45em 0.8em;
+	border: 2px solid color-mix(in srgb, var(--wp--preset--color--navy) 55%, transparent);
+	border-radius: 10px;
+	color: color-mix(in srgb, var(--wp--preset--color--navy) 75%, transparent);
+	font-size: 0.7rem;
+	font-weight: 700;
+	line-height: 1.35;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	transform: rotate(-10deg);
+	white-space: nowrap;
+}
+
+.postmark::after {
+	content: "";
+	position: absolute;
+	left: 85%;
+	top: 10%;
+	width: 120px;
+	height: 42px;
+	background: url("../images/doodles/postmark-waves.svg") no-repeat left center / contain;
+	z-index: 2;
+	pointer-events: none;
+}
+
+.postcard__stamp {
+	flex: 0 0 auto;
+	width: clamp(92px, 9vw, 124px);
+	margin: 0 !important;
+	padding: 8px 8px 0;
+	background: var(--wp--preset--color--yellow);
+	border: 5px dotted #fffdf7;
+	outline: 1px solid color-mix(in srgb, var(--wp--preset--color--navy) 15%, transparent);
+	transform: rotate(4deg);
+	filter: drop-shadow(0 6px 8px rgba(14, 21, 38, 0.18));
+}
+
+.postcard__stamp img {
+	display: block;
+	width: 100%;
+	border-radius: 0;
+}
+
+.address-lines {
+	list-style: none;
+	padding: 0 !important;
+	margin: 0.25rem 0 0 !important;
+}
+
+.address-lines li {
+	padding: 0.55rem 0 0.35rem;
+	border-bottom: 1.5px solid color-mix(in srgb, var(--wp--preset--color--navy) 30%, transparent);
+	font-family: var(--wp--preset--font-family--hand);
+	font-stretch: normal;
+	font-size: clamp(1rem, 1.5vw, 1.25rem);
+	line-height: 1.2;
+	color: var(--wp--preset--color--navy);
+	overflow-wrap: anywhere;
+}
+
+.address-lines a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.address-lines a:hover {
+	text-decoration: underline;
+}
+
+@media (max-width: 781px) {
+	.postcard {
+		flex-direction: column-reverse;
+		box-shadow: 6px 6px 0 0 var(--wp--preset--color--navy);
+	}
+
+	.wp-block-columns.postcard {
+		flex-wrap: nowrap !important;
+	}
+
+	.wp-block-columns.postcard > .wp-block-column.wp-block-column {
+		flex-basis: auto !important;
+		flex-grow: 0;
+	}
+
+	.postcard__address {
+		border-left: 0;
+		border-bottom: 2px dashed color-mix(in srgb, var(--wp--preset--color--navy) 40%, transparent);
+	}
+
+	.form-switch .wp-block-button__link.wp-element-button {
+		min-height: 120px;
+		font-size: 1.15rem;
+	}
+}
+
+/* ====================================================================== Fixes and rhythm */
+
+/* Page titles keep a little air below them. */
+.page-title {
+	margin-top: 0 !important;
+}
+
+.page-title + * {
+	margin-top: var(--wp--preset--spacing--40) !important;
+}
+
+/* Footer */
+.site-footer h2 {
+	margin-bottom: var(--wp--preset--spacing--30);
+}
+
+.site-footer .wp-block-buttons {
+	margin-top: var(--wp--preset--spacing--30);
+}
+
+.site-footer .footer-links {
+	list-style: none;
+	padding: 0 !important;
+	margin: 0;
+	display: grid;
+	gap: 0.45rem;
+}
+
+.site-footer .footer-links a {
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.site-footer .footer-links a:hover {
+	text-decoration: underline;
+}
+
+.site-footer .footer-legal {
+	padding-top: var(--wp--preset--spacing--30);
+	border-top: 1px solid color-mix(in srgb, var(--wp--preset--color--white) 25%, transparent);
+	opacity: 0.8;
+}
+
+/* Black and white vs colour stays side by side on phones. */
+@media (max-width: 781px) {
+	.wp-block-columns.style-compare {
+		flex-wrap: nowrap !important;
+		gap: 1rem !important;
+	}
+
+	.wp-block-columns.style-compare > .wp-block-column {
+		flex-basis: 0 !important;
+		flex-grow: 1;
+	}
+
+	.style-compare .big-stat {
+		font-size: 2rem;
+	}
+}
+
+/* Big headings inside columns size themselves to the column, so long words never break. */
+.wp-block-column {
+	container-type: inline-size;
+}
+
+.entry-content .wp-block-column h1.has-giant-font-size {
+	font-size: clamp(2.5rem, min(9vw, 15cqi), 6.5rem) !important;
+}
+
+.entry-content .wp-block-column .has-xx-large-font-size {
+	font-size: clamp(2rem, min(7vw, 14cqi), 4rem) !important;
+}
+
+.big-stat span {
+	display: block;
+	margin-top: 0.35rem;
+}
+
+/* ====================================================================== Still strips (no moving tickers) */
+
+/* Services strip: cells divided by thin navy rules, each with a doodle icon. */
+.tag-strip {
+	border-block: 2px solid var(--wp--preset--color--navy);
+}
+
+.tag-strip__row {
+	background: var(--wp--preset--color--navy);
+	border-inline: 2px solid var(--wp--preset--color--navy);
+	display: grid;
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+	gap: 2px;
+}
+
+.tag-strip__item {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 0.6rem;
+	margin: 0 !important;
+	padding: clamp(1rem, 2.4vw, 1.75rem) 0.75rem;
+	background: var(--wp--preset--color--white);
+	text-align: center;
+}
+
+.tag-strip__item:nth-child(even) {
+	background: var(--wp--preset--color--yellow-soft);
+}
+
+.tag-strip__icon {
+	margin: 0 !important;
+}
+
+.tag-strip__icon img {
+	width: clamp(40px, 4vw, 56px) !important;
+	transition: transform 0.25s ease;
+}
+
+.tag-strip__item:hover .tag-strip__icon img {
+	transform: rotate(-10deg) scale(1.1);
+}
+
+.tag-strip__label {
+	margin: 0 !important;
+	font-family: var(--wp--preset--font-family--display);
+	font-size: clamp(1rem, 1.6vw, 1.4rem);
+	line-height: 1;
+	text-transform: uppercase;
+	color: var(--wp--preset--color--navy);
+}
+
+@media (max-width: 781px) {
+	.tag-strip__row {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.tag-strip__item:last-child:nth-child(odd) {
+		grid-column: 1 / -1;
+	}
+
+	.tag-strip__item {
+		flex-direction: row;
+		justify-content: flex-start;
+		padding: 0.9rem 1rem;
+		text-align: left;
+	}
+}
+
+/* Event-type tags under the events intro (list "pill-list"). */
+.pill-list {
+	list-style: none;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.4rem;
+	padding: 0 !important;
+	margin: 0 0 1.25rem !important;
+}
+
+.pill-list li {
+	padding: 0.35em 0.9em;
+	border: 2px solid var(--wp--preset--color--navy);
+	border-radius: 999px;
+	color: var(--wp--preset--color--navy);
+	font-size: var(--wp--preset--font-size--small);
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.pill-list li:nth-child(3n + 1) {
+	background: var(--wp--preset--color--yellow);
+}
+
+/* About: yellow statement band with two doodles. */
+.statement-band {
+	position: relative;
+	overflow: hidden;
+}
+
+.statement-band .wp-block-heading {
+	margin-top: 0.4rem;
+}
+
+.statement-band__doodle {
+	position: absolute;
+	top: 50%;
+	margin: 0 !important;
+}
+
+.statement-band__doodle img {
+	width: clamp(56px, 7vw, 110px) !important;
+}
+
+.statement-band__doodle.is-left {
+	left: clamp(0.75rem, 5vw, 7rem);
+	transform: translateY(-50%) rotate(-14deg);
+}
+
+.statement-band__doodle.is-right {
+	right: clamp(0.75rem, 5vw, 7rem);
+	transform: translateY(-50%) rotate(12deg);
+}
+
+@media (max-width: 781px) {
+	.statement-band__doodle {
+		top: 0.75rem;
+		transform: none !important;
+	}
+
+	.statement-band__doodle img {
+		width: 48px !important;
+	}
+
+	.statement-band .hand-note {
+		margin-top: 1.5rem;
+	}
+}
+
+/* ====================================================================== Testimonials: card stack (assets/js/site.js) */
+
+.testimonials {
+	overflow-x: clip;
+}
+
+.card-stack {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+	gap: 1.25rem;
+}
+
+.stack-card {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	box-sizing: border-box;
+	margin: 0 !important;
+	padding: 1.5rem 1.5rem 1.75rem;
+	border: 2px solid var(--wp--preset--color--navy);
+	border-radius: 26px;
+	box-shadow: 6px 6px 0 0 var(--wp--preset--color--navy);
+}
+
+.stack-card.has-navy-background-color {
+	box-shadow: 6px 6px 0 0 var(--wp--preset--color--yellow);
+}
+
+.stack-card__icon {
+	margin: 0 !important;
+}
+
+.stack-card__icon img {
+	width: 44px !important;
+	padding: 6px;
+	background: var(--wp--preset--color--white);
+	border: 2px solid var(--wp--preset--color--navy);
+	border-radius: 14px;
+}
+
+.stack-card__quote {
+	flex: 1;
+	margin: 0 !important;
+	line-height: 1.3;
+}
+
+.stack-card__name {
+	margin: 0 !important;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	opacity: 0.85;
+}
+
+.card-stack.is-ready {
+	--w: clamp(230px, 21vw, 290px);
+	grid-template-columns: 1fr;
+	place-items: center;
+	min-height: 440px;
+}
+
+.card-stack.is-ready > .stack-card {
+	--x: calc(var(--pos) * 7px);
+	--y: calc(var(--pos) * -7px);
+	--r: calc((var(--pos) - 1.5) * 3.5deg);
+	grid-area: 1 / 1;
+	width: var(--w);
+	min-height: 330px;
+	cursor: pointer;
+	transform: translate(var(--x), calc(var(--y) + var(--lift, 0px))) rotate(var(--r));
+	transition: transform 0.8s cubic-bezier(0.2, 0.9, 0.25, 1.05);
+	transition-delay: calc(var(--abs) * 70ms);
+}
+
+@media (min-width: 1024px) {
+	.card-stack.is-ready.is-spread > .stack-card {
+		--x: calc(var(--off) * (var(--w) + 1.25rem));
+		--y: calc(var(--abs) * 18px);
+		--r: calc(var(--off) * 4deg);
+		cursor: default;
+	}
+
+	.card-stack.is-ready.is-spread > .stack-card:hover {
+		--lift: -18px;
+		--r: 0deg;
+		z-index: 20 !important;
+		transition-duration: 0.3s;
+		transition-delay: 0s;
+	}
+}
+
+@media (max-width: 1023px) {
+	.card-stack.is-ready {
+		--w: min(320px, 84vw);
+		min-height: 400px;
+	}
+
+	.card-stack.is-ready > .stack-card {
+		--x: 0px;
+		--y: calc(var(--pos) * 12px);
+		--r: calc(var(--pos) * 2.5deg);
+		transition-duration: 0.35s;
+		transition-delay: 0s;
+	}
+
+	.card-stack.is-ready > .stack-card.is-leaving {
+		transform: translate(-115%, -10px) rotate(-14deg);
+	}
+
+	.card-stack.is-ready::after {
+		content: "tap the card for the next one";
+		grid-row: 2;
+		margin-top: 2rem;
+		font-family: var(--wp--preset--font-family--hand);
+		color: var(--wp--preset--color--navy-soft);
+	}
+}
+
+/* ====================================================================== About: click-to-open rows (assets/js/site.js) */
+
+.reveal-row {
+	padding-block: clamp(0.75rem, 2vw, 1.25rem);
+	border-bottom: 2px solid color-mix(in srgb, var(--wp--preset--color--navy) 18%, transparent);
+	margin: 0 !important;
+}
+
+.reveal-row__head {
+	gap: clamp(0.75rem, 2vw, 1.5rem) !important;
+}
+
+.reveal-row.is-ready .reveal-row__head {
+	cursor: pointer;
+}
+
+.reveal-row__icon {
+	flex: 0 0 auto;
+	margin: 0 !important;
+}
+
+.reveal-row__icon img {
+	width: clamp(52px, 7vw, 96px) !important;
+	transition: transform 0.25s ease;
+}
+
+.reveal-row__head:hover .reveal-row__icon img,
+.reveal-row.is-open .reveal-row__icon img {
+	transform: rotate(-10deg) scale(1.08);
+}
+
+.reveal-row__title {
+	margin: 0 !important;
+	transition: color 0.15s ease;
+}
+
+.reveal-row__head:hover .reveal-row__title {
+	color: var(--wp--preset--color--navy-soft);
+}
+
+.reveal-row.is-ready .reveal-row__title::after {
+	content: "+";
+	display: inline-grid;
+	place-items: center;
+	width: 1.4em;
+	height: 1.4em;
+	margin-left: 0.35em;
+	border-radius: 50%;
+	background: var(--wp--preset--color--yellow);
+	color: var(--wp--preset--color--navy);
+	font-family: var(--wp--preset--font-family--body);
+	font-size: 0.4em;
+	font-weight: 700;
+	line-height: 1;
+	vertical-align: 0.9em;
+	transition: transform 0.3s ease;
+}
+
+.reveal-row.is-open .reveal-row__title::after {
+	transform: rotate(45deg);
+}
+
+.reveal-row__panel {
+	max-width: 980px;
+	margin-top: 1rem !important;
+	padding: clamp(1.25rem, 3vw, 2.25rem) clamp(1.25rem, 3.5vw, 2.75rem);
+	border-radius: 28px;
+}
+
+.reveal-row__panel p {
+	margin: 0;
+}
+
+.reveal-row.is-ready:not(.is-open) .reveal-row__panel {
+	display: none;
+}
+
+.reveal-row.is-open .reveal-row__panel {
+	animation: dr-pop 0.3s ease-out both;
+}
+
+/* ====================================================================== Contact: doodles falling into a pile (assets/js/site.js) */
+
+.doodle-drop {
+	overflow-x: clip;
+}
+
+.doodle-drop__pile {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 1rem;
+	margin-top: var(--wp--preset--spacing--30) !important;
+}
+
+.doodle-drop__pile > .wp-block-image {
+	margin: 0 !important;
+}
+
+.doodle-drop__pile > .wp-block-image img {
+	width: 56px;
+	border-radius: 0;
+}
+
+.doodle-drop__pile.is-ready {
+	--d: clamp(64px, 8vw, 120px);
+	display: block;
+	position: relative;
+	height: clamp(180px, 22vw, 280px);
+}
+
+.doodle-drop__pile.is-ready > .wp-block-image {
+	position: absolute;
+	left: var(--x);
+	bottom: var(--rest);
+	width: calc(var(--d) * var(--s));
+	margin-left: calc(var(--d) * var(--s) * -0.5) !important;
+	transform: rotate(var(--r));
+	cursor: pointer;
+}
+
+.doodle-drop__pile.is-ready > .wp-block-image img {
+	width: 100%;
+	filter: drop-shadow(0 6px 6px rgba(14, 21, 38, 0.15));
+}
+
+.doodle-drop__pile.is-ready:not(.has-dropped) > .wp-block-image {
+	visibility: hidden;
+}
+
+/* ====================================================================== 0.8: full-width photo hero (cover block "photo-hero") */
+
+.photo-hero.wp-block-cover {
+	padding-top: clamp(5rem, 14vh, 9rem);
+	padding-bottom: clamp(2rem, 7vh, 4.5rem);
+}
+
+.photo-hero .wp-block-cover__inner-container {
+	position: static;
+}
+
+.photo-hero .wp-block-cover__inner-container > * {
+	position: relative;
+	z-index: 2;
+}
+
+.photo-hero .photo-hero__title {
+	margin-top: 0.15em !important;
+	line-height: 0.9;
+	font-size: clamp(3rem, 6vw, 6.25rem) !important;
+	text-shadow: 0 2px 24px rgba(10, 30, 70, 0.35);
+}
+
+.photo-hero .wp-block-cover__inner-container > :not(.photo-hero__badge) {
+	max-width: min(40rem, 46%);
+	margin-left: max(0px, calc((100% - 1240px) / 2)) !important;
+}
+
+@media (min-width: 782px) {
+	.photo-hero .wp-block-cover__image-background {
+		object-position: 50% 30% !important;
+	}
+}
+
+.photo-hero .photo-hero__lead {
+	max-width: 34ch;
+	margin-top: var(--wp--preset--spacing--30) !important;
+}
+
+/* Round brand logo, bottom right of the photo (top right on phones). */
+.photo-hero .wp-block-cover__inner-container > .photo-hero__badge {
+	position: absolute;
+	bottom: clamp(1.25rem, 4vw, 2.5rem);
+	right: clamp(1rem, 4vw, 3rem);
+	margin: 0;
+	width: clamp(104px, 13vw, 176px);
+	transform: rotate(-6deg);
+	transition: transform 0.25s ease;
+}
+
+.photo-hero .wp-block-cover__inner-container > .photo-hero__badge:hover {
+	transform: rotate(0deg) scale(1.05);
+}
+
+.photo-hero__badge img {
+	width: 100% !important;
+	filter: drop-shadow(0 8px 14px rgba(10, 30, 70, 0.35));
+}
+
+@media (max-width: 781px) {
+	.photo-hero.wp-block-cover {
+		min-height: 88svh !important;
+	}
+
+	.photo-hero.wp-block-cover {
+		align-items: flex-end;
+	}
+
+	.photo-hero .wp-block-cover__inner-container > :not(.photo-hero__badge) {
+		max-width: none;
+	}
+
+	.photo-hero .wp-block-cover__background {
+		background: linear-gradient(0deg, rgba(18, 65, 138, 0.97) 0%, rgba(18, 65, 138, 0.85) 44%, rgba(18, 65, 138, 0) 74%) !important;
+	}
+
+	.photo-hero .wp-block-cover__inner-container > .photo-hero__badge {
+		top: 1rem;
+		bottom: auto;
+	}
+
+	.photo-hero .wp-block-buttons .wp-block-button {
+		width: 100%;
+	}
+
+	.photo-hero .wp-block-buttons .wp-block-button__link {
+		width: 100%;
+	}
+}
+
+/* Leon's hand-drawn icons are fuller than the old line doodles: give them room. */
+.tag-strip__row {
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.tag-strip__icon img {
+	width: clamp(48px, 5vw, 72px) !important;
+	height: auto;
+}
+
+.tag-strip__label a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.tag-strip__label a:hover,
+.tag-strip__label a:focus-visible {
+	text-decoration: underline;
+	text-decoration-thickness: 2px;
+	text-underline-offset: 4px;
+}
+
+@media (max-width: 781px) {
+	.tag-strip__row {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.tag-strip__item {
+		flex-direction: column;
+		justify-content: center;
+		text-align: center;
+	}
+}
+
+.service-menu .service-row .wp-block-image img {
+	width: clamp(56px, 7vw, 92px);
+	height: auto;
+}
+
+.stack-card__icon img {
+	width: 52px !important;
+	height: auto;
+}
+
+/* ====================================================================== 0.8: "Your face here?" section (group "face-here")
+   Left: a desk with a big A4 sheet (image block, Drawing reveal style + class
+   "is-sheet") and two cut-out stickers. Right: heading, text, facts, buttons. */
+
+.face-here__desk {
+	position: relative;
+	width: 100%;
+	max-width: 560px;
+	aspect-ratio: 1 / 1.02;
+	margin-inline: auto;
+}
+
+.face-here__desk > .wp-block-image {
+	position: absolute;
+	margin: 0 !important;
+}
+
+.face-here__desk > .is-sheet {
+	left: 17%;
+	top: 2%;
+	width: 62%;
+	z-index: 3;
+	transform: rotate(-2.5deg);
+}
+
+.face-here__desk > .face-here__sticker img {
+	width: 100%;
+	height: auto;
+	border-radius: 0;
+	filter:
+		drop-shadow(3px 0 0 #fff) drop-shadow(-3px 0 0 #fff)
+		drop-shadow(0 3px 0 #fff) drop-shadow(0 -3px 0 #fff)
+		drop-shadow(0 12px 18px rgba(14, 21, 38, 0.2));
+}
+
+.face-here__desk > .face-here__sticker.is-first {
+	left: -7%;
+	bottom: -7%;
+	width: 33%;
+	z-index: 4;
+	transform: rotate(-8deg);
+}
+
+.face-here__desk > .face-here__sticker.is-second {
+	right: -8%;
+	top: 0;
+	width: 31%;
+	z-index: 4;
+	transform: rotate(7deg);
+}
+
+/* The sheet itself: white A4 paper with a strip of tape and a faint pencil
+   version of the drawing (set by draw-reveal.js). */
+.is-sheet .dr-trigger {
+	aspect-ratio: 210 / 297;
+}
+
+.is-sheet .dr-trigger__card {
+	background: var(--wp--preset--color--white);
+	border: 1px solid color-mix(in srgb, var(--wp--preset--color--navy) 14%, transparent);
+	border-radius: 4px;
+	box-shadow: 0 18px 34px rgba(14, 21, 38, 0.16), 0 2px 0 rgba(14, 21, 38, 0.05);
+	filter: none;
+	animation: none;
+}
+
+.is-sheet .dr-trigger__card::before {
+	content: "";
+	position: absolute;
+	top: -14px;
+	left: 50%;
+	width: 34%;
+	height: 28px;
+	transform: translateX(-50%) rotate(-3deg);
+	background: color-mix(in srgb, var(--wp--preset--color--yellow) 70%, transparent);
+	z-index: 2;
+}
+
+.is-sheet .dr-trigger__sketch {
+	position: absolute;
+	inset: 8% 9% 16%;
+	background: no-repeat center / contain;
+	filter: grayscale(1) contrast(1.9) brightness(1.18);
+	opacity: 0.42;
+	mix-blend-mode: multiply;
+	transition: opacity 0.3s ease;
+}
+
+.is-sheet .dr-trigger__label {
+	display: none;
+}
+
+.is-sheet .dr-trigger__hint {
+	top: auto;
+	bottom: 5%;
+	margin: 0;
+	font-size: clamp(1rem, 1.8vw, 1.35rem);
+}
+
+.is-sheet .dr-trigger:hover .dr-trigger__card,
+.is-sheet .dr-trigger:focus-visible .dr-trigger__card {
+	transform: rotate(2deg) translateY(-6px);
+}
+
+.is-sheet .dr-trigger:hover .dr-trigger__sketch,
+.is-sheet .dr-trigger:focus-visible .dr-trigger__sketch {
+	opacity: 0.62;
+}
+
+.is-sheet .dr-trigger:focus-visible {
+	outline: 3px solid var(--wp--preset--color--navy-soft);
+	outline-offset: 8px;
+	border-radius: 4px;
+}
+
+/* A marker that waggles beside the sheet until someone picks it up. */
+.is-sheet .dr-trigger::after {
+	content: "";
+	position: absolute;
+	right: -9%;
+	bottom: 14%;
+	width: 22%;
+	aspect-ratio: 1 / 1;
+	background: url("../images/doodles/pen-colour.svg") no-repeat center / contain;
+	transform: rotate(18deg);
+	animation: dr-pen-wiggle 3.6s ease-in-out infinite;
+	z-index: 3;
+}
+
+@keyframes dr-pen-wiggle {
+	0%, 70%, 100% { transform: rotate(18deg); }
+	78% { transform: rotate(4deg) translateY(-6px); }
+	86% { transform: rotate(26deg); }
+}
+
+.face-here__title {
+	margin-top: 0.1em !important;
+}
+
+@media (max-width: 781px) {
+	.face-here__desk {
+		max-width: 420px;
+	}
+}
+
+/* ====================================================================== 0.8: live events and portraits pages */
+
+.style-compare .style-compare__art:not(.is-cutout) img {
+	mix-blend-mode: multiply;
+}
+
+.style-compare .wp-block-image.style-compare__art {
+	box-sizing: border-box;
+	height: clamp(260px, 30vw, 400px);
+}
+
+.style-compare .wp-block-image.style-compare__art img {
+	width: 100%;
+	height: 100%;
+	max-height: none;
+	object-fit: contain;
+}
+
+/* Event types / occasions: icon cards in a ruled grid (group "type-grid" > groups "type-card"). */
+.type-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+	border-top: 2px solid var(--wp--preset--color--navy);
+}
+
+.type-grid > .type-card {
+	margin: 0 !important;
+	padding: var(--wp--preset--spacing--40) var(--wp--preset--spacing--30) var(--wp--preset--spacing--40) 0;
+	border-bottom: 2px solid var(--wp--preset--color--navy);
+}
+
+.type-grid > .type-card + .type-card {
+	padding-left: var(--wp--preset--spacing--30);
+}
+
+@media (min-width: 782px) {
+	.type-grid > .type-card + .type-card {
+		border-left: 2px solid var(--wp--preset--color--navy);
+	}
+}
+
+@media (max-width: 781px) {
+	.type-grid > .type-card + .type-card {
+		padding-left: 0;
+	}
+}
+
+.type-card__icon {
+	margin: 0 0 var(--wp--preset--spacing--30) !important;
+}
+
+.type-card__icon img {
+	width: 80px !important;
+	height: 72px;
+	object-fit: contain;
+	object-position: left bottom;
+	transition: transform 0.25s ease;
+}
+
+.type-card:hover .type-card__icon img {
+	transform: rotate(-8deg) scale(1.06);
+}
+
+.type-card h3 {
+	margin: 0 0 0.4rem;
+	font-size: var(--wp--preset--font-size--large);
+}
+
+.type-card p {
+	margin: 0;
+}
+
+/* Why Leon: the mascot leans out of a soft yellow band. */
+.why-leon__mascot {
+	max-width: 260px;
+	margin: calc(-1 * var(--wp--preset--spacing--60)) auto calc(-1 * var(--wp--preset--spacing--50)) !important;
+}
+
+.why-leon__mascot img {
+	filter: drop-shadow(0 12px 18px rgba(14, 21, 38, 0.18));
+}
+
+@media (max-width: 781px) {
+	.why-leon__mascot {
+		max-width: 180px;
+		margin: 0 auto !important;
+	}
+}
+
+/* Service details: a two-column table with thin navy rules. Table class "details-table". */
+.details-table {
+	margin: 0;
+}
+
+.details-table table {
+	width: 100%;
+	border-collapse: collapse;
+	border-top: 2px solid var(--wp--preset--color--navy);
+}
+
+.details-table td {
+	padding: 0.9rem 0.75rem 0.9rem 0;
+	border: 0;
+	border-bottom: 1px solid color-mix(in srgb, var(--wp--preset--color--navy) 30%, transparent);
+	vertical-align: top;
+}
+
+.details-table td:first-child {
+	width: 34%;
+	font-family: var(--wp--preset--font-family--display);
+	font-size: var(--wp--preset--font-size--large);
+	line-height: 1.1;
+	text-transform: uppercase;
+	color: var(--wp--preset--color--navy);
+}
+
+@media (max-width: 600px) {
+	.details-table tr {
+		display: block;
+		padding: 0.8rem 0;
+		border-bottom: 1px solid color-mix(in srgb, var(--wp--preset--color--navy) 30%, transparent);
+	}
+
+	.details-table td {
+		display: block;
+		width: auto !important;
+		padding: 0;
+		border: 0;
+	}
+
+	.details-table td:first-child {
+		margin-bottom: 0.25rem;
+	}
+}
+
+.details-note {
+	margin-top: var(--wp--preset--spacing--30) !important;
+	color: var(--wp--preset--color--navy);
+}
+
+/* Custom portraits page */
+.print-pair {
+	position: relative;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	align-items: start;
+	gap: var(--wp--preset--spacing--30);
+}
+
+.print-pair > .wp-block-image {
+	margin: 0 !important;
+}
+
+.print-pair > .wp-block-image:first-child {
+	transform: rotate(-3deg);
+}
+
+.print-pair > .wp-block-image:last-child {
+	margin-top: 22% !important;
+	transform: rotate(3deg);
+}
+
+.option-cards .option-card__art {
+	box-sizing: border-box;
+	height: clamp(220px, 22vw, 300px);
+	margin: 0 0 var(--wp--preset--spacing--40) !important;
+	padding: 6%;
+	background: var(--wp--preset--color--white);
+	border-radius: 18px;
+}
+
+.option-cards .option-card__art img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	border-radius: 0;
+}
+
+.option-cards h3 {
+	margin-bottom: 0.5rem;
+	color: var(--wp--preset--color--yellow);
+}
+
+.details-mascot {
+	max-width: 200px;
+	margin-top: var(--wp--preset--spacing--40) !important;
+}
+
+@media (max-width: 781px) {
+	.details-mascot {
+		display: none;
+	}
+}
+
+.wp-block-gallery.is-style-masonry.columns-6 {
+	grid-template-columns: repeat(auto-fill, minmax(min(150px, 40vw), 1fr));
+}
+
+@media (min-width: 782px) {
+	.wp-block-gallery.is-style-masonry.columns-6 {
+		grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+	}
+}
+
+/* About: shows with photos (placeholders until Leon names them). */
+.shows-grid {
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: var(--wp--preset--spacing--40);
+}
+
+.shows-grid .show-item {
+	padding-top: 0;
+	border-top: 0;
+}
+
+.show-item__photo {
+	margin: 0 0 var(--wp--preset--spacing--30) !important;
+	aspect-ratio: 3 / 4;
+	overflow: hidden;
+	border-radius: 18px;
+	border: 4px solid var(--wp--preset--color--white);
+}
+
+.show-item__photo img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	border-radius: 0;
+}
+
+.show-item h3 {
+	margin: 0 0 0.2rem;
+}
+
+@media (max-width: 900px) {
+	.shows-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+/* Leon's black and white self-portrait is a scan on white paper, not a cut-out. */
+.sticker-single.is-self-portrait {
+	max-width: 420px;
+	margin-inline: auto;
+	transform: rotate(2deg);
+}
+
+.sticker-single.is-self-portrait img {
+	filter: none;
+	padding: 6%;
+	background: var(--wp--preset--color--white);
+	box-shadow: 0 18px 34px rgba(14, 21, 38, 0.16);
+	border-radius: 4px;
+}
+
+/* Portfolio: "View more" button under the grid (added by site.js). */
+.works-grid .wp-block-gallery.has-nested-images figure.wp-block-image.is-more-hidden {
+	display: none !important;
+}
+
+.works-more {
+	display: flex;
+	justify-content: center;
+	margin-top: var(--wp--preset--spacing--50);
+}
+
+.works-more[hidden] {
+	display: none;
+}
+
+@media (max-width: 781px) {
+	.face-here__desk > .face-here__sticker.is-first {
+		left: 0;
+	}
+
+	.face-here__desk > .face-here__sticker.is-second {
+		right: 0;
+	}
+}
+
+@media (max-width: 600px) {
+	.style-compare.wp-block-columns {
+		flex-wrap: wrap !important;
+	}
+
+	.style-compare.wp-block-columns > .wp-block-column {
+		flex-basis: 100% !important;
+	}
+}
+
+
+/* ====================================================================== 0.9.0: client round 3 */
+
+/* Header: bigger logo, taller bar. */
+.site-header .wp-block-site-logo img,
+.site-header .site-logo-img {
+	height: clamp(58px, 7vw, 92px);
+	max-height: 92px;
+	width: auto;
+}
+
+/* Footer: the yellow text logo in place of the handwritten name. The words stay for screen readers. */
+.site-footer .footer-logo {
+	width: clamp(138px, 14vw, 204px);
+	aspect-ratio: 600 / 364;
+	margin-top: 0;
+	margin-bottom: 0;
+	margin-left: max(0px, calc((100% - 1240px) / 2)) !important;
+	background: url("../images/brand/drawn-by-leon-logo-yellow.webp") no-repeat left center / contain;
+	color: transparent;
+	font-size: 0;
+	line-height: 0;
+	user-select: none;
+}
+
+/* Boxed icon grids (home services strip, event types, portrait occasions):
+   a rounded navy outline around the whole box with thin rules between the cells.
+   The box keeps to the content width, so the lines never run edge to edge. */
+.tag-strip {
+	border-block: 0;
+	padding-block: var(--wp--preset--spacing--50) var(--wp--preset--spacing--30);
+}
+
+.tag-strip__row,
+.type-grid {
+	display: grid;
+	gap: 2px;
+	background: var(--wp--preset--color--navy);
+	border: 2px solid var(--wp--preset--color--navy);
+	border-radius: 24px;
+	overflow: hidden;
+}
+
+.type-grid {
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.type-grid.is-five {
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.type-grid > .type-card,
+.type-grid > .type-card + .type-card {
+	margin: 0 !important;
+	padding: var(--wp--preset--spacing--40) var(--wp--preset--spacing--30);
+	border: 0;
+	background: var(--wp--preset--color--white);
+}
+
+.type-grid > .type-card:nth-child(even) {
+	background: var(--wp--preset--color--yellow-soft);
+}
+
+@media (max-width: 1023px) {
+	.type-grid,
+	.type-grid.is-five {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.type-grid > .type-card:last-child:nth-child(odd) {
+		grid-column: 1 / -1;
+	}
+}
+
+@media (max-width: 560px) {
+	.type-grid,
+	.type-grid.is-five {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.type-grid > .type-card:nth-child(even) {
+		background: var(--wp--preset--color--white);
+	}
+
+	.type-grid > .type-card:nth-child(odd) {
+		background: var(--wp--preset--color--yellow-soft);
+	}
+}
+
+@media (max-width: 781px) {
+	.tag-strip__row {
+		border-radius: 20px;
+	}
+}
+
+/* Live caricatures: real event photos above the page title. */
+.event-snaps {
+	display: grid;
+	grid-template-columns: 1fr 1.7fr 1fr;
+	gap: clamp(0.75rem, 2vw, 1.75rem);
+	align-items: center;
+	margin-bottom: var(--wp--preset--spacing--50) !important;
+}
+
+.event-snaps__photo {
+	margin: 0 !important;
+	padding: clamp(5px, 0.8vw, 10px);
+	background: var(--wp--preset--color--white);
+	border-radius: 6px;
+	box-shadow: 0 16px 30px -18px rgba(14, 21, 38, 0.55);
+	transform: rotate(-2deg);
+}
+
+.event-snaps__photo:nth-child(2) {
+	transform: rotate(1deg) translateY(-6px);
+}
+
+.event-snaps__photo:nth-child(3) {
+	transform: rotate(2.5deg);
+}
+
+.event-snaps__photo:nth-child(3) img {
+	object-position: 50% 100%;
+}
+
+.event-snaps__photo img {
+	display: block;
+	width: 100%;
+	height: clamp(150px, 24vw, 340px);
+	object-fit: cover;
+	border-radius: 3px;
+}
+
+@media (max-width: 600px) {
+	.event-snaps {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	.event-snaps__photo:nth-child(2) {
+		grid-column: 1 / -1;
+		grid-row: 1;
+	}
+
+	.event-snaps__photo img {
+		height: 170px;
+	}
+
+	.event-snaps__photo:nth-child(2) img {
+		height: 200px;
+	}
+}
+
+/* Black & white or colour: just the big numbers under the drawings. */
+.style-compare .big-stat {
+	text-align: center;
+	font-size: clamp(3rem, 7vw, 5rem);
+}
+
+/* How to book / How to order: number on the left, Leon's icon on the right. */
+.step-head {
+	margin-bottom: var(--wp--preset--spacing--20) !important;
+}
+
+.step-icon {
+	margin: 0 !important;
+}
+
+.step-icon img {
+	width: clamp(64px, 6vw, 84px) !important;
+	height: 72px;
+	object-fit: contain;
+	object-position: right bottom;
+	transition: transform 0.25s ease;
+}
+
+.wp-block-column:hover .step-icon img {
+	transform: rotate(-8deg) scale(1.06);
+}
+
+/* FAQ heading with Leon's question-bubble icon. */
+.faq-head {
+	gap: var(--wp--preset--spacing--30) !important;
+}
+
+.faq-head h2 {
+	margin: 0 !important;
+}
+
+.faq-icon {
+	flex: 0 0 auto;
+	margin: 0 !important;
+	transform: rotate(6deg);
+}
+
+.faq-icon img {
+	width: clamp(72px, 9vw, 120px) !important;
+	height: auto;
+}
+
+/* FAQ: a yellow-and-navy triangle before every question; it turns down when the answer is open. */
+.wp-block-details.faq-item summary {
+	display: flex;
+	align-items: center;
+	gap: 0.6em;
+	list-style: none;
+}
+
+.wp-block-details.faq-item summary::-webkit-details-marker {
+	display: none;
+}
+
+.wp-block-details.faq-item summary::marker {
+	content: "";
+}
+
+.wp-block-details.faq-item summary::before {
+	content: "";
+	flex: 0 0 auto;
+	width: 0.55em;
+	height: 0.66em;
+	background: var(--wp--preset--color--navy-soft);
+	-webkit-mask: url("../images/doodles/triangle.svg") no-repeat center / contain;
+	mask: url("../images/doodles/triangle.svg") no-repeat center / contain;
+	transition: transform 0.2s ease;
+}
+
+.wp-block-details.faq-item[open] summary::before {
+	transform: rotate(90deg);
+}
+
+/* Pages that end in a yellow call-to-action band (group class "cta-band"):
+   the yellow runs on under the footer wave, so no white strip shows between them. */
+.cta-band {
+	margin-bottom: 0 !important;
+	padding-bottom: calc(var(--wp--preset--spacing--60) + clamp(40px, 6vw, 80px)) !important;
+}
+
+.wp-site-blocks:has(.cta-band:last-child) > footer,
+.wp-site-blocks:has(.cta-band:last-child) > main {
+	margin-block: 0 !important;
+	padding-bottom: 0 !important;
+}
+
+.wp-site-blocks:has(.cta-band:last-child) .wp-block-post-content {
+	margin-bottom: 0 !important;
+	padding-bottom: 0 !important;
+}
+
+/* What's in my bag: cut-out icons sit a little larger. */
+.reveal-row__icon img {
+	height: clamp(52px, 7vw, 96px);
+	object-fit: contain;
+}
+
+.tag-strip__icon img {
+	height: clamp(48px, 5vw, 72px) !important;
+	object-fit: contain;
+}
+
+.guest-calc__switch {
+	max-width: 100%;
+}
+
+.guest-calc__switch button {
+	white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+	.guest-calc__switch button {
+		padding: 0.55em 0.8em;
+		font-size: 0.72rem;
+		letter-spacing: 0.02em;
+	}
+}
+
+
+/* ====================================================================== 0.10.0: Figma v1.02 */
+
+/* Black & white or colour: each style is one paper card, drawing on top, "12–15 people per hour" under it. */
+.wp-block-columns.style-compare {
+	max-width: 1000px;
+	margin-inline: auto !important;
+}
+
+.style-compare > .wp-block-column {
+	padding: clamp(1rem, 2.4vw, 1.75rem);
+	background: var(--wp--preset--color--paper);
+	border-radius: 6px;
+	box-shadow: 0 22px 34px -22px rgba(14, 21, 38, 0.5), 0 0 0 1px rgba(14, 21, 38, 0.04);
+}
+
+.style-compare .wp-block-image.style-compare__art,
+.style-compare .wp-block-image.style-compare__art:first-child,
+.style-compare .wp-block-column:last-child .wp-block-image.style-compare__art {
+	height: clamp(260px, 34vw, 470px);
+	margin: 0 0 var(--wp--preset--spacing--30);
+	padding: 0;
+	background: none;
+	box-shadow: none;
+	transform: none;
+}
+
+.style-compare .big-stat {
+	margin: 0;
+	text-align: center;
+	font-size: clamp(2.4rem, 4.6vw, 3.6rem);
+	line-height: 1;
+}
+
+.style-compare .big-stat span {
+	font-family: var(--wp--preset--font-family--display);
+	font-size: 0.5em;
+	font-weight: 400;
+	letter-spacing: 0;
+}
+
+/* About: photo of Leon at work in place of the self-portrait. */
+.about-photo {
+	max-width: 420px;
+	margin: 0 0 0 auto !important;
+}
+
+.about-photo img {
+	display: block;
+	width: 100%;
+	aspect-ratio: 420 / 573;
+	object-fit: cover;
+	border-radius: 6px;
+	box-shadow: 0 24px 40px -24px rgba(14, 21, 38, 0.55);
+}
+
+@media (max-width: 781px) {
+	.about-photo {
+		margin: 0 auto !important;
+	}
+}
+
+/* Service details tables: no rule above the first row (Figma v1.02). */
+.details-table table {
+	border-top: 0;
+}
+
+/* Home hero: the customer photos scroll slowly sideways behind the title (photos/hero-reel.webp is
+   one seamless strip; it is drawn twice side by side and moved by exactly one strip). */
+.photo-hero.wp-block-cover::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 0;
+	height: 100%;
+	aspect-ratio: 11440 / 1000;
+	background: url("../images/photos/hero-reel.webp") repeat-x left center / auto 100%;
+	animation: ap-hero-reel 110s linear infinite;
+}
+
+.photo-hero .wp-block-cover__image-background {
+	visibility: hidden;
+}
+
+@keyframes ap-hero-reel {
+	to { transform: translateX(-50%); }
+}
+
+/* Your face here (Figma v1.02): the sheet sits straight and Leon's own marker lies on its corner. */
+.is-sheet .dr-trigger::after {
+	right: 3%;
+	bottom: 9%;
+	width: 17%;
+	background-image: url("../images/doodles/icons/leon-marker.webp");
+	transform: rotate(180deg);
+	animation-name: dr-marker-wiggle;
+}
+
+@keyframes dr-marker-wiggle {
+	0%, 70%, 100% { transform: rotate(180deg); }
+	78% { transform: rotate(168deg) translateY(4px); }
+	86% { transform: rotate(188deg); }
+}
+
+/* Recent drawings: three fixed spots, the drawings in them take turns (assets/js/site.js). */
+.wp-block-gallery.is-rotator > .wp-block-image:nth-child(n + 4) {
+	display: none !important;
+}
+
+.wp-block-gallery.is-rotator > .wp-block-image {
+	position: relative;
+}
+
+.wp-block-gallery.is-rotator .wp-block-image img {
+	transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.7s ease;
+}
+
+.wp-block-gallery.is-rotator .wp-block-image img.rot-layer {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.wp-block-gallery.is-rotator .wp-block-image img.rot-enter {
+	opacity: 0;
+	transform: translateX(32px);
+}
+
+.wp-block-gallery.is-rotator .wp-block-image img.rot-out {
+	opacity: 0;
+	transform: translateX(-32px);
+}
+
+@media (max-width: 600px) {
+	.wp-block-gallery.is-rotator.has-nested-images > figure.wp-block-image {
+		width: 100% !important;
+		max-width: 340px;
+		margin-inline: auto !important;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.photo-hero.wp-block-cover::before {
+		animation: none;
+	}
+}
+
+/* Portfolio (Figma v1.02): four big tiles a row, two on phones; whole drawings, never cropped. */
+.works-grid {
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 20px !important;
+}
+
+.works-grid .wp-block-gallery.is-style-masonry.has-nested-images figure.wp-block-image {
+	aspect-ratio: 295 / 320;
+}
+
+.works-grid .wp-block-gallery.is-style-masonry.has-nested-images figure.wp-block-image img {
+	padding: 0;
+}
+
+@media (max-width: 781px) {
+	.works-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 12px !important;
+	}
+}
+
+.is-sheet .dr-trigger__card {
+	transform: none;
+}
+
+/* Style cards: bigger drawings, number and "people per hour" on one line. */
+.wp-block-columns.style-compare {
+	max-width: 1080px;
+	gap: clamp(1.5rem, 5vw, 4.5rem) !important;
+}
+
+.style-compare .wp-block-image.style-compare__art,
+.style-compare .wp-block-image.style-compare__art:first-child,
+.style-compare .wp-block-column:last-child .wp-block-image.style-compare__art {
+	height: clamp(300px, 40vw, 560px);
+}
+
+.style-compare .big-stat {
+	white-space: nowrap;
+	font-size: clamp(2.2rem, 4.4vw, 4rem);
+}
+
+.style-compare .big-stat span {
+	display: inline;
+}
+
+.style-compare > .wp-block-column {
+	background: color-mix(in srgb, var(--wp--preset--color--yellow-soft) 35%, var(--wp--preset--color--white));
+}
+
+.style-compare .wp-block-image.style-compare__art,
+.style-compare .wp-block-image.style-compare__art:first-child,
+.style-compare .wp-block-column:last-child .wp-block-image.style-compare__art {
+	height: clamp(300px, 42vw, 600px);
+}
+
+/* WordPress blurs the bottom of gallery images that have captions; the captions here only show on hover. */
+.wp-block-gallery.is-style-masonry.has-nested-images figure.wp-block-image:has(figcaption)::before {
+	display: none;
+}
+
+/* Phones: no "tap the card" hint under the reviews (Figma v1.02). */
+.card-stack.is-ready::after {
+	content: none !important;
+}
+
+/* ====================================================================== 0.11.0: Evans's review notes */
+
+/* Buttons: a clear lift and a hard shadow on hover, the "+" spins round. */
+.wp-block-button__link.wp-element-button {
+	transition: background-color 0.15s ease, color 0.15s ease, transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.wp-block-button__link.wp-element-button:hover,
+.wp-block-button__link.wp-element-button:focus-visible {
+	transform: translate(-2px, -4px);
+	box-shadow: 4px 6px 0 0 var(--wp--preset--color--navy);
+}
+
+.wp-block-button__link.wp-element-button:active {
+	transform: translate(0, 0);
+	box-shadow: 1px 2px 0 0 var(--wp--preset--color--navy);
+}
+
+.is-style-panel .wp-block-button__link.wp-element-button:hover,
+.has-navy-background-color .wp-block-button__link.wp-element-button:hover,
+.is-style-panel .wp-block-button__link.wp-element-button:focus-visible,
+.has-navy-background-color .wp-block-button__link.wp-element-button:focus-visible {
+	box-shadow: 4px 6px 0 0 var(--wp--preset--color--yellow);
+}
+
+.wp-block-button__link.wp-element-button:hover::after {
+	transform: rotate(180deg) scale(1.15);
+}
+
+/* Filter pills and the contact cards keep their own hover. */
+.work-filter .wp-block-button__link.wp-element-button:hover,
+.form-switch .wp-block-button__link.wp-element-button:hover {
+	box-shadow: none;
+}
+
+/* The doodle note sits straight. */
+.hand-note.doodle-drop__note {
+	transform: none;
+}
+
+/* Round logo: spins slowly on the home hero and as the menu's close button. */
+.photo-hero .wp-block-cover__inner-container > .photo-hero__badge {
+	transform: none;
+}
+
+.photo-hero__badge img {
+	border-radius: 50%;
+	animation: ap-spin 18s linear infinite;
+}
+
+.photo-hero .wp-block-cover__inner-container > .photo-hero__badge:hover {
+	transform: scale(1.05);
+}
+
+.photo-hero__badge:hover img {
+	animation-play-state: paused;
+}
+
+.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-close {
+	background-image: url("../images/brand/drawn-by-leon-round.webp");
+	animation-duration: 18s;
+}
+
+/* Occasions grid at two columns: the odd card out on the last row is centred. */
+@media (min-width: 561px) and (max-width: 1023px) {
+	.type-grid > .type-card:last-child:nth-child(odd) {
+		text-align: center;
+	}
+
+	.type-grid > .type-card:last-child:nth-child(odd) .type-card__icon {
+		margin-inline: auto !important;
+	}
+
+	.type-grid > .type-card:last-child:nth-child(odd) .type-card__icon img {
+		object-position: center bottom;
+	}
+}
+
+/* Portrait options: the white frame hugs the drawing. */
+.option-cards .option-card__art {
+	height: auto;
+	padding: 10px;
+}
+
+.option-cards .option-card__art img {
+	height: auto;
+	aspect-ratio: 4 / 3;
+	object-fit: cover;
+	border-radius: 10px;
+}
+
+/* Leon has drawn at: all cards level; a card lifts when you hover it. */
+.shows-grid > .show-item {
+	margin-block-start: 0 !important;
+	transition: transform 0.25s ease;
+}
+
+.shows-grid > .show-item:hover {
+	transform: translateY(-10px);
+}
+
+.shows-grid > .show-item:hover .show-item__photo {
+	box-shadow: 0 18px 28px -16px rgba(0, 0, 0, 0.5);
+}
+
+/* Sketchpad: Leon's own marker is the pen (tip at the pointer). */
+.dr-desk__pen::before {
+	left: -10px;
+	bottom: -10px;
+	width: 120px;
+	height: 120px;
+	background: url("../images/doodles/icons/leon-marker.webp") no-repeat center / contain;
+	transform: rotate(180deg);
+	transform-origin: 50% 50%;
+}
+
+@keyframes dr-wiggle {
+	0%, 100% { transform: rotate(180deg); }
+	50% { transform: rotate(170deg) translate(4px, 6px); }
+}
+
+/* Taped photos in a column never grow past a sensible size (half-width desktop windows). */
+.wp-block-column > .wp-block-image.is-style-taped {
+	max-width: 420px;
+	margin-inline: auto;
+}
+
+/* Portfolio: wide drawings get wide tiles (a page is all wide or all upright). */
+.works-grid .wp-block-gallery.is-style-masonry.has-nested-images figure.wp-block-image.is-landscape {
+	aspect-ratio: 4 / 3;
+}
+
+/* Hide the "Close" word on the logo close button (screen readers still get it). */
+.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-close {
+	color: transparent !important;
+	font-size: 0 !important;
+	overflow: hidden;
+}
+
+@media (max-width: 781px) {
+	.option-cards .option-card__art {
+		max-width: 420px;
+	}
+}
+
+/* Hero buttons on narrow screens: as long as their words, not full width. */
+@media (max-width: 781px) {
+	.photo-hero .wp-block-buttons .wp-block-button,
+	.photo-hero .wp-block-buttons .wp-block-button__link {
+		width: auto;
+	}
+}
+
+/* Portrait options: the framed drawing sits in the middle of its column. */
+.option-cards .option-card__art {
+	margin-inline: auto !important;
+}
+
+/* Postcard greeting sits straight. */
+.hand-note.postcard__dear {
+	transform: none;
+}

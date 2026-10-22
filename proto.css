@@ -1,0 +1,540 @@
+/* Drawn by Leon, homepage v2 prototype (Leon's notes, 22 Oct).
+   Everything here targets core block markup, so it can be pasted into theme.css as is.
+   Layout: wide screens get the menu laid out in the header with a Book Leon dropdown;
+   phones and tablets keep the full-screen hamburger menu. Home: hero, strip, two ways,
+   about, quick facts, recent drawings, kind words, colour-in game. */
+:root {
+	--p-navy: var(--wp--preset--color--navy, #12418A);
+	--p-navy-soft: var(--wp--preset--color--navy-soft, #0057B8);
+	--p-yellow: var(--wp--preset--color--yellow, #FFC72C);
+	--p-yellow-soft: var(--wp--preset--color--yellow-soft, #FFF4D1);
+	--p-white: var(--wp--preset--color--white, #FFFFFF);
+	--p-display: var(--wp--preset--font-family--display, Anton, Impact, "Arial Narrow", sans-serif);
+	--p-body: var(--wp--preset--font-family--body, Archivo, system-ui, sans-serif);
+}
+
+/* ====================================================================== Header */
+
+/* Tucks away while scrolling down, comes back when scrolling up (assets/js: header). */
+.wp-site-blocks > header.wp-block-template-part {
+	transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.wp-site-blocks > header.wp-block-template-part.is-tucked {
+	transform: translateY(calc(-100% - 40px));
+}
+
+/* "Home" and the socials only live in the full-screen menu. */
+.site-header .nav-home {
+	display: none !important;
+}
+
+.wp-block-navigation__responsive-container.is-menu-open .nav-home {
+	display: flex !important;
+}
+
+/* In the full-screen menu, Book Leon's three choices sit under it in smaller type. */
+.wp-block-navigation__responsive-container.is-menu-open .nav-book .wp-block-navigation__submenu-container {
+	gap: 0.35rem !important;
+	padding: 0.6rem 0 0.4rem 0.3rem !important;
+}
+
+.wp-block-navigation__responsive-container.is-menu-open .nav-book .wp-block-navigation__submenu-container .wp-block-navigation-item__content {
+	font-family: var(--p-body);
+	font-size: clamp(1.15rem, 4.6vw, 1.7rem);
+	font-weight: 700;
+	line-height: 1.25;
+	text-transform: none;
+	color: var(--p-yellow) !important;
+}
+
+.wp-block-navigation__responsive-container.is-menu-open .nav-book .wp-block-navigation__submenu-container .wp-block-navigation-item__content:hover {
+	color: var(--p-white) !important;
+	transform: none;
+}
+
+/* Wide screens: every page one click away, no hamburger. */
+@media (min-width: 961px) {
+	.site-header .header-cta,
+	.site-header .wp-block-navigation__responsive-container-open {
+		display: none !important;
+	}
+
+	.site-header .wp-block-navigation__responsive-container:not(.is-menu-open) {
+		display: block !important;
+		position: static !important;
+		padding: 0 !important;
+		background: none !important;
+	}
+
+	.site-header .wp-block-navigation__responsive-container:not(.is-menu-open) :is(.wp-block-navigation__responsive-close, .wp-block-navigation__responsive-dialog, .wp-block-navigation__responsive-container-content) {
+		display: block;
+		padding: 0 !important;
+	}
+
+	.site-header .wp-block-navigation__responsive-container:not(.is-menu-open) .wp-block-navigation__responsive-container-close,
+	.site-header .wp-block-navigation__responsive-container:not(.is-menu-open) li:has(> .menu-social) {
+		display: none !important;
+	}
+
+	.site-header .wp-block-navigation__responsive-container:not(.is-menu-open) .wp-block-navigation__container {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: nowrap;
+		align-items: center;
+		gap: clamp(0.75rem, 1.8vw, 2rem) !important;
+	}
+
+	.site-header .wp-block-navigation-link > .wp-block-navigation-item__content {
+		padding: 0.4em 0.1em !important;
+		color: var(--p-navy) !important;
+		font-family: var(--p-body);
+		font-size: 1rem;
+		font-weight: 700;
+		white-space: nowrap;
+		background: linear-gradient(var(--p-yellow), var(--p-yellow)) left 85% / 0 0.45em no-repeat;
+		transition: background-size 0.25s ease;
+	}
+
+	.site-header .wp-block-navigation-link > .wp-block-navigation-item__content:is(:hover, :focus-visible),
+	.site-header .wp-block-navigation-link.current-menu-item > .wp-block-navigation-item__content {
+		background-size: 100% 0.45em;
+	}
+
+	/* Book Leon: yellow pill, its three choices drop down on hover or keyboard focus. */
+	.site-header .nav-book {
+		gap: 0.3em;
+		padding: 0.6em 1.1em 0.6em 1.3em;
+		border: 2px solid var(--p-navy);
+		border-radius: 999px;
+		background: var(--p-yellow) !important;
+		color: var(--p-navy);
+		font-weight: 700;
+		transition: transform 0.2s ease, box-shadow 0.2s ease;
+	}
+
+	.site-header .nav-book:is(:hover, :focus-within) {
+		transform: translate(-2px, -2px);
+		box-shadow: 4px 4px 0 var(--p-navy);
+	}
+
+	.site-header .nav-book > .wp-block-navigation-item__content {
+		padding: 0 !important;
+		color: var(--p-navy) !important;
+		font-family: var(--p-body);
+		font-size: 1rem;
+		font-weight: 700;
+		white-space: nowrap;
+	}
+
+	.site-header .nav-book > .wp-block-navigation__submenu-icon {
+		width: 0.75em;
+		height: 0.75em;
+		transition: transform 0.25s ease;
+	}
+
+	.site-header .nav-book:is(:hover, :focus-within) > .wp-block-navigation__submenu-icon {
+		transform: rotate(180deg);
+	}
+
+	/* An invisible bridge keeps the menu open while the pointer crosses the gap. */
+	.site-header .nav-book::after {
+		content: "";
+		position: absolute;
+		top: 100%;
+		left: 0;
+		right: 0;
+		height: 14px;
+	}
+
+	.site-header .nav-book > .wp-block-navigation__submenu-container {
+		top: calc(100% + 12px) !important;
+		right: -4px !important;
+		left: auto !important;
+		min-width: 250px !important;
+		padding: 8px !important;
+		border: 2px solid var(--p-navy) !important;
+		border-radius: 18px;
+		background: var(--p-white) !important;
+		box-shadow: 6px 6px 0 var(--p-navy);
+	}
+
+	.site-header .nav-book:focus-within > .wp-block-navigation__submenu-container {
+		height: auto;
+		min-width: 250px;
+		opacity: 1;
+		overflow: visible;
+		visibility: visible;
+		width: auto;
+	}
+
+	.site-header .nav-book .wp-block-navigation__submenu-container .wp-block-navigation-item__content {
+		padding: 0.7em 0.9em !important;
+		border-radius: 12px;
+		color: var(--p-navy) !important;
+		font-family: var(--p-body);
+		font-size: 1rem;
+		font-weight: 700;
+		white-space: nowrap;
+	}
+
+	.site-header .nav-book .wp-block-navigation__submenu-container .wp-block-navigation-item__content:is(:hover, :focus-visible) {
+		background: var(--p-yellow-soft);
+	}
+}
+
+/* ====================================================================== Hero: no buttons, the brand line sits straight */
+
+.photo-hero .wp-block-buttons {
+	display: none !important;
+}
+
+.photo-hero .photo-hero__tagline {
+	display: flex;
+	align-items: center;
+	gap: 0.45em;
+	margin: 0.35em 0 0.2em !important;
+	font-family: var(--p-display);
+	font-size: clamp(1.3rem, 2.5vw, 2.1rem);
+	line-height: 1;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.photo-hero .photo-hero__tagline::before {
+	content: "";
+	flex: 0 0 auto;
+	width: 1.05em;
+	height: 1.05em;
+	background: url("wp-content/themes/artist-portfolio/assets/images/doodles/star.svg") no-repeat center / contain;
+}
+
+/* ====================================================================== Two ways: two big colour cards, side by side */
+
+.two-ways__grid {
+	position: relative;
+	gap: clamp(1rem, 2.5vw, 2rem) !important;
+	margin-top: var(--wp--preset--spacing--50) !important;
+	align-items: stretch !important;
+}
+
+.two-ways__card {
+	display: flex;
+	flex-direction: column;
+	gap: 1.1rem;
+	padding: clamp(1.75rem, 3.5vw, 3rem) !important;
+	border-radius: 32px;
+	overflow: hidden;
+	transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.two-ways__card > * {
+	margin: 0 !important;
+}
+
+.two-ways__card:hover {
+	transform: translateY(-6px);
+}
+
+/* Artwork: the live drawing stands as a cut-out, the photo portrait sits in a white mount. */
+.two-ways__art {
+	display: flex;
+	justify-content: center;
+	align-items: flex-end;
+	height: clamp(220px, 24vw, 320px);
+	margin-bottom: 0.4rem !important;
+}
+
+.two-ways__art img {
+	height: 100%;
+	width: auto;
+	max-width: 100%;
+	object-fit: contain;
+	transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.two-ways__art.is-cutout img {
+	filter: drop-shadow(0 12px 18px rgba(18, 65, 138, 0.25));
+}
+
+.two-ways__art.is-framed img {
+	padding: 10px;
+	background: var(--p-white);
+	box-shadow: 0 16px 30px rgba(0, 0, 0, 0.3);
+}
+
+.two-ways__card:hover .two-ways__art img {
+	transform: scale(1.04);
+}
+
+.two-ways__tag {
+	align-self: flex-start;
+	padding: 0.45em 1em;
+	border-radius: 999px;
+	font-family: var(--p-body);
+	font-size: 0.9rem;
+	font-weight: 700;
+}
+
+.two-ways__card.has-yellow-background-color .two-ways__tag {
+	background: var(--p-navy);
+	color: var(--p-white);
+}
+
+.two-ways__card.has-navy-background-color .two-ways__tag {
+	background: var(--p-yellow);
+	color: var(--p-navy);
+}
+
+.two-ways__title {
+	font-family: var(--p-display);
+	font-size: clamp(2.6rem, 5vw, 4.4rem) !important;
+	font-weight: 400;
+	line-height: 0.92;
+	text-transform: uppercase;
+	color: inherit !important;
+}
+
+.two-ways__text {
+	max-width: 44ch;
+	font-size: 1.12rem;
+	line-height: 1.55;
+}
+
+/* Quick facts as soft pills: Leon edits them as a plain list. */
+.two-ways__chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	padding: 0 !important;
+	list-style: none;
+}
+
+.two-ways__chips li {
+	padding: 0.5em 0.95em;
+	border-radius: 999px;
+	font-size: 0.95rem;
+	font-weight: 600;
+	line-height: 1.2;
+}
+
+.two-ways__card.has-yellow-background-color .two-ways__chips li {
+	background: rgba(255, 255, 255, 0.7);
+}
+
+.two-ways__card.has-navy-background-color .two-ways__chips li {
+	background: rgba(255, 255, 255, 0.14);
+}
+
+.two-ways__card .wp-block-buttons {
+	margin-top: auto !important;
+	padding-top: 0.5rem;
+}
+
+/* The round "or" sticker between the cards (wide screens only). */
+@media (min-width: 782px) {
+	.two-ways__grid::after {
+		content: "or";
+		position: absolute;
+		top: 34%;
+		left: 50%;
+		z-index: 2;
+		display: grid;
+		place-items: center;
+		width: 78px;
+		height: 78px;
+		transform: translate(-50%, -50%);
+		border: 3px solid var(--p-navy);
+		border-radius: 50%;
+		background: var(--p-white);
+		color: var(--p-navy);
+		font-family: var(--p-display);
+		font-size: 2rem;
+		line-height: 1;
+		text-transform: uppercase;
+		pointer-events: none;
+	}
+}
+
+/* ====================================================================== Recent drawings: all three change together */
+
+.wp-block-gallery.is-rotator > .wp-block-image::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 3;
+	background: #fff;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.wp-block-gallery.is-rotator.is-flashing > .wp-block-image::after {
+	animation: p-flash 0.75s ease-out;
+}
+
+@keyframes p-flash {
+	0% { opacity: 0; }
+	22% { opacity: 0.9; }
+	100% { opacity: 0; }
+}
+
+.wp-block-gallery.is-rotator .wp-block-image img.rot-enter {
+	opacity: 0;
+	transform: scale(0.94);
+}
+
+.wp-block-gallery.is-rotator .wp-block-image img.rot-out {
+	opacity: 0;
+	transform: scale(1.04);
+}
+
+/* ====================================================================== Your face here: hint and marker move with the sheet */
+
+.is-sheet .dr-trigger {
+	transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.is-sheet .dr-trigger:hover,
+.is-sheet .dr-trigger:focus-visible {
+	transform: rotate(2deg) translateY(-6px);
+}
+
+.is-sheet .dr-trigger:hover .dr-trigger__card,
+.is-sheet .dr-trigger:focus-visible .dr-trigger__card {
+	transform: none;
+}
+
+/* ====================================================================== Book Leon page: photo upload (Jetpack "File upload" field) */
+
+.form-switch {
+	flex-wrap: wrap;
+}
+
+.p-upload {
+	grid-column: 1 / -1;
+	display: grid;
+	gap: 0.4rem;
+}
+
+.postcard .wp-block-jetpack-contact-form label.p-upload__drop,
+.p-upload__drop {
+	display: grid;
+	justify-items: center;
+	gap: 0.3rem;
+	padding: 1.3rem 1rem;
+	border: 2px dashed var(--p-navy);
+	border-radius: 14px;
+	background: var(--p-yellow-soft);
+	color: var(--p-navy);
+	font-family: var(--p-body);
+	text-align: center;
+	text-transform: none;
+	letter-spacing: normal;
+	cursor: pointer;
+}
+
+.p-upload__drop:hover,
+.p-upload__drop.is-over {
+	background: color-mix(in srgb, var(--p-yellow) 45%, var(--p-white));
+}
+
+.p-upload input[type="file"]:focus-visible + .p-upload__list,
+.p-upload:focus-within .p-upload__drop {
+	outline: 3px solid var(--p-navy-soft);
+	outline-offset: 3px;
+}
+
+.p-upload__drop img {
+	width: 46px;
+	height: 46px;
+	object-fit: contain;
+}
+
+.p-upload__drop strong {
+	font-size: 1rem;
+}
+
+.p-upload__drop small {
+	font-size: 0.82rem;
+	opacity: 0.8;
+}
+
+.p-upload input[type="file"] {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	opacity: 0;
+}
+
+.p-upload__list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.4rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	font-size: 0.85rem;
+}
+
+.p-upload__list li {
+	padding: 0.25em 0.7em;
+	border-radius: 999px;
+	background: var(--p-navy);
+	color: var(--p-white);
+}
+
+.p-upload__warn {
+	margin: 0;
+	color: var(--wp--preset--color--red, #CA1C1C);
+	font-size: 0.85rem;
+	font-weight: 600;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.two-ways__card,
+	.two-ways__art img,
+	.is-sheet .dr-trigger,
+	.site-header .nav-book,
+	.wp-site-blocks > header.wp-block-template-part {
+		transition: none;
+	}
+}
+
+/* ====================================================================== Same as live theme 0.12: small text in sentence case */
+
+.site-header .wp-block-navigation__responsive-container-open,
+.site-header .wp-block-navigation-item__content,
+.menu-social .wp-block-social-link-label,
+.wp-block-quote.is-testimonial cite,
+.eyebrow,
+.show-list li,
+.dr-btn,
+.guest-calc__switch button,
+.postcard .wp-block-jetpack-contact-form label,
+.postcard .wp-block-jetpack-contact-form .grunion-field-label,
+.postmark,
+.pill-list li,
+.stack-card__name,
+.work-filter .wp-block-button__link,
+.wp-block-button__link.wp-element-button {
+	text-transform: none !important;
+	letter-spacing: 0.01em !important;
+}
+
+.wp-block-button__link.wp-element-button,
+.eyebrow,
+.postcard .wp-block-jetpack-contact-form label,
+.postcard .wp-block-jetpack-contact-form .grunion-field-label {
+	font-size: max(0.9rem, 1em);
+}
+
+/* The big full-screen menu keeps its giant capitals. */
+.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__container > li > .wp-block-navigation-item__content {
+	text-transform: uppercase !important;
+	letter-spacing: 0 !important;
+}
+
+.wp-block-navigation__responsive-container.is-menu-open .nav-book .wp-block-navigation__submenu-container {
+	align-items: flex-start !important;
+	align-self: flex-start;
+}
