@@ -95,18 +95,11 @@ TWO_WAYS = f'''<div class="wp-block-group alignfull two-ways has-global-padding 
 <div class="wp-block-column two-ways__card has-navy-color has-yellow-background-color has-text-color has-background is-layout-flow wp-block-column-is-layout-flow">
 <figure class="wp-block-image size-large two-ways__art is-cutout"><img decoding="async" src="{I}works/live-colour/live-colour-08.webp" alt="Colour caricature of a family of three, drawn live at an event"/></figure>
 
-<p class="two-ways__tag">At your event</p>
-
 <h3 class="wp-block-heading two-ways__title">Live at events</h3>
 
 <p class="two-ways__text">I draw your guests on the spot at weddings, parties, work and community events. They sit, laugh, watch it come together and take the original home.</p>
 
-<ul class="wp-block-list two-ways__chips">
-<li>A4 on paper</li>
-<li>Black &amp; white or colour</li>
-<li>12&#8211;15 guests an hour</li>
-<li>From 2 hours</li>
-</ul>
+<p class="two-ways__facts">A4 on paper &middot; Black &amp; white or colour &middot; From 2 hours</p>
 
 <div class="wp-block-buttons is-layout-flex wp-block-buttons-is-layout-flex">
 <div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="events.html">Explore more</a></div>
@@ -116,18 +109,11 @@ TWO_WAYS = f'''<div class="wp-block-group alignfull two-ways has-global-padding 
 <div class="wp-block-column two-ways__card has-white-color has-navy-background-color has-text-color has-background is-layout-flow wp-block-column-is-layout-flow">
 <figure class="wp-block-image size-large two-ways__art is-framed"><img decoding="async" src="{I}works/from-photos/from-photos-02.webp" alt="Colour caricature of a woman hugging her dog, drawn from a photo"/></figure>
 
-<p class="two-ways__tag">From your photo</p>
-
 <h3 class="wp-block-heading two-ways__title">Drawn from photos</h3>
 
 <p class="two-ways__text">Send me your favourite photos and I&#8217;ll turn them into a hand-drawn caricature. A personal gift for birthdays, weddings and anniversaries, or just for you.</p>
 
-<ul class="wp-block-list two-ways__chips">
-<li>A3 original or digital file</li>
-<li>Black &amp; white or colour</li>
-<li>Ready in about 5 business days</li>
-<li>Posted or emailed</li>
-</ul>
+<p class="two-ways__facts">A3 original or digital file &middot; Black &amp; white or colour &middot; Ready in about 5 business days</p>
 
 <div class="wp-block-buttons is-layout-flex wp-block-buttons-is-layout-flex">
 <div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="custom-portraits.html">Explore more</a></div>
@@ -163,7 +149,9 @@ def build_home():
     assert 'Live at your event</a>' not in h
 
     # Leon's order, nothing removed: hero, strip, two ways, about, quick facts, recent drawings, kind words, colour-in game.
-    order = [h, part(tag), TWO_WAYS, part(about), part(quick), part(recent), part(kind), part(face)]
+    q = part(quick).replace('wp-block-image size-large is-style-taped', 'wp-block-image size-large guest-photo', 1)
+    assert 'guest-photo' in q
+    order = [h, part(tag), TWO_WAYS, part(about), q, part(recent), part(kind), part(face)]
     s = s[:hero] + ''.join(order) + s[end:]
     return finish(s, 'index.html', 'Drawn by Leon Home v2')
 

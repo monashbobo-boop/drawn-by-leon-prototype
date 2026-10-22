@@ -190,23 +190,17 @@
 }
 
 .photo-hero .photo-hero__tagline {
-	display: flex;
-	align-items: center;
-	gap: 0.45em;
-	margin: 0.35em 0 0.2em !important;
+	display: inline-block;
+	margin: 0.35em 0 0.3em !important;
+	padding: 0.14em 0.45em 0.1em;
+	background: var(--p-yellow);
+	color: var(--p-navy) !important;
 	font-family: var(--p-display);
-	font-size: clamp(1.3rem, 2.5vw, 2.1rem);
+	font-size: clamp(1.5rem, 3vw, 2.5rem);
 	line-height: 1;
-	letter-spacing: 0.08em;
+	letter-spacing: 0.02em;
 	text-transform: uppercase;
-}
-
-.photo-hero .photo-hero__tagline::before {
-	content: "";
-	flex: 0 0 auto;
-	width: 1.05em;
-	height: 1.05em;
-	background: url("wp-content/themes/artist-portfolio/assets/images/doodles/star.svg") no-repeat center / contain;
+	box-shadow: 5px 5px 0 rgba(10, 30, 70, 0.35);
 }
 
 /* ====================================================================== Two ways: two big colour cards, side by side */
@@ -267,25 +261,6 @@
 	transform: scale(1.04);
 }
 
-.two-ways__tag {
-	align-self: flex-start;
-	padding: 0.45em 1em;
-	border-radius: 999px;
-	font-family: var(--p-body);
-	font-size: 0.9rem;
-	font-weight: 700;
-}
-
-.two-ways__card.has-yellow-background-color .two-ways__tag {
-	background: var(--p-navy);
-	color: var(--p-white);
-}
-
-.two-ways__card.has-navy-background-color .two-ways__tag {
-	background: var(--p-yellow);
-	color: var(--p-navy);
-}
-
 .two-ways__title {
 	font-family: var(--p-display);
 	font-size: clamp(2.6rem, 5vw, 4.4rem) !important;
@@ -301,29 +276,16 @@
 	line-height: 1.55;
 }
 
-/* Quick facts as soft pills: Leon edits them as a plain list. */
-.two-ways__chips {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.5rem;
-	padding: 0 !important;
-	list-style: none;
+/* The key facts as one bold line Leon edits like any paragraph. */
+.two-ways__facts {
+	max-width: 44ch;
+	font-size: 0.98rem;
+	font-weight: 700;
+	line-height: 1.5;
 }
 
-.two-ways__chips li {
-	padding: 0.5em 0.95em;
-	border-radius: 999px;
-	font-size: 0.95rem;
-	font-weight: 600;
-	line-height: 1.2;
-}
-
-.two-ways__card.has-yellow-background-color .two-ways__chips li {
-	background: rgba(255, 255, 255, 0.7);
-}
-
-.two-ways__card.has-navy-background-color .two-ways__chips li {
-	background: rgba(255, 255, 255, 0.14);
+.two-ways__card.has-navy-background-color .two-ways__facts {
+	color: var(--p-yellow);
 }
 
 .two-ways__card .wp-block-buttons {
@@ -537,4 +499,16 @@
 .wp-block-navigation__responsive-container.is-menu-open .nav-book .wp-block-navigation__submenu-container {
 	align-items: flex-start !important;
 	align-self: flex-start;
+}
+
+/* ====================================================================== Every guest goes home smiling: plain, straight photo */
+
+.wp-block-column > .wp-block-image.guest-photo {
+	max-width: 420px;
+	margin-inline: auto;
+}
+
+.wp-block-image.guest-photo img {
+	border-radius: 24px;
+	box-shadow: 0 18px 34px -18px rgba(14, 21, 38, 0.55);
 }
