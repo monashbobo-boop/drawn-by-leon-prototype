@@ -501,14 +501,8 @@
 	align-self: flex-start;
 }
 
-/* ====================================================================== Every guest goes home smiling: plain, straight photo */
+/* ====================================================================== Taped photos sit straight (white frame and tape stay) */
 
-.wp-block-column > .wp-block-image.guest-photo {
-	max-width: 420px;
-	margin-inline: auto;
-}
-
-.wp-block-image.guest-photo img {
-	border-radius: 24px;
-	box-shadow: 0 18px 34px -18px rgba(14, 21, 38, 0.55);
+.wp-block-image.is-style-taped {
+	transform: none;
 }

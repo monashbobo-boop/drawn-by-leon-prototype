@@ -149,9 +149,7 @@ def build_home():
     assert 'Live at your event</a>' not in h
 
     # Leon's order, nothing removed: hero, strip, two ways, about, quick facts, recent drawings, kind words, colour-in game.
-    q = part(quick).replace('wp-block-image size-large is-style-taped', 'wp-block-image size-large guest-photo', 1)
-    assert 'guest-photo' in q
-    order = [h, part(tag), TWO_WAYS, part(about), q, part(recent), part(kind), part(face)]
+    order = [h, part(tag), TWO_WAYS, part(about), part(quick), part(recent), part(kind), part(face)]
     s = s[:hero] + ''.join(order) + s[end:]
     return finish(s, 'index.html', 'Drawn by Leon Home v2')
 
