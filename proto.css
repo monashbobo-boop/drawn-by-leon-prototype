@@ -1,8 +1,8 @@
-/* Drawn by Leon, homepage v2 prototype (Leon's notes, 22 Oct).
+/* Drawn by Leon, homepage v2 prototype (Leon's notes 22 Oct, PDF round 27 Oct).
    Everything here targets core block markup, so it can be pasted into theme.css as is.
-   Layout: wide screens get the menu laid out in the header with a Book Leon dropdown;
-   phones and tablets keep the full-screen hamburger menu. Home: hero, strip, two ways,
-   about, quick facts, recent drawings, kind words, colour-in game. */
+   Layout: wide screens get the menu laid out in the header (boxed links, Book Leon dropdown);
+   phones and tablets keep the full-screen hamburger menu. Home: hero with face letters,
+   strip, two ways (full width), about, recent drawings, kind words, colour-in game. */
 :root {
 	--p-navy: var(--wp--preset--color--navy, #12418A);
 	--p-navy-soft: var(--wp--preset--color--navy-soft, #0057B8);
@@ -22,15 +22,6 @@
 
 .wp-site-blocks > header.wp-block-template-part.is-tucked {
 	transform: translateY(calc(-100% - 40px));
-}
-
-/* "Home" and the socials only live in the full-screen menu. */
-.site-header .nav-home {
-	display: none !important;
-}
-
-.wp-block-navigation__responsive-container.is-menu-open .nav-home {
-	display: flex !important;
 }
 
 /* In the full-screen menu, Book Leon's three choices sit under it in smaller type. */
@@ -54,7 +45,7 @@
 }
 
 /* Wide screens: every page one click away, no hamburger. */
-@media (min-width: 961px) {
+@media (min-width: 1100px) {
 	.site-header .header-cta,
 	.site-header .wp-block-navigation__responsive-container-open {
 		display: none !important;
@@ -82,23 +73,29 @@
 		flex-direction: row;
 		flex-wrap: nowrap;
 		align-items: center;
-		gap: clamp(0.75rem, 1.8vw, 2rem) !important;
+		gap: clamp(0.5rem, 1vw, 0.9rem) !important;
 	}
 
+	/* Boxed links: yellow on hover, navy for the page you are on (Book Leon keeps its pill). */
 	.site-header .wp-block-navigation-link > .wp-block-navigation-item__content {
-		padding: 0.4em 0.1em !important;
+		padding: 0.42em 0.85em !important;
+		border: 2px solid var(--p-navy);
+		border-radius: 6px;
 		color: var(--p-navy) !important;
 		font-family: var(--p-body);
-		font-size: 1rem;
+		font-size: 1.08rem;
 		font-weight: 700;
 		white-space: nowrap;
-		background: linear-gradient(var(--p-yellow), var(--p-yellow)) left 85% / 0 0.45em no-repeat;
-		transition: background-size 0.25s ease;
+		transition: background-color 0.2s ease, color 0.2s ease;
 	}
 
-	.site-header .wp-block-navigation-link > .wp-block-navigation-item__content:is(:hover, :focus-visible),
+	.site-header .wp-block-navigation-link > .wp-block-navigation-item__content:is(:hover, :focus-visible) {
+		background: var(--p-yellow);
+	}
+
 	.site-header .wp-block-navigation-link.current-menu-item > .wp-block-navigation-item__content {
-		background-size: 100% 0.45em;
+		background: var(--p-navy);
+		color: var(--p-white) !important;
 	}
 
 	/* Book Leon: yellow pill, its three choices drop down on hover or keyboard focus. */
@@ -183,87 +180,321 @@
 	}
 }
 
-/* ====================================================================== Hero: no buttons, the brand line sits straight */
+/* ====================================================================== Hero */
 
 .photo-hero .wp-block-buttons {
 	display: none !important;
 }
 
-.photo-hero .photo-hero__tagline {
-	display: inline-block;
-	margin: 0.35em 0 0.3em !important;
-	padding: 0.14em 0.45em 0.1em;
-	background: var(--p-yellow);
-	color: var(--p-navy) !important;
-	font-family: var(--p-display);
-	font-size: clamp(1.5rem, 3vw, 2.5rem);
-	line-height: 1;
-	letter-spacing: 0.02em;
-	text-transform: uppercase;
-	box-shadow: 5px 5px 0 rgba(10, 30, 70, 0.35);
+/* Photos crossfade instead of scrolling: a Gallery block with the "Crossfade" style
+   sits first in the cover; Leon swaps its pictures in the editor. */
+.photo-hero.wp-block-cover::before {
+	content: none !important;
 }
 
-/* ====================================================================== Two ways: two big colour cards, side by side */
+.photo-hero .wp-block-cover__inner-container > .wp-block-gallery.hero-fade {
+	position: absolute !important;
+	inset: 0;
+	width: auto !important;
+	max-width: none !important;
+	z-index: 0 !important;
+	margin: 0 !important;
+	aspect-ratio: auto;
+	border-radius: 0;
+}
 
-.two-ways__grid {
+.photo-hero.wp-block-cover {
+	isolation: isolate;
+}
+
+.photo-hero .wp-block-cover__background {
+	z-index: 1 !important;
+}
+
+.wp-block-gallery.hero-fade.has-nested-images figure.wp-block-image img {
+	object-position: 37% 30%;
+}
+
+/* Phones: the text sits on the lower half of the photo, so the shade runs top to bottom. */
+@media (max-width: 781px) {
+	.photo-hero .wp-block-cover__background {
+		background: linear-gradient(180deg, rgba(18, 65, 138, 0.1) 0%, rgba(18, 65, 138, 0.55) 38%, rgba(18, 65, 138, 0.94) 62%) !important;
+	}
+}
+
+/* "CARICATURES" in Leon's face letters: a Gallery block with the "Face letters" style.
+   Each letter is one picture, so a letter can be swapped without touching code. */
+.wp-block-gallery.is-style-face-letters {
+	--lh: min(96px, calc(7vw + 20px), calc((100vw - 2.5rem) / 7.2));
+	display: flex !important;
+	flex-wrap: nowrap !important;
+	align-items: flex-end;
+	gap: 0 !important;
+	width: max-content;
+	max-width: 100%;
+	margin: 0.25em 0 0.45em !important;
+}
+
+.wp-block-gallery.has-nested-images.is-style-face-letters figure.wp-block-image:not(#individual-image) {
+	flex: 0 0 auto !important;
+	width: auto !important;
+	margin: 0 calc(var(--lh) * -0.025) !important;
+	animation: fl-in 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.wp-block-gallery.has-nested-images.is-style-face-letters figure.wp-block-image img {
+	display: block;
+	width: auto !important;
+	height: var(--lh) !important;
+	max-width: none;
+	object-fit: contain;
+	transform-origin: 50% 100%;
+	filter: drop-shadow(0 4px 0 rgba(8, 28, 64, 0.35));
+	cursor: pointer;
+}
+
+/* Letters pop in one after another, then a few of them come alive now and then. */
+.is-style-face-letters figure:nth-child(2) { animation-delay: 0.06s !important; }
+.is-style-face-letters figure:nth-child(3) { animation-delay: 0.12s !important; }
+.is-style-face-letters figure:nth-child(4) { animation-delay: 0.18s !important; }
+.is-style-face-letters figure:nth-child(5) { animation-delay: 0.24s !important; }
+.is-style-face-letters figure:nth-child(6) { animation-delay: 0.30s !important; }
+.is-style-face-letters figure:nth-child(7) { animation-delay: 0.36s !important; }
+.is-style-face-letters figure:nth-child(8) { animation-delay: 0.42s !important; }
+.is-style-face-letters figure:nth-child(9) { animation-delay: 0.48s !important; }
+.is-style-face-letters figure:nth-child(10) { animation-delay: 0.54s !important; }
+.is-style-face-letters figure:nth-child(11) { animation-delay: 0.60s !important; }
+
+.is-style-face-letters figure:nth-child(1) img { animation: fl-look 7s ease-in-out 1.2s infinite; }
+.is-style-face-letters figure:nth-child(2) img { animation: fl-hop 6s ease-in-out 1.6s infinite; }
+.is-style-face-letters figure:nth-child(4) img { animation: fl-shy 8s ease-in-out 3.2s infinite; }
+.is-style-face-letters figure:nth-child(6) img { animation: fl-double 7.5s ease-in-out 2.4s infinite; }
+.is-style-face-letters figure:nth-child(8) img { animation: fl-hop 6s ease-in-out 4.4s infinite; }
+.is-style-face-letters figure:nth-child(9) img { animation: fl-laugh 6.5s ease-in-out 3.6s infinite; }
+.is-style-face-letters figure:nth-child(11) img { animation: fl-shake 7s ease-in-out 5.2s infinite; }
+
+/* Any letter jumps when you point at it. */
+.is-style-face-letters figure:hover img {
+	animation: fl-hop-now 0.75s ease-in-out !important;
+}
+
+@keyframes fl-in {
+	from { opacity: 0; transform: translateY(40%) scale(0.4); }
+	to   { opacity: 1; transform: none; }
+}
+
+/* Squash, stretch, hang, land, settle. */
+@keyframes fl-hop {
+	0%, 60%, 100% { transform: none; }
+	64% { transform: scale(1.12, 0.84); }
+	70% { transform: translateY(-34%) scale(0.9, 1.14); }
+	75% { transform: translateY(-44%) scale(0.98, 1.02); }
+	81% { transform: translateY(0) scale(1.16, 0.8); }
+	86% { transform: scale(0.95, 1.06); }
+	91% { transform: none; }
+}
+
+@keyframes fl-hop-now {
+	0%, 100% { transform: none; }
+	15% { transform: scale(1.12, 0.84); }
+	40% { transform: translateY(-40%) scale(0.92, 1.12); }
+	65% { transform: translateY(0) scale(1.14, 0.84); }
+	82% { transform: scale(0.96, 1.05); }
+}
+
+/* Glances left, then right. */
+@keyframes fl-look {
+	0%, 52%, 100% { transform: none; }
+	57%, 67% { transform: rotate(-10deg) translateX(-4%); }
+	72%, 84% { transform: rotate(9deg) translateX(4%); }
+	89% { transform: rotate(-2deg); }
+	93% { transform: none; }
+}
+
+/* A shy little sway. */
+@keyframes fl-shy {
+	0%, 66%, 100% { transform: none; }
+	71% { transform: rotate(-6deg) scale(0.97, 1.03); }
+	77% { transform: rotate(5deg); }
+	83% { transform: rotate(-4deg); }
+	89% { transform: rotate(2deg); }
+	94% { transform: none; }
+}
+
+/* Double take: a quick glance, then a startled pop. */
+@keyframes fl-double {
+	0%, 58%, 100% { transform: none; }
+	62% { transform: rotate(-7deg); }
+	66% { transform: none; }
+	71% { transform: translateY(-14%) scale(1.15); }
+	78% { transform: scale(0.95, 1.05); }
+	84% { transform: none; }
+}
+
+/* Laughing bounce. */
+@keyframes fl-laugh {
+	0%, 70%, 100% { transform: none; }
+	73% { transform: translateY(-9%) scale(1.03, 0.97); }
+	76% { transform: none; }
+	79% { transform: translateY(-9%) scale(1.03, 0.97); }
+	82% { transform: none; }
+	85% { transform: translateY(-6%); }
+	88% { transform: none; }
+}
+
+/* Nervous shiver. */
+@keyframes fl-shake {
+	0%, 78%, 100% { transform: none; }
+	80% { transform: rotate(-7deg); }
+	82% { transform: rotate(7deg); }
+	84% { transform: rotate(-6deg); }
+	86% { transform: rotate(5deg); }
+	88% { transform: rotate(-3deg); }
+	90% { transform: rotate(2deg); }
+	92% { transform: none; }
+}
+
+/* ====================================================================== Crossfade gallery (hero photos, live events photos) */
+
+.wp-block-gallery.is-style-crossfade {
+	display: block !important;
 	position: relative;
-	gap: clamp(1rem, 2.5vw, 2rem) !important;
-	margin-top: var(--wp--preset--spacing--50) !important;
+	overflow: hidden;
+}
+
+.wp-block-gallery.has-nested-images.is-style-crossfade figure.wp-block-image:not(#individual-image) {
+	position: absolute;
+	inset: 0;
+	width: 100% !important;
+	height: 100%;
+	margin: 0 !important;
+	opacity: 0;
+	transition: opacity 1.6s ease;
+}
+
+.wp-block-gallery.has-nested-images.is-style-crossfade figure.wp-block-image:first-child:not(#individual-image),
+.wp-block-gallery.has-nested-images.is-style-crossfade.is-ready figure.wp-block-image.is-current:not(#individual-image) {
+	opacity: 1;
+}
+
+.wp-block-gallery.has-nested-images.is-style-crossfade.is-ready figure.wp-block-image:first-child:not(.is-current):not(#individual-image) {
+	opacity: 0;
+}
+
+.wp-block-gallery.has-nested-images.is-style-crossfade figure.wp-block-image img {
+	width: 100% !important;
+	height: 100% !important;
+	object-fit: cover;
+}
+
+/* Captions as a small label in the corner. */
+.wp-block-gallery.has-nested-images.is-style-crossfade figure.wp-block-image figcaption.wp-element-caption {
+	position: absolute;
+	left: 14px;
+	bottom: 14px;
+	right: auto;
+	top: auto;
+	width: auto;
+	max-height: none;
+	margin: 0;
+	padding: 0.4em 0.9em;
+	border-radius: 999px;
+	background: var(--p-navy);
+	color: var(--p-white);
+	font-family: var(--p-body);
+	font-size: 0.9rem;
+	font-weight: 700;
+	text-shadow: none;
+}
+
+/* ====================================================================== Two ways: two colour cards, edge to edge */
+
+.two-ways__grid.alignfull {
+	position: relative;
+	gap: 14px !important;
+	margin-top: var(--wp--preset--spacing--40) !important;
 	align-items: stretch !important;
 }
 
 .two-ways__card {
 	display: flex;
 	flex-direction: column;
-	gap: 1.1rem;
-	padding: clamp(1.75rem, 3.5vw, 3rem) !important;
-	border-radius: 32px;
-	overflow: hidden;
-	transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+	gap: 0.9rem;
+	padding: clamp(1.25rem, 2.6vw, 2.25rem) !important;
+	border-radius: 28px;
 }
 
 .two-ways__card > * {
 	margin: 0 !important;
 }
 
-.two-ways__card:hover {
-	transform: translateY(-6px);
-}
-
-/* Artwork: the live drawing stands as a cut-out, the photo portrait sits in a white mount. */
-.two-ways__art {
-	display: flex;
-	justify-content: center;
-	align-items: flex-end;
-	height: clamp(220px, 24vw, 320px);
+/* The picture area: same height on both cards. */
+.two-ways__card .two-ways__media {
+	aspect-ratio: 16 / 11;
+	width: 100%;
 	margin-bottom: 0.4rem !important;
 }
 
-.two-ways__art img {
-	height: 100%;
-	width: auto;
-	max-width: 100%;
-	object-fit: contain;
-	transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+.two-ways__card .wp-block-gallery.is-style-crossfade.two-ways__media {
+	border-radius: 20px;
+	box-shadow: 0 16px 30px -18px rgba(18, 65, 138, 0.6);
 }
 
-.two-ways__art.is-cutout img {
-	filter: drop-shadow(0 12px 18px rgba(18, 65, 138, 0.25));
+/* Collage: five framed drawings, each grows a little under the pointer. */
+.wp-block-gallery.is-style-collage {
+	display: block !important;
+	position: relative;
 }
 
-.two-ways__art.is-framed img {
-	padding: 10px;
+.wp-block-gallery.has-nested-images.is-style-collage figure.wp-block-image:not(#individual-image) {
+	position: absolute;
+	margin: 0 !important;
+	padding: 6px;
 	background: var(--p-white);
-	box-shadow: 0 16px 30px rgba(0, 0, 0, 0.3);
+	box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.5);
+	transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease;
 }
 
-.two-ways__card:hover .two-ways__art img {
-	transform: scale(1.04);
+.wp-block-gallery.has-nested-images.is-style-collage figure.wp-block-image img {
+	display: block;
+	width: 100% !important;
+	height: auto !important;
+	object-fit: contain;
+}
+
+.is-style-collage figure:nth-child(1) { left: 28%; top: 4%; width: 37% !important; z-index: 1; transform: rotate(3deg); }
+.is-style-collage figure:nth-child(2) { left: 1%; top: 2%; width: 39% !important; z-index: 2; transform: rotate(-2deg); }
+.is-style-collage figure:nth-child(3) { left: 4%; top: 38%; width: 27% !important; z-index: 3; transform: rotate(-6deg); }
+.is-style-collage figure:nth-child(4) { left: 64%; top: 1%; width: 25% !important; z-index: 2; transform: rotate(6deg); }
+.is-style-collage figure:nth-child(5) { left: 70%; top: 44%; width: 26% !important; z-index: 3; transform: rotate(-1deg); }
+
+.wp-block-gallery.has-nested-images.is-style-collage figure.wp-block-image:not(#individual-image):hover {
+	z-index: 5;
+	transform: scale(1.08) rotate(0deg);
+	box-shadow: 0 20px 34px -12px rgba(0, 0, 0, 0.6);
+}
+
+/* Title and button on one line. */
+.two-ways__head {
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	align-items: center !important;
+	gap: 1rem !important;
+}
+
+.two-ways__head .two-ways__title {
+	flex: 0 1 auto;
+	min-width: 0;
+}
+
+.two-ways__head .wp-block-buttons {
+	flex: 0 0 auto;
 }
 
 .two-ways__title {
 	font-family: var(--p-display);
-	font-size: clamp(2.6rem, 5vw, 4.4rem) !important;
+	font-size: clamp(2.2rem, 4.2vw, 3.8rem) !important;
 	font-weight: 400;
 	line-height: 0.92;
 	text-transform: uppercase;
@@ -271,15 +502,14 @@
 }
 
 .two-ways__text {
-	max-width: 44ch;
-	font-size: 1.12rem;
+	max-width: 52ch;
+	font-size: 1.08rem;
 	line-height: 1.55;
 }
 
-/* The key facts as one bold line Leon edits like any paragraph. */
 .two-ways__facts {
-	max-width: 44ch;
-	font-size: 0.98rem;
+	max-width: 52ch;
+	font-size: 0.95rem;
 	font-weight: 700;
 	line-height: 1.5;
 }
@@ -288,34 +518,42 @@
 	color: var(--p-yellow);
 }
 
-.two-ways__card .wp-block-buttons {
-	margin-top: auto !important;
-	padding-top: 0.5rem;
-}
-
-/* The round "or" sticker between the cards (wide screens only). */
+/* The round "or" sticker between the cards, level with the pictures. */
 @media (min-width: 782px) {
 	.two-ways__grid::after {
 		content: "or";
 		position: absolute;
-		top: 34%;
+		top: calc(clamp(1.25rem, 2.6vw, 2.25rem) + (50vw - 7px - 2 * clamp(1.25rem, 2.6vw, 2.25rem)) * 11 / 32);
 		left: 50%;
-		z-index: 2;
+		z-index: 4;
 		display: grid;
 		place-items: center;
-		width: 78px;
-		height: 78px;
+		width: 72px;
+		height: 72px;
 		transform: translate(-50%, -50%);
 		border: 3px solid var(--p-navy);
 		border-radius: 50%;
 		background: var(--p-white);
 		color: var(--p-navy);
 		font-family: var(--p-display);
-		font-size: 2rem;
+		font-size: 1.9rem;
 		line-height: 1;
 		text-transform: uppercase;
 		pointer-events: none;
 	}
+}
+
+@media (max-width: 600px) {
+	.two-ways__head {
+		flex-wrap: wrap !important;
+	}
+}
+
+/* ====================================================================== Tighter gaps between sections (theme.json spacing presets) */
+
+body {
+	--wp--preset--spacing--60: clamp(2rem, 4vw, 3rem);
+	--wp--preset--spacing--70: clamp(2.25rem, 4.5vw, 3.75rem);
 }
 
 /* ====================================================================== Recent drawings: all three change together */
@@ -453,8 +691,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.two-ways__card,
-	.two-ways__art img,
+	.wp-block-gallery.is-style-collage figure,
 	.is-sheet .dr-trigger,
 	.site-header .nav-book,
 	.wp-site-blocks > header.wp-block-template-part {
@@ -505,4 +742,61 @@
 
 .wp-block-image.is-style-taped {
 	transform: none;
+}
+
+/* ====================================================================== Book Leon: three picture cards sitting on the postcard */
+
+.contact-page .form-switch {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 0.75rem !important;
+}
+
+.contact-page .form-switch .wp-block-button .wp-block-button__link.wp-element-button {
+	min-height: 112px;
+	padding: 0.85rem 1rem;
+	border: 2px solid var(--p-navy);
+	border-radius: 16px;
+	font-size: clamp(1.1rem, 1.7vw, 1.45rem);
+	transform: none;
+}
+
+.contact-page .form-switch .wp-block-button .wp-block-button__link::before {
+	width: 40px;
+	height: 40px;
+}
+
+.contact-page .form-switch .wp-block-button:nth-child(3) .wp-block-button__link::before {
+	background-image: url("wp-content/themes/artist-portfolio/assets/images/doodles/icons/leon-speech.webp");
+}
+
+.contact-page .form-switch .wp-block-button .wp-block-button__link.is-active {
+	box-shadow: 4px 4px 0 0 var(--p-navy);
+	transform: translateY(-2px);
+}
+
+.contact-page .contact-head {
+	margin-bottom: 0 !important;
+}
+
+.contact-page .postcard {
+	margin-top: 0.9rem !important;
+}
+
+@media (max-width: 600px) {
+	.contact-page .form-switch .wp-block-button .wp-block-button__link.wp-element-button {
+		min-height: 96px;
+		padding: 0.7rem;
+		font-size: 1rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.wp-block-gallery.is-style-face-letters figure,
+	.wp-block-gallery.is-style-face-letters img {
+		animation: none !important;
+	}
+
+	.wp-block-gallery.is-style-crossfade figure {
+		transition: none !important;
+	}
 }

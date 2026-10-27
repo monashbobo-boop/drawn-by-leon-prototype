@@ -65,6 +65,59 @@
 		}
 	} );
 
+	/* Crossfade galleries (hero photos, live events photos): one picture at a time,
+	   each fades into the next. Paused off screen and for people who prefer less motion. */
+	var REDUCE = window.matchMedia && window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
+	document.querySelectorAll( '.wp-block-gallery.is-style-crossfade' ).forEach( function ( gal ) {
+		var figs = [].slice.call( gal.querySelectorAll( ':scope > figure.wp-block-image' ) );
+		if ( REDUCE || figs.length < 2 ) {
+			return;
+		}
+		var every = gal.classList.contains( 'hero-fade' ) ? 6000 : 4200;
+		var i = 0;
+		var timer = null;
+		figs.forEach( function ( f ) {
+			var im = f.querySelector( 'img' );
+			if ( im ) {
+				im.loading = 'eager';
+			}
+		} );
+		figs[ 0 ].classList.add( 'is-current' );
+		gal.classList.add( 'is-ready' );
+		function next() {
+			figs[ i ].classList.remove( 'is-current' );
+			i = ( i + 1 ) % figs.length;
+			figs[ i ].classList.add( 'is-current' );
+		}
+		function start() {
+			if ( ! timer ) {
+				timer = setInterval( next, every );
+			}
+		}
+		function stop() {
+			clearInterval( timer );
+			timer = null;
+		}
+		if ( 'IntersectionObserver' in window ) {
+			new IntersectionObserver( function ( entries ) {
+				entries.forEach( function ( e ) {
+					if ( e.isIntersecting && ! document.hidden ) {
+						start();
+					} else {
+						stop();
+					}
+				} );
+			}, { threshold: 0.15 } ).observe( gal );
+		} else {
+			start();
+		}
+		document.addEventListener( 'visibilitychange', function () {
+			if ( document.hidden ) {
+				stop();
+			}
+		} );
+	} );
+
 	/* Optional photo upload: up to three pictures (the prototype only lists the names). */
 	document.querySelectorAll( '.p-upload' ).forEach( function ( box ) {
 		var input = box.querySelector( 'input[type="file"]' );

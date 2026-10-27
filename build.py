@@ -86,43 +86,80 @@ def section_bounds(s, marker):
     return s.rindex('<div class="wp-block-group alignfull', 0, i + len(marker))
 
 
-TWO_WAYS = f'''<div class="wp-block-group alignfull two-ways has-global-padding is-layout-constrained wp-block-group-is-layout-constrained" style="padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)">
+LETTERS = 'c1 a1 r1 i c2 a2 t u r2 e s'.split()
+
+
+def letters_gallery():
+    figs = ''.join(
+        f'<figure class="wp-block-image size-full"><img decoding="async" src="{I}letters/letter-{k + 1:02d}-{n}.webp" alt="{"Caricatures" if k == 0 else ""}"/></figure>'
+        for k, n in enumerate(LETTERS))
+    return ('<figure class="wp-block-gallery has-nested-images columns-default is-style-face-letters '
+            f'wp-block-gallery-is-layout-flex">{figs}</figure>\n\n')
+
+
+def fade_gallery(cls, items):
+    figs = ''.join(
+        f'<figure class="wp-block-image size-large"><img decoding="async" src="{I}{src}" alt="{alt}"/>'
+        + (f'<figcaption class="wp-element-caption">{cap}</figcaption>' if cap else '') + '</figure>'
+        for src, alt, cap in items)
+    return (f'<figure class="wp-block-gallery has-nested-images columns-default is-style-crossfade {cls} '
+            f'wp-block-gallery-is-layout-flex">{figs}</figure>\n\n')
+
+
+HERO_FADE = fade_gallery('hero-fade', [
+    ('photos/hero-frame-1.webp', 'Guests at markets and festivals holding up the caricatures Leon just drew of them', ''),
+    ('photos/hero-frame-2.webp', 'More happy guests with their caricatures at Leon\'s stall', ''),
+    ('photos/hero-frame-3.webp', 'Couples and friends showing off their caricatures', ''),
+])
+
+EVENT_SLIDES = fade_gallery('two-ways__media', [
+    ('photos/event-birthday.webp', 'Leon drawing a child at a birthday party while the other kids watch', 'Birthday parties'),
+    ('photos/event-wedding-guests.webp', 'Three wedding guests in suits holding up their caricature', 'Weddings'),
+    ('photos/event-leon-booth.webp', 'Leon drawing at his stall at a night market', 'Markets &amp; festivals'),
+])
+
+COLLAGE_ITEMS = [
+    ('works/from-photos/from-photos-02.webp', 'Colour caricature of a woman hugging her dog'),
+    ('works/from-photos/from-photos-13.webp', 'Colour caricature of three mates holding drinks'),
+    ('works/from-photos/from-photos-12.webp', 'Colour caricature of a man with his dog'),
+    ('works/from-photos/from-photos-17.webp', 'Colour caricature of a boy holding his cat'),
+    ('works/from-photos/from-photos-09.webp', 'Colour caricature of a man riding a motorbike at Red Rock'),
+]
+COLLAGE = ('<figure class="wp-block-gallery has-nested-images columns-default is-style-collage two-ways__media '
+           'wp-block-gallery-is-layout-flex">'
+           + ''.join(f'<figure class="wp-block-image size-large"><img decoding="async" src="{I}{src}" alt="{alt}"/></figure>' for src, alt in COLLAGE_ITEMS)
+           + '</figure>\n\n')
+
+
+def head_row(title, href):
+    return ('<div class="wp-block-group two-ways__head is-content-justification-space-between is-nowrap is-layout-flex wp-block-group-is-layout-flex">\n'
+            f'<h3 class="wp-block-heading two-ways__title">{title}</h3>\n'
+            '<div class="wp-block-buttons is-layout-flex wp-block-buttons-is-layout-flex">'
+            f'<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="{href}">Explore more</a></div></div>\n'
+            '</div>\n\n')
+
+
+TWO_WAYS = ('''<div class="wp-block-group alignfull two-ways has-global-padding is-layout-constrained wp-block-group-is-layout-constrained" style="padding-top:var(--wp--preset--spacing--60);padding-bottom:var(--wp--preset--spacing--60)">
 <p class="has-text-align-center hand-note is-small has-navy-soft-color has-text-color">pick the one that suits you</p>
 
 <h2 class="wp-block-heading has-text-align-center has-xx-large-font-size">Two ways to get drawn</h2>
 
-<div class="wp-block-columns alignwide two-ways__grid is-layout-flex wp-block-columns-is-layout-flex">
+<div class="wp-block-columns alignfull two-ways__grid is-layout-flex wp-block-columns-is-layout-flex">
 <div class="wp-block-column two-ways__card has-navy-color has-yellow-background-color has-text-color has-background is-layout-flow wp-block-column-is-layout-flow">
-<figure class="wp-block-image size-large two-ways__art is-cutout"><img decoding="async" src="{I}works/live-colour/live-colour-08.webp" alt="Colour caricature of a family of three, drawn live at an event"/></figure>
-
-<h3 class="wp-block-heading two-ways__title">Live at events</h3>
-
-<p class="two-ways__text">I draw your guests on the spot at weddings, parties, work and community events. They sit, laugh, watch it come together and take the original home.</p>
+''' + EVENT_SLIDES + head_row('Live at events', 'events.html') + '''<p class="two-ways__text">I draw your guests on the spot at weddings, parties, work and community events. They sit, laugh, watch it come together and take the original home.</p>
 
 <p class="two-ways__facts">A4 on paper &middot; Black &amp; white or colour &middot; From 2 hours</p>
-
-<div class="wp-block-buttons is-layout-flex wp-block-buttons-is-layout-flex">
-<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="events.html">Explore more</a></div>
-</div>
 </div>
 
 <div class="wp-block-column two-ways__card has-white-color has-navy-background-color has-text-color has-background is-layout-flow wp-block-column-is-layout-flow">
-<figure class="wp-block-image size-large two-ways__art is-framed"><img decoding="async" src="{I}works/from-photos/from-photos-02.webp" alt="Colour caricature of a woman hugging her dog, drawn from a photo"/></figure>
-
-<h3 class="wp-block-heading two-ways__title">Drawn from photos</h3>
-
-<p class="two-ways__text">Send me your favourite photos and I&#8217;ll turn them into a hand-drawn caricature. A personal gift for birthdays, weddings and anniversaries, or just for you.</p>
+''' + COLLAGE + head_row('Drawn from photos', 'custom-portraits.html') + '''<p class="two-ways__text">Send me your favourite photos and I&#8217;ll turn them into a hand-drawn caricature. A personal gift for birthdays, weddings and anniversaries, or just for you.</p>
 
 <p class="two-ways__facts">A3 original or digital file &middot; Black &amp; white or colour &middot; Ready in about 5 business days</p>
-
-<div class="wp-block-buttons is-layout-flex wp-block-buttons-is-layout-flex">
-<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="custom-portraits.html">Explore more</a></div>
-</div>
 </div>
 </div>
 </div>
 
-'''
+''')
 
 
 def build_home():
@@ -142,14 +179,16 @@ def build_home():
         return s[i:cuts[cuts.index(i) + 1]]
 
     h = part(hero)
-    h = h.replace('<h1 class="wp-block-heading photo-hero__title',
-                  '<p class="photo-hero__tagline has-yellow-color has-text-color">Charming Caricatures</p>\n\n\n\n<h1 class="wp-block-heading photo-hero__title', 1)
-    h = h.replace('Charming caricatures, drawn live at weddings', 'Drawn live at weddings', 1)
+    # The face letters sit under "hi, I'm Leon!"; the photos behind crossfade instead of scrolling.
+    h = h.replace('<h1 class="wp-block-heading photo-hero__title', letters_gallery() + '<h1 class="wp-block-heading photo-hero__title', 1)
+    inner = h.index('wp-block-cover__inner-container')
+    inner = h.index('>', inner) + 1
+    h = h[:inner] + '\n' + HERO_FADE + h[inner:]
     h = re.sub(r'<div class="wp-block-buttons is-layout-flex[^"]*"[^>]*>.*?</div>\s*</div>\s*(?=</div></div>)', '', h, count=1, flags=re.S)
     assert 'Live at your event</a>' not in h
 
-    # Leon's order, nothing removed: hero, strip, two ways, about, quick facts, recent drawings, kind words, colour-in game.
-    order = [h, part(tag), TWO_WAYS, part(about), part(quick), part(recent), part(kind), part(face)]
+    # Leon's order (27 Oct): "Every guest goes home smiling" is gone, the colour-in game closes the page.
+    order = [h, part(tag), TWO_WAYS, part(about), part(recent), part(kind), part(face)]
     s = s[:hero] + ''.join(order) + s[end:]
     return finish(s, 'index.html', 'Drawn by Leon Home v2')
 
