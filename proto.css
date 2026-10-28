@@ -856,15 +856,17 @@ body {
 	border-radius: 0;
 }
 
-/* ====================================================================== Group style "Navy panel, wavy bottom" (About: Leon has drawn at)
-   Same navy panel, but its bottom edge is a wave with a yellow rim that follows the footer's wave. */
+/* ====================================================================== Group style "Navy panel, runs into footer" (About: Leon has drawn at)
+   Used on the last section of a page. The panel goes edge to edge and joins the navy footer
+   with no gap; a yellow wave line marks the join. The line is drawn on the same curve as the
+   footer's wave, so the two shapes are one and the same. */
 
 .wp-block-group.is-style-panel-wave {
 	position: relative;
 	z-index: 2;
-	margin-inline: clamp(6px, 1vw, 14px) !important;
+	margin-bottom: 0 !important;
 	width: auto;
-	padding-bottom: var(--wp--preset--spacing--40) !important;
+	padding-bottom: calc(var(--wp--preset--spacing--60) + clamp(40px, 6vw, 80px)) !important;
 	background: var(--wp--preset--color--navy);
 	color: var(--wp--preset--color--white);
 	border-radius: var(--ap-radius-panel, 48px) var(--ap-radius-panel, 48px) 0 0;
@@ -883,40 +885,57 @@ body {
 	position: absolute;
 	left: 0;
 	right: 0;
-	top: calc(100% - 1px);
+	bottom: 0;
 	height: clamp(40px, 6vw, 80px);
-	background: url("wp-content/themes/artist-portfolio/assets/images/doodles/wave-bottom.svg") no-repeat center top / 100% 100%;
+	background: url("wp-content/themes/artist-portfolio/assets/images/doodles/wave-line.svg") no-repeat center bottom / 100% 100%;
 	pointer-events: none;
 }
 
-/* ====================================================================== Postcard: a real-looking inked postmark over the stamp */
+.wp-site-blocks:has(.is-style-panel-wave:last-child) > footer,
+.wp-site-blocks:has(.is-style-panel-wave:last-child) > main {
+	margin-block: 0 !important;
+	padding-bottom: 0 !important;
+}
+
+.wp-site-blocks:has(.is-style-panel-wave:last-child) .wp-block-post-content {
+	margin-bottom: 0 !important;
+	padding-bottom: 0 !important;
+}
+
+/* ====================================================================== Postcard: an inked postmark beside the stamp
+   The cancel lines tuck just under the stamp's edge, so Leon's face stays clear. */
 
 .postcard .postcard__top {
-	position: relative;
 	justify-content: flex-end !important;
-	min-height: clamp(120px, 12vw, 160px);
+	align-items: center !important;
+	gap: 0 !important;
 }
 
 .postcard .postmark {
-	position: absolute;
-	top: clamp(30px, 3.4vw, 44px);
-	right: clamp(46px, 5vw, 70px);
-	z-index: 3;
-	width: clamp(190px, 19vw, 250px);
+	position: relative;
+	z-index: 1;
+	flex: 0 1 auto;
+	width: clamp(150px, 15vw, 210px);
+	min-width: 120px;
 	aspect-ratio: 300 / 124;
-	margin: 0 !important;
+	margin: 0 -12px 0 0 !important;
 	padding: 0;
 	border: 0;
 	background: url("wp-content/themes/artist-portfolio/assets/images/doodles/postmark.svg") no-repeat center / contain;
 	color: transparent;
 	font-size: 0;
-	transform: rotate(-9deg);
+	transform: rotate(-8deg);
 	mix-blend-mode: multiply;
 	pointer-events: none;
 }
 
 .postcard .postmark::after {
 	content: none;
+}
+
+.postcard .postcard__stamp {
+	position: relative;
+	z-index: 2;
 }
 
 /* ====================================================================== Doodles: fall inside their own strip */
@@ -949,4 +968,120 @@ body {
 .wp-block-navigation__responsive-container.is-menu-open .nav-book > .wp-block-navigation-item__content {
 	padding-left: 0 !important;
 	margin-left: 0 !important;
+}
+
+/* ====================================================================== List style "Steps" (Live caricatures: how booking works)
+   A numbered list; the numbers sit in yellow circles. */
+
+.wp-block-list.is-style-steps {
+	counter-reset: step;
+	display: grid;
+	gap: 1.1rem;
+	margin: 0.5rem 0 0 !important;
+	padding: 0 !important;
+	list-style: none;
+}
+
+.wp-block-list.is-style-steps > li {
+	counter-increment: step;
+	position: relative;
+	padding-left: 3.6rem;
+	min-height: 2.8rem;
+	font-size: 1.05rem;
+	line-height: 1.5;
+}
+
+.wp-block-list.is-style-steps > li::before {
+	content: counter(step);
+	position: absolute;
+	left: 0;
+	top: -0.1rem;
+	display: grid;
+	place-items: center;
+	width: 2.7rem;
+	height: 2.7rem;
+	border-radius: 50%;
+	background: var(--wp--preset--color--yellow);
+	color: var(--wp--preset--color--navy);
+	font-family: var(--wp--preset--font-family--display);
+	font-size: 1.45rem;
+	line-height: 1;
+}
+
+.wp-block-list.is-style-steps > li strong {
+	display: block;
+	font-family: var(--wp--preset--font-family--display);
+	font-size: 1.35rem;
+	font-weight: 400;
+	line-height: 1.1;
+	text-transform: uppercase;
+	letter-spacing: 0.01em;
+}
+
+.plan-card .eyebrow {
+	margin-bottom: 0.6rem !important;
+}
+
+/* ====================================================================== List style "Ticks" (Custom portraits: what to send me) */
+
+.wp-block-list.is-style-ticks {
+	display: grid;
+	gap: 0.6rem;
+	margin: 0.4rem 0 0 !important;
+	padding: 0 !important;
+	list-style: none;
+}
+
+.wp-block-list.is-style-ticks > li {
+	position: relative;
+	padding-left: 2.3rem;
+	font-size: 1.08rem;
+	line-height: 1.5;
+}
+
+.wp-block-list.is-style-ticks > li::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0.05rem;
+	width: 1.6rem;
+	height: 1.6rem;
+	border-radius: 50%;
+	background: var(--wp--preset--color--yellow) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='%2312418A' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center / 70%;
+}
+
+.cta-gift .wp-block-image.is-style-taped {
+	max-width: 400px;
+	margin-inline: auto;
+}
+
+.cta-gift .eyebrow {
+	margin-top: var(--wp--preset--spacing--40) !important;
+}
+
+/* ====================================================================== Privacy & copyright page */
+
+.legal-page > * {
+	max-width: 760px !important;
+	margin-left: auto !important;
+	margin-right: auto !important;
+	text-align: left !important;
+}
+
+.legal-page h2 {
+	margin-top: var(--wp--preset--spacing--50) !important;
+	margin-bottom: 0.4rem !important;
+}
+
+.site-footer .footer-legal a {
+	margin-left: 0.6em;
+	color: var(--wp--preset--color--yellow);
+	white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+	.site-footer .footer-legal a {
+		display: block;
+		margin: 0.4em 0 0;
+	}
 }

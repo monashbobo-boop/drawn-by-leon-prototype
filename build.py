@@ -17,7 +17,33 @@ PAGES = {
     'portfolio.html': 'portfolio',
     'about.html': 'about',
     'contact.html': 'book',
+    'privacy.html': 'privacy',
 }
+
+# SEO title and meta description per page (the same text goes into Jetpack SEO on WordPress.com).
+SEO = {
+    'index.html': ('Caricature Artist Melbourne | Drawn by Leon',
+                   'Hand-drawn caricatures by Leon: live caricature drawing for weddings, parties and corporate events across Melbourne, plus custom portraits drawn from your photos.'),
+    'events.html': ('Live Caricatures for Weddings & Events | Drawn by Leon',
+                    'Book a live caricature artist for your wedding, birthday party, corporate event or festival in Melbourne. Guests are drawn on the spot in black and white or colour.'),
+    'custom-portraits.html': ('Custom Caricature Portraits from Photos | Drawn by Leon',
+                              'Turn a favourite photo into a hand-drawn caricature portrait. A3 original or digital file, black and white or colour. A personal gift for birthdays, weddings and anniversaries.'),
+    'portfolio.html': ('Caricature Portfolio: Live & Custom Drawings | Drawn by Leon',
+                       'See Leon\'s caricatures: live drawings from weddings, parties and markets, custom portraits from photos, digital caricatures and celebrity sketches.'),
+    'about.html': ('About Leon, Melbourne Caricature Artist | Drawn by Leon',
+                   'Meet Leon, a former art teacher who draws detailed, charming caricatures live at events around Melbourne and as custom portraits from photos.'),
+    'contact.html': ('Book a Caricature Artist in Melbourne | Drawn by Leon',
+                     'Check Leon\'s availability for your wedding, party or work event, order a custom caricature portrait from your photos, or ask a question.'),
+    'privacy.html': ('Privacy & Copyright | Drawn by Leon',
+                     'How Drawn by Leon looks after the details and photos you send, and who owns the drawings.'),
+}
+
+JSON_LD = '''<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"LocalBusiness","name":"Drawn by Leon","description":"Hand-drawn caricatures, live at weddings, parties and events, or drawn from your photos.","url":"https://drawnbyleon.com/","logo":"https://drawnbyleon.com/wp-content/uploads/2026/10/drawn-by-leon-logo.webp","image":"https://drawnbyleon.com/wp-content/themes/artist-portfolio/assets/images/photos/hero-frame-1.webp","telephone":"+61466532313","email":"leon.caricature@gmail.com","areaServed":{"@type":"City","name":"Melbourne"},"address":{"@type":"PostalAddress","addressLocality":"Melbourne","addressRegion":"VIC","addressCountry":"AU"},"sameAs":["https://www.instagram.com/leon.caricature","https://www.facebook.com/leon.caricature"],"knowsAbout":["Caricature","Live caricature drawing","Wedding entertainment","Party entertainment","Custom portraits"]}
+</script>'''
+
+LEGAL = ('<p class="has-small-font-size">&copy; 2026 Drawn by Leon. All artwork is Leon&#8217;s own and may not be reused without permission. '
+         '<a href="privacy.html">Privacy &amp; copyright</a></p>')
 
 CARET = ('<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none" '
          'aria-hidden="true" focusable="false"><path d="M1.50002 4L6.00002 8L10.5 4" stroke-width="1.5"></path></svg>')
@@ -70,7 +96,12 @@ def finish(s, name, title):
     f = s.index('<footer')
     s = s[:f] + s[f:].replace('<a href="contact.html">Contact</a>', '<a href="contact.html">Book Leon</a>')
     s = s.replace('wp-content/themes/artist-portfolio/assets/js/site.js', 'js/site.js')
-    s = re.sub(r'<title>.*?</title>', f'<title>{title}</title>', s, count=1, flags=re.S)
+    seo_title, desc = SEO[name]
+    s = re.sub(r'<title>.*?</title>', f'<title>{seo_title}</title>\n<meta name="description" content="{desc}" />', s, count=1, flags=re.S)
+    if name == 'index.html':
+        s = s.replace('</head>', JSON_LD + '\n</head>', 1)
+    s = re.sub(r'<div class="wp-block-group alignwide footer-legal(.*?)>\s*<p class="has-small-font-size">.*?</p>',
+               lambda m: f'<div class="wp-block-group alignwide footer-legal{m.group(1)}>\n{LEGAL}', s, count=1, flags=re.S)
     s = s.replace('<base target="_self">', '')
     m = re.search(r"<link[^>]*href='wp-content/themes/artist-portfolio/assets/css/theme\.css[^>]*>", s)
     s = s[:m.end()] + '\n<link rel="stylesheet" href="proto.css">' + s[m.end():]
@@ -215,12 +246,77 @@ def build_contact():
     j = s.index('<div class="wp-block-column postcard__address')
     k = s.rindex('</div>', 0, j)
     s = s[:k] + other + s[k:]
+    s = s.replace('<h1 class="wp-block-heading page-title has-giant-font-size">Say hi!</h1>',
+                  '<h1 class="wp-block-heading page-title has-giant-font-size">Book Leon</h1>', 1)
     return finish(s, 'contact.html', 'Book Leon')
 
 
 out = {'index.html': build_home(), 'contact.html': build_contact()}
-for name in ['events.html', 'custom-portraits.html', 'portfolio.html']:
-    out[name] = finish(base(name), name, 'Drawn by Leon')
+out['portfolio.html'] = finish(base('portfolio.html'), 'portfolio.html', 'Drawn by Leon')
+
+
+def swap_last_cta(s, new):
+    i = s.index('<div class="wp-block-group alignfull cta-band')
+    k = s.index('</div></main>', i)
+    return s[:i] + new + s[k:]
+
+
+EVENTS_CTA = '''<div class="wp-block-group alignfull cta-band cta-plan has-navy-color has-yellow-background-color has-text-color has-background has-global-padding is-layout-constrained wp-block-group-is-layout-constrained" style="padding-top:var(--wp--preset--spacing--70)">
+<div class="wp-block-columns alignwide are-vertically-aligned-center is-layout-flex wp-block-columns-is-layout-flex">
+<div class="wp-block-column is-vertically-aligned-center is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:50%">
+<h2 class="wp-block-heading has-xx-large-font-size">Make your event one to remember</h2>
+
+<p class="has-large-font-size">Planning a wedding, party or work event? Tell me what you have in mind and we&#8217;ll arrange a live drawing experience to suit your occasion.</p>
+
+<div class="wp-block-buttons is-layout-flex wp-block-buttons-is-layout-flex" style="margin-top:var(--wp--preset--spacing--40)">
+<div class="wp-block-button"><a class="wp-block-button__link has-white-color has-navy-background-color has-text-color has-background wp-element-button" href="contact.html#event">Check my date</a></div>
+</div>
+</div>
+
+<div class="wp-block-column is-vertically-aligned-center is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:50%">
+<div class="wp-block-group is-style-card plan-card is-layout-flow wp-block-group-is-layout-flow">
+<p class="eyebrow">How booking works</p>
+
+<ol class="wp-block-list is-style-steps">
+<li><strong>Send your date and venue.</strong> Add a rough guest count and whether you&#8217;d like black and white or colour.</li>
+<li><strong>Get your quote.</strong> I&#8217;ll reply by email with my availability and a price.</li>
+<li><strong>Lock it in.</strong> On the day I bring the markers and paper and draw your guests.</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+'''
+
+PORTRAIT_CTA = f'''<div class="wp-block-group alignfull cta-band cta-gift has-global-padding is-layout-constrained wp-block-group-is-layout-constrained" style="padding-top:var(--wp--preset--spacing--70)">
+<div class="wp-block-columns alignwide are-vertically-aligned-center is-layout-flex wp-block-columns-is-layout-flex">
+<div class="wp-block-column is-vertically-aligned-center is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:40%">
+<figure class="wp-block-image size-large is-style-taped"><img decoding="async" src="{I}works/from-photos/from-photos-08.webp" alt="Hand-drawn colour caricature portrait, drawn from a photo"/></figure>
+</div>
+
+<div class="wp-block-column is-vertically-aligned-center is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:60%">
+<h2 class="wp-block-heading has-xx-large-font-size">Give a gift with a personal story</h2>
+
+<p class="has-large-font-size">Send your photos and ideas, and let&#8217;s turn a familiar face or a special memory into a portrait to treasure.</p>
+
+<p class="eyebrow">What to send me</p>
+
+<ul class="wp-block-list is-style-ticks">
+<li>A clear, well-lit photo of each face</li>
+<li>Any outfit, pet, background or theme ideas</li>
+<li>The date you&#8217;d like it by</li>
+</ul>
+
+<div class="wp-block-buttons is-layout-flex wp-block-buttons-is-layout-flex" style="margin-top:var(--wp--preset--spacing--40)">
+<div class="wp-block-button"><a class="wp-block-button__link has-white-color has-navy-background-color has-text-color has-background wp-element-button" href="contact.html#photo">Start my portrait</a></div>
+</div>
+</div>
+</div>
+</div>
+'''
+
+out['events.html'] = finish(swap_last_cta(base('events.html'), EVENTS_CTA), 'events.html', 'Drawn by Leon')
+out['custom-portraits.html'] = finish(swap_last_cta(base('custom-portraits.html'), PORTRAIT_CTA), 'custom-portraits.html', 'Drawn by Leon')
 
 
 def build_about():
@@ -229,7 +325,63 @@ def build_about():
     i = s.index('Leon has drawn at')
     j = s.rindex('<div class="wp-block-group alignfull is-style-panel ', 0, i)
     s = s[:j] + s[j:].replace('alignfull is-style-panel ', 'alignfull is-style-panel-wave ', 1)
+    # "my promise" sat on top of the heading: removed.
+    s = re.sub(r'<p class="has-text-align-center hand-note is-small">my promise</p>\s*', '', s, count=1)
+    assert 'my promise' not in s
     return finish(s, 'about.html', 'Drawn by Leon')
+
+
+PRIVACY = '''<div class="wp-block-group alignfull legal-page has-global-padding is-layout-constrained wp-block-group-is-layout-constrained" style="padding-top:var(--wp--preset--spacing--60);padding-bottom:var(--wp--preset--spacing--60)">
+<h1 class="wp-block-heading page-title has-xx-large-font-size">Privacy &amp; copyright</h1>
+
+<p class="has-large-font-size">This page explains what happens to the details and photos you send to Drawn by Leon, and who owns the drawings.</p>
+
+<p class="has-small-font-size">Last updated: 28 October 2026</p>
+
+<h2 class="wp-block-heading has-x-large-font-size">Your details</h2>
+
+<p>When you send a booking or portrait enquiry, I receive what you type into the form: your name, email address, phone number if you add it, the details of your event or portrait, and any photos you upload.</p>
+
+<p>I use them only to reply to you, prepare a quote, plan your event and draw your portrait. I don&#8217;t sell your details or share them with anyone for marketing.</p>
+
+<h2 class="wp-block-heading has-x-large-font-size">Your photos</h2>
+
+<p>Photos you send are used as reference for your drawing and nothing else. I only share a finished drawing, or a photo of you holding it, on this website or on Instagram and Facebook with your permission.</p>
+
+<p>Ask any time and I&#8217;ll delete the photos you sent.</p>
+
+<h2 class="wp-block-heading has-x-large-font-size">Where it&#8217;s kept</h2>
+
+<p>This website runs on WordPress.com. Form messages and uploaded photos are stored with WordPress.com and in my email inbox.</p>
+
+<p>Visits to the site are counted with Jetpack Stats and Google Analytics. They use cookies to see how many people visit and which pages are popular; they don&#8217;t tell me who you are. You can block these cookies in your browser settings.</p>
+
+<h2 class="wp-block-heading has-x-large-font-size">Your choices</h2>
+
+<p>Email <a href="mailto:leon.caricature@gmail.com">leon.caricature@gmail.com</a> to see, correct or delete the details I hold about you.</p>
+
+<h2 class="wp-block-heading has-x-large-font-size">Copyright</h2>
+
+<p>All drawings, illustrations and photos on this site are &copy; Drawn by Leon unless noted otherwise. Please don&#8217;t copy, print or reuse them without permission.</p>
+
+<p>When you buy a caricature, the original drawing or file is yours to keep, frame, give as a gift and share on your own social media. Copyright in the drawing stays with Leon, so please ask first before using it on products, logos, advertising or anything sold.</p>
+
+<h2 class="wp-block-heading has-x-large-font-size">Contact</h2>
+
+<p>Drawn by Leon, Melbourne VIC<br><a href="mailto:leon.caricature@gmail.com">leon.caricature@gmail.com</a><br><a href="tel:+61466532313">0466 532 313</a></p>
+</div>
+'''
+
+
+def build_privacy():
+    s = base('about.html')
+    a = s.index('<div class="entry-content')
+    a = s.index('>', a) + 1
+    k = s.index('</div></main>', a)
+    return finish(s[:a] + '\n' + PRIVACY + s[k:], 'privacy.html', 'Drawn by Leon')
+
+
+out['privacy.html'] = build_privacy()
 
 
 out['about.html'] = build_about()

@@ -8,14 +8,16 @@ Clickable prototype of Leon's homepage notes (22 Oct 2026), built on the site's 
 
 Works straight away in any browser, on a computer or a phone. Once GitHub Pages is on, the same prototype is also at https://monashbobo-boop.github.io/drawn-by-leon-prototype/
 
-## What changed (latest round, 27 Oct)
+## What changed (latest round, 28 Oct)
 
-- **Menu**: Home added. On computers each page is a boxed link that turns yellow on hover; the page you are on is navy. Book Leon keeps its yellow pill and drop-down. Phones and tablets keep the full-screen hamburger menu.
-- **Hero**: "CARICATURES" in Leon's face letters under "hi, I'm Leon!". A few letters hop, glance around, sway or shiver now and then, and any letter jumps when you point at it. The photos behind now fade from one set to the next instead of scrolling.
-- **Two ways**: the two cards run edge to edge. Live at events shows event photos that fade between birthday parties, weddings and markets; Drawn from photos shows five framed drawings that grow a little under the pointer.
-- **Home**: tighter gaps between sections; "Every guest goes home smiling" removed; the Mr Bean colour-in game moved to the end. Order: hero, services strip, two ways, about, recent drawings, kind words, colour-in game.
-- **Recent drawings**: all three drawings change at the same moment.
-- **Book Leon page**: three picture cards (Live at my event, Drawn from my photo, Something else) sitting right on top of the postcard; booking length 2 to 6 hours or Not sure; optional photo upload (up to 3).
+- **Menu**: phone menu items stay on one line. On computers each page is a boxed link that turns yellow on hover; the page you are on is navy. Book Leon keeps its yellow pill and drop-down.
+- **Hero**: fills the window below the header, so nothing is cut off on shorter screens. "CARICATURES" in Leon's face letters, a few of them come alive now and then; the photos behind fade from one set to the next.
+- **Two ways**: edge to edge. Live at events shows the birthday photo; Drawn from photos shows five framed drawings that grow under the pointer.
+- **About**: "my promise" removed. The last panel runs straight into the footer, with a yellow wave line on the join.
+- **Live caricatures and Custom portraits**: each page ends differently now. Live caricatures: "How booking works" in three steps. Custom portraits: a framed drawing with a "What to send me" checklist.
+- **Book Leon page**: three picture cards on top of the postcard; inked postmark beside the stamp; photo upload (up to 3); smoother falling doodles.
+- **Footer**: copyright year and a new Privacy & copyright page.
+- **SEO**: page titles, descriptions and business details for Google on every page.
 
 ## How it moves to WordPress.com
 
@@ -26,6 +28,8 @@ Everything is written as core blocks Leon can edit in the editor:
 - Hero photos and the live events photos: Gallery blocks with the "Crossfade" style; add, remove or reorder pictures, and the captions become the little labels.
 - Drawn from photos collage: a Gallery block with the "Collage" style (five pictures).
 - Two ways: a Columns block with two coloured Columns; title and button sit in a Row.
+- About's last panel: Group block with the "Navy panel, runs into footer" style.
+- Booking steps and the portrait checklist: List blocks with the "Steps" and "Ticks" styles.
 - Upload: Jetpack form "File upload" field.
 
 ## Turning on GitHub Pages
