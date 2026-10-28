@@ -321,10 +321,13 @@ out['custom-portraits.html'] = finish(swap_last_cta(base('custom-portraits.html'
 
 def build_about():
     s = base('about.html')
-    # The last panel (Leon has drawn at) gets the wavy-bottom panel style so it nests into the footer wave.
+    # The last section (Leon has drawn at) becomes a yellow band that runs straight into the footer wave,
+    # the same way the yellow band at the end of Live caricatures does (group class "cta-band").
     i = s.index('Leon has drawn at')
     j = s.rindex('<div class="wp-block-group alignfull is-style-panel ', 0, i)
-    s = s[:j] + s[j:].replace('alignfull is-style-panel ', 'alignfull is-style-panel-wave ', 1)
+    s = s[:j] + s[j:].replace('alignfull is-style-panel ', 'alignfull cta-band shows-band has-navy-color has-yellow-background-color has-text-color has-background ', 1)
+    s = s.replace('<p class="hand-note has-yellow-color has-text-color">Leon has drawn at</p>',
+                  '<p class="hand-note has-navy-color has-text-color">Leon has drawn at</p>', 1)
     # "my promise" sat on top of the heading: removed.
     s = re.sub(r'<p class="has-text-align-center hand-note is-small">my promise</p>\s*', '', s, count=1)
     assert 'my promise' not in s

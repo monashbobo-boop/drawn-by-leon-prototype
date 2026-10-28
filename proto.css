@@ -856,50 +856,19 @@ body {
 	border-radius: 0;
 }
 
-/* ====================================================================== Group style "Navy panel, runs into footer" (About: Leon has drawn at)
-   Used on the last section of a page. The panel goes edge to edge and joins the navy footer
-   with no gap; a yellow wave line marks the join. The line is drawn on the same curve as the
-   footer's wave, so the two shapes are one and the same. */
+/* ====================================================================== About: "Leon has drawn at" on yellow
+   A yellow band (group class "cta-band") that runs straight into the footer wave. */
 
-.wp-block-group.is-style-panel-wave {
-	position: relative;
-	z-index: 2;
-	margin-bottom: 0 !important;
-	width: auto;
-	padding-bottom: calc(var(--wp--preset--spacing--60) + clamp(40px, 6vw, 80px)) !important;
-	background: var(--wp--preset--color--navy);
-	color: var(--wp--preset--color--white);
-	border-radius: var(--ap-radius-panel, 48px) var(--ap-radius-panel, 48px) 0 0;
+.shows-band .shows-grid h3 {
+	color: var(--wp--preset--color--navy);
 }
 
-.wp-block-group.is-style-panel-wave :where(h1, h2, h3, h4) {
-	color: var(--wp--preset--color--yellow);
+.shows-band .shows-grid .eyebrow {
+	color: var(--wp--preset--color--navy-soft);
 }
 
-.wp-block-group.is-style-panel-wave a:where(:not(.wp-element-button)) {
-	color: var(--wp--preset--color--yellow);
-}
-
-.wp-block-group.is-style-panel-wave::after {
-	content: "";
-	position: absolute;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	height: clamp(40px, 6vw, 80px);
-	background: url("wp-content/themes/artist-portfolio/assets/images/doodles/wave-line.svg") no-repeat center bottom / 100% 100%;
-	pointer-events: none;
-}
-
-.wp-site-blocks:has(.is-style-panel-wave:last-child) > footer,
-.wp-site-blocks:has(.is-style-panel-wave:last-child) > main {
-	margin-block: 0 !important;
-	padding-bottom: 0 !important;
-}
-
-.wp-site-blocks:has(.is-style-panel-wave:last-child) .wp-block-post-content {
-	margin-bottom: 0 !important;
-	padding-bottom: 0 !important;
+.shows-band .show-item__photo img {
+	box-shadow: 0 14px 26px -16px rgba(18, 65, 138, 0.55);
 }
 
 /* ====================================================================== Postcard: an inked postmark beside the stamp
@@ -942,20 +911,6 @@ body {
 
 .doodle-drop {
 	overflow: clip;
-}
-
-/* The wavy panel shares the navy panel's details (in the theme these selectors are simply
-   listed next to .is-style-panel). */
-.is-style-panel-wave .shows-grid h3 {
-	color: var(--wp--preset--color--white);
-}
-
-.is-style-panel-wave .shows-grid .eyebrow {
-	color: var(--wp--preset--color--yellow);
-}
-
-.is-style-panel-wave .wp-block-button__link.wp-element-button {
-	border-color: var(--wp--preset--color--white);
 }
 
 /* Full-screen menu: Book Leon lines up with the other items. */
