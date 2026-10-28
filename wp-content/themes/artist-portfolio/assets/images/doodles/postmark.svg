@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 124">
+  <defs>
+    <filter id="ink" x="-4%" y="-6%" width="108%" height="112%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="grain"/>
+      <feDisplacementMap in="SourceGraphic" in2="grain" scale="2.4" xChannelSelector="R" yChannelSelector="G" result="rough"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="3" seed="11" result="blot"/>
+      <feColorMatrix in="blot" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -2.6 0 0 0 2.15" result="press"/>
+      <feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="1" seed="4" result="speck"/>
+      <feColorMatrix in="speck" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -5 0 0 0 3.6" result="specks"/>
+      <feComposite in="press" in2="specks" operator="in" result="mask"/>
+      <feComposite in="rough" in2="mask" operator="in"/>
+    </filter>
+    <path id="top" d="M19 62a43 43 0 0 1 86 0"/>
+    <path id="bottom" d="M14 62a48 48 0 0 0 96 0"/>
+  </defs>
+  <g filter="url(#ink)" fill="none" stroke="#1F3263" opacity="0.85">
+    <circle cx="62" cy="62" r="53" stroke-width="3.2"/>
+    <circle cx="62" cy="62" r="38" stroke-width="1.4"/>
+    <g fill="#1F3263" stroke="none" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="11.5" letter-spacing="1.6">
+      <text><textPath href="#top" startOffset="50%" text-anchor="middle">MELBOURNE · VIC</textPath></text>
+      <text><textPath href="#bottom" startOffset="50%" text-anchor="middle">DRAWN BY LEON</textPath></text>
+    </g>
+    <path d="M62 74c-9-6-14-11-13.5-17 .4-4 4-6.5 7.4-5.6 2.6.7 4.6 2.8 6.1 5.3 1.4-2.7 3.4-4.8 6.3-5.4 3.6-.7 7 2 7.1 6.1.1 6-5.6 11.2-13.4 16.6Z" stroke-width="2.2" stroke-linejoin="round"/>
+    <g stroke-width="3" stroke-linecap="round">
+      <path d="M121 36q11-7 22 0t22 0 22 0 22 0 22 0 22 0 22 0 22 0"/>
+      <path d="M119 50q11-7 22 0t22 0 22 0 22 0 22 0 22 0 22 0 22 0"/>
+      <path d="M120 64q11-7 22 0t22 0 22 0 22 0 22 0 22 0 22 0 22 0"/>
+      <path d="M119 78q11-7 22 0t22 0 22 0 22 0 22 0 22 0 22 0 22 0"/>
+      <path d="M121 92q11-7 22 0t22 0 22 0 22 0 22 0 22 0 22 0 18 0"/>
+    </g>
+  </g>
+</svg>

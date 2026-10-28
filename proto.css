@@ -217,6 +217,10 @@
 
 /* Phones: the text sits on the lower half of the photo, so the shade runs top to bottom. */
 @media (max-width: 781px) {
+	.wp-block-gallery.has-nested-images.hero-fade figure.wp-block-image img {
+		object-position: 33.5% 30%;
+	}
+
 	.photo-hero .wp-block-cover__background {
 		background: linear-gradient(180deg, rgba(18, 65, 138, 0.1) 0%, rgba(18, 65, 138, 0.55) 38%, rgba(18, 65, 138, 0.94) 62%) !important;
 	}
@@ -799,4 +803,150 @@ body {
 	.wp-block-gallery.is-style-crossfade figure {
 		transition: none !important;
 	}
+}
+
+/* ====================================================================== Full-screen menu: every item on one line */
+
+.wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__container > li > .wp-block-navigation-item__content {
+	white-space: nowrap;
+	font-size: min(11.5vw, 8vh, 6rem) !important;
+	line-height: 1.02;
+}
+
+/* ====================================================================== Hero fits the window under the header
+   (--hdr is the header height, set by assets/js; type scales with the window height too). */
+
+.photo-hero.wp-block-cover {
+	min-height: calc(100svh - var(--hdr, 120px)) !important;
+	padding-top: clamp(1.5rem, 5vh, 3.5rem) !important;
+	padding-bottom: clamp(1.5rem, 5vh, 3rem) !important;
+}
+
+.photo-hero .photo-hero__title {
+	font-size: clamp(2.6rem, min(8.4vw, 11.5vh), 7.5rem) !important;
+}
+
+.photo-hero .photo-hero__lead {
+	font-size: clamp(1.05rem, min(1.7vw, 2.7vh), 1.45rem) !important;
+	margin-top: clamp(0.5rem, 1.6vh, 1rem) !important;
+}
+
+.photo-hero .hand-note {
+	margin-bottom: 0.2em !important;
+}
+
+.wp-block-gallery.is-style-face-letters {
+	--lh: min(96px, calc(7vw + 20px), calc((100vw - 2.5rem) / 7.2), 11vh);
+	margin: 0.15em 0 0.3em !important;
+}
+
+/* ====================================================================== Live at events: one photo */
+
+.two-ways__card .wp-block-image.two-ways__media {
+	overflow: hidden;
+	border-radius: 20px;
+	box-shadow: 0 16px 30px -18px rgba(18, 65, 138, 0.6);
+}
+
+.two-ways__card .wp-block-image.two-ways__media img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	border-radius: 0;
+}
+
+/* ====================================================================== Group style "Navy panel, wavy bottom" (About: Leon has drawn at)
+   Same navy panel, but its bottom edge is a wave with a yellow rim that follows the footer's wave. */
+
+.wp-block-group.is-style-panel-wave {
+	position: relative;
+	z-index: 2;
+	margin-inline: clamp(6px, 1vw, 14px) !important;
+	width: auto;
+	padding-bottom: var(--wp--preset--spacing--40) !important;
+	background: var(--wp--preset--color--navy);
+	color: var(--wp--preset--color--white);
+	border-radius: var(--ap-radius-panel, 48px) var(--ap-radius-panel, 48px) 0 0;
+}
+
+.wp-block-group.is-style-panel-wave :where(h1, h2, h3, h4) {
+	color: var(--wp--preset--color--yellow);
+}
+
+.wp-block-group.is-style-panel-wave a:where(:not(.wp-element-button)) {
+	color: var(--wp--preset--color--yellow);
+}
+
+.wp-block-group.is-style-panel-wave::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: calc(100% - 1px);
+	height: clamp(40px, 6vw, 80px);
+	background: url("wp-content/themes/artist-portfolio/assets/images/doodles/wave-bottom.svg") no-repeat center top / 100% 100%;
+	pointer-events: none;
+}
+
+/* ====================================================================== Postcard: a real-looking inked postmark over the stamp */
+
+.postcard .postcard__top {
+	position: relative;
+	justify-content: flex-end !important;
+	min-height: clamp(120px, 12vw, 160px);
+}
+
+.postcard .postmark {
+	position: absolute;
+	top: clamp(30px, 3.4vw, 44px);
+	right: clamp(46px, 5vw, 70px);
+	z-index: 3;
+	width: clamp(190px, 19vw, 250px);
+	aspect-ratio: 300 / 124;
+	margin: 0 !important;
+	padding: 0;
+	border: 0;
+	background: url("wp-content/themes/artist-portfolio/assets/images/doodles/postmark.svg") no-repeat center / contain;
+	color: transparent;
+	font-size: 0;
+	transform: rotate(-9deg);
+	mix-blend-mode: multiply;
+	pointer-events: none;
+}
+
+.postcard .postmark::after {
+	content: none;
+}
+
+/* ====================================================================== Doodles: fall inside their own strip */
+
+.doodle-drop {
+	overflow: clip;
+}
+
+/* The wavy panel shares the navy panel's details (in the theme these selectors are simply
+   listed next to .is-style-panel). */
+.is-style-panel-wave .shows-grid h3 {
+	color: var(--wp--preset--color--white);
+}
+
+.is-style-panel-wave .shows-grid .eyebrow {
+	color: var(--wp--preset--color--yellow);
+}
+
+.is-style-panel-wave .wp-block-button__link.wp-element-button {
+	border-color: var(--wp--preset--color--white);
+}
+
+/* Full-screen menu: Book Leon lines up with the other items. */
+.wp-block-navigation__responsive-container.is-menu-open .nav-book {
+	align-items: flex-start !important;
+	padding: 0 !important;
+	background: none !important;
+}
+
+.wp-block-navigation__responsive-container.is-menu-open .nav-book > .wp-block-navigation-item__content {
+	padding-left: 0 !important;
+	margin-left: 0 !important;
 }

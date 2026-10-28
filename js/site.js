@@ -383,39 +383,70 @@
 			fig.style.zIndex = Math.round( rand( 1, 9 ) );
 		} );
 
+		/* A falling doodle is simulated like a light ball: gravity, a few softer and
+		   softer bounces, while its spin and sideways drift ease out. The path is
+		   sampled at 60 frames a second and played back linearly, so it stays smooth. */
+		var G = 2600;      // px/s^2
+		var STEP = 1 / 60;
+		function easeOut( p ) {
+			return 1 - Math.pow( 1 - p, 3 );
+		}
+		function path( y0, v0, bounce ) {
+			var ys = [];
+			var y = y0, v = v0;
+			for ( var t = 0; t < 3.2; t += STEP ) {
+				v += G * STEP;
+				y += v * STEP;
+				if ( y >= 0 ) {
+					y = 0;
+					if ( Math.abs( v ) < 170 ) {
+						ys.push( 0 );
+						break;
+					}
+					v = -v * bounce;
+				}
+				ys.push( y );
+			}
+			return ys;
+		}
+		function play( fig, ys, rFrom, rTo, dx, opts ) {
+			var n = ys.length;
+			var frames = ys.map( function ( y, i ) {
+				var p = easeOut( i / ( n - 1 ) );
+				var r = rTo + ( rFrom - rTo ) * ( 1 - p );
+				var x = dx * ( 1 - p );
+				return { transform: 'translate(' + x.toFixed( 1 ) + 'px,' + y.toFixed( 1 ) + 'px) rotate(' + r.toFixed( 1 ) + 'deg)' };
+			} );
+			return fig.animate( frames, Object.assign( { duration: n * STEP * 1000, easing: 'linear' }, opts || {} ) );
+		}
+		function angle( fig ) {
+			return parseFloat( getComputedStyle( fig ).getPropertyValue( '--r' ) ) || 0;
+		}
+
 		function drop() {
 			pile.classList.add( 'has-dropped' );
 			if ( REDUCE || ! items[ 0 ].animate ) {
 				return;
 			}
-			var h = pile.getBoundingClientRect().height + 260;
+			var h = pile.getBoundingClientRect().height + 60; // start just above the pile (the strip clips them)
 			items.forEach( function ( fig ) {
-				var r = getComputedStyle( fig ).getPropertyValue( '--r' ).trim() || '0deg';
-				var spin = Math.round( rand( -120, 120 ) );
-				fig.animate( [
-					{ transform: 'translateY(' + -h + 'px) rotate(calc(' + r + ' + ' + spin + 'deg))', opacity: 1, offset: 0 },
-					{ transform: 'translateY(0) rotate(' + r + ')', offset: 0.6, easing: 'ease-out' },
-					{ transform: 'translateY(-' + Math.round( h * 0.08 ) + 'px) rotate(' + r + ')', offset: 0.76, easing: 'ease-in' },
-					{ transform: 'translateY(0) rotate(' + r + ')', offset: 0.88, easing: 'ease-out' },
-					{ transform: 'translateY(-6px) rotate(' + r + ')', offset: 0.94, easing: 'ease-in' },
-					{ transform: 'translateY(0) rotate(' + r + ')', offset: 1 }
-				], { duration: rand( 1100, 1500 ), delay: rand( 0, 1100 ), easing: 'ease-in', fill: 'backwards' } );
+				var r = angle( fig );
+				var ys = path( -h - rand( 0, 90 ), 0, rand( 0.34, 0.46 ) );
+				play( fig, ys, r + rand( -160, 160 ), r, rand( -40, 40 ), { delay: rand( 0, 900 ), fill: 'backwards' } );
 			} );
 		}
 
+		/* Tap a doodle: it hops, flips once and lands at a new angle. */
 		items.forEach( function ( fig ) {
 			fig.addEventListener( 'click', function () {
 				if ( REDUCE || ! fig.animate ) {
 					return;
 				}
-				var r = getComputedStyle( fig ).getPropertyValue( '--r' ).trim() || '0deg';
-				var nr = Math.round( rand( -35, 35 ) ) + 'deg';
-				fig.style.setProperty( '--r', nr );
-				fig.animate( [
-					{ transform: 'translateY(0) rotate(' + r + ')' },
-					{ transform: 'translateY(-' + Math.round( rand( 70, 130 ) ) + 'px) rotate(calc(' + r + ' + 180deg))', offset: 0.45, easing: 'ease-in' },
-					{ transform: 'translateY(0) rotate(' + nr + ')' }
-				], { duration: 650, easing: 'ease-out' } );
+				var r = angle( fig );
+				var nr = Math.round( rand( -35, 35 ) );
+				fig.style.setProperty( '--r', nr + 'deg' );
+				var ys = path( 0, -rand( 620, 820 ), 0.32 );
+				play( fig, ys, r, nr + ( Math.random() < 0.5 ? -360 : 360 ), 0 );
 			} );
 		} );
 

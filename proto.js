@@ -8,6 +8,16 @@
 		return !! document.querySelector( '.wp-block-navigation__responsive-container.is-menu-open' );
 	}
 
+	/* The hero fills the window below the header: CSS reads the header height from --hdr. */
+	function setHeaderHeight() {
+		if ( head ) {
+			document.documentElement.style.setProperty( '--hdr', head.offsetHeight + 'px' );
+		}
+	}
+	setHeaderHeight();
+	window.addEventListener( 'resize', setHeaderHeight );
+	window.addEventListener( 'load', setHeaderHeight );
+
 	/* Header hides while scrolling down and comes back when scrolling up. */
 	if ( head ) {
 		var last = window.scrollY;

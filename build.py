@@ -112,11 +112,8 @@ HERO_FADE = fade_gallery('hero-fade', [
     ('photos/hero-frame-3.webp', 'Couples and friends showing off their caricatures', ''),
 ])
 
-EVENT_SLIDES = fade_gallery('two-ways__media', [
-    ('photos/event-birthday.webp', 'Leon drawing a child at a birthday party while the other kids watch', 'Birthday parties'),
-    ('photos/event-wedding-guests.webp', 'Three wedding guests in suits holding up their caricature', 'Weddings'),
-    ('photos/event-leon-booth.webp', 'Leon drawing at his stall at a night market', 'Markets &amp; festivals'),
-])
+EVENT_PHOTO = (f'<figure class="wp-block-image size-large two-ways__media"><img decoding="async" src="{I}photos/event-birthday.webp" '
+               'alt="Leon drawing a child at a birthday party while the other kids watch"/></figure>\n\n')
 
 COLLAGE_ITEMS = [
     ('works/from-photos/from-photos-02.webp', 'Colour caricature of a woman hugging her dog'),
@@ -146,7 +143,7 @@ TWO_WAYS = ('''<div class="wp-block-group alignfull two-ways has-global-padding 
 
 <div class="wp-block-columns alignfull two-ways__grid is-layout-flex wp-block-columns-is-layout-flex">
 <div class="wp-block-column two-ways__card has-navy-color has-yellow-background-color has-text-color has-background is-layout-flow wp-block-column-is-layout-flow">
-''' + EVENT_SLIDES + head_row('Live at events', 'events.html') + '''<p class="two-ways__text">I draw your guests on the spot at weddings, parties, work and community events. They sit, laugh, watch it come together and take the original home.</p>
+''' + EVENT_PHOTO + head_row('Live at events', 'events.html') + '''<p class="two-ways__text">I draw your guests on the spot at weddings, parties, work and community events. They sit, laugh, watch it come together and take the original home.</p>
 
 <p class="two-ways__facts">A4 on paper &middot; Black &amp; white or colour &middot; From 2 hours</p>
 </div>
@@ -222,8 +219,20 @@ def build_contact():
 
 
 out = {'index.html': build_home(), 'contact.html': build_contact()}
-for name in ['events.html', 'custom-portraits.html', 'portfolio.html', 'about.html']:
+for name in ['events.html', 'custom-portraits.html', 'portfolio.html']:
     out[name] = finish(base(name), name, 'Drawn by Leon')
+
+
+def build_about():
+    s = base('about.html')
+    # The last panel (Leon has drawn at) gets the wavy-bottom panel style so it nests into the footer wave.
+    i = s.index('Leon has drawn at')
+    j = s.rindex('<div class="wp-block-group alignfull is-style-panel ', 0, i)
+    s = s[:j] + s[j:].replace('alignfull is-style-panel ', 'alignfull is-style-panel-wave ', 1)
+    return finish(s, 'about.html', 'Drawn by Leon')
+
+
+out['about.html'] = build_about()
 for name, s in out.items():
     open(name, 'w').write(s)
     print(name, len(s))
